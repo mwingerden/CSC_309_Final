@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class WorkSpace extends JPanel {
+public class WorkSpace extends JPanel implements Observer {
 //    private final List<CodeBlock> codeBlocks;
     private final Repository repository;
     private String currentDrawing;
@@ -60,5 +62,10 @@ public class WorkSpace extends JPanel {
         this.y2 = y2;
         drawing = true;
         repaint();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }
