@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class WorkSpace extends JPanel {
+public class WorkSpace extends JPanel implements Observer {
 //    private final List<CodeBlock> codeBlocks;
     private final Repository repository;
     private String currentDrawing;
@@ -17,9 +19,11 @@ public class WorkSpace extends JPanel {
         this.repository = Repository.getInstance();
         this.currentDrawing = "Command Block";
         this.drawing = false;
-//        Controller controller = new Controller(this);
+        MainController controller = new MainController();
+        this.addMouseListener(controller);
         setBackground(Color.PINK);
         setPreferredSize(new Dimension(300, 300));
+        this.repository.addObserver(this);
 //        codeBlocks = new ArrayList<>();
 //        addMouseListener(controller);
 //        addMouseMotionListener(controller);
@@ -38,6 +42,11 @@ public class WorkSpace extends JPanel {
 //                g.fillRect(Math.min(x2, x1), Math.min(y2, y1), (x2 > x1) ? x2 - x1 : x1 - x2, (y2 > y1) ? y2 - y1 : y1 - y2);
 //            }
 //        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 
 //    public void drawStartEndPoints() {

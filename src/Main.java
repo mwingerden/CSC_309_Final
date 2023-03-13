@@ -15,11 +15,7 @@ public class Main extends JFrame{
         MenuBar menuBar = new MenuBar();
         StatusBar statusBar = new StatusBar(70);
         WorkSpace workSpace = new WorkSpace();
-        MainController controller = new MainController();
 
-        workSpace.addMouseListener(controller);
-        Repository repository = Repository.getInstance();
-        repository.addObserver(statusBar);
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);

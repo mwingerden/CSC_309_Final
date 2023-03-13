@@ -10,6 +10,8 @@ public class StatusBar extends JPanel implements Observer {
         statusBar.setEditable(false);
         statusBar.setHorizontalAlignment(JTextField.CENTER);
         add(statusBar);
+        Repository repository = Repository.getInstance();
+        repository.addObserver(this);
     }
 
     @Override
