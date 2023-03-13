@@ -3,6 +3,7 @@ import javax.swing.*;
 public class MenuBar extends JMenuBar {
 
     public MenuBar(){
+        MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
 
         JMenu file = new JMenu("File");
@@ -17,6 +18,11 @@ public class MenuBar extends JMenuBar {
         JMenuItem command = new JMenuItem("Instr");
         JMenuItem start = new JMenuItem("Start");
         JMenuItem end = new JMenuItem("End");
+
+        ifElse.addActionListener(mainController);
+        command.addActionListener(mainController);
+        start.addActionListener(mainController);
+        end.addActionListener(mainController);
 
         file.add(newItem);
         file.add(save);
