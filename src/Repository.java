@@ -4,6 +4,7 @@ public class Repository extends Observable {
     private static final Repository instance = new Repository();
 
     String blockToDraw;
+    String status;
 
     private Repository() {
         this.blockToDraw = "If Block";
@@ -19,5 +20,15 @@ public class Repository extends Observable {
 
     public void setBlockToDraw(String blockToDraw) {
         this.blockToDraw = blockToDraw;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
+        setChanged();
+        notifyObservers(status);
+    }
+
+    public String getStatus(){
+        return status;
     }
 }
