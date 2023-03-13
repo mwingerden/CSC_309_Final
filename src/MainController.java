@@ -1,4 +1,5 @@
 import java.awt.event.*;
+import java.util.Objects;
 
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
     @Override
@@ -6,8 +7,8 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         if(e.getActionCommand().equals("If")){
             Repository.getInstance().setBlockToDraw("If");
         }
-        if(e.getActionCommand().equals("Inst")){
-            Repository.getInstance().setBlockToDraw("Inst");
+        if(e.getActionCommand().equals("Instr")){
+            Repository.getInstance().setBlockToDraw("Instr");
         }
         if(e.getActionCommand().equals("Start")){
             Repository.getInstance().setBlockToDraw("Start");
@@ -19,7 +20,18 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (Repository.getInstance().getBlockToDraw().equals("If")){
+            Repository.getInstance().setStatus("If block was drawn");
+        }
+        if (Repository.getInstance().getBlockToDraw().equals("Instr")){
+            Repository.getInstance().setStatus("Command block was drawn");
+        }
+        if (Repository.getInstance().getBlockToDraw().equals("Start")){
+            Repository.getInstance().setStatus("Starting block was drawn");
+        }
+        if (Repository.getInstance().getBlockToDraw().equals("End")){
+            Repository.getInstance().setStatus("Ending block was drawn");
+        }
     }
 
     @Override

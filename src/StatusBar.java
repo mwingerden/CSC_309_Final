@@ -5,8 +5,8 @@ import java.util.Observer;
 public class StatusBar extends JPanel implements Observer {
     JTextField statusBar;
 
-    public StatusBar(){
-        statusBar = new JTextField("Status", 70);
+    public StatusBar(int x){
+        statusBar = new JTextField("Status", x);
         statusBar.setEditable(false);
         statusBar.setHorizontalAlignment(JTextField.CENTER);
         add(statusBar);
