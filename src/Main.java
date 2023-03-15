@@ -13,7 +13,7 @@ public class Main extends JFrame{
     public Main() {
         super("Final Project");
         MenuBar menuBar = new MenuBar();
-        StatusBar statusBar = new StatusBar(70);
+        StatusBar statusBar = new StatusBar(77);
         WorkSpace workSpace = new WorkSpace();
 
 
