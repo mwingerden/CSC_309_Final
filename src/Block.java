@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public abstract class Block
+public abstract class Block implements Draw
 {
     protected int x, y, x2, y2;
     protected Color color;
@@ -23,5 +23,7 @@ public abstract class Block
 
         }
     }
+    //TODO: Add a method call contains that checks a given x and y that is inside x1,x2,y1,y2
+    //TODO: Create setter and getters for the coordinates.
 
 }
