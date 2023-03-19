@@ -25,12 +25,15 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         switch (Repository.getInstance().getBlockToDraw()) {
             case "If" -> {
                 Repository.getInstance().setStatus("Condition block was drawn");
-                /*code for drawing block*/
+                Repository.getInstance().addBlock(new ConditionBlock(e.getX() - 50, e.getY() - 50));
             }
             case "Instr" -> Repository.getInstance().setStatus("Command block was drawn");
             case "Start" -> Repository.getInstance().setStatus("Starting block was drawn");
             case "End" -> Repository.getInstance().setStatus("Ending block was drawn");
-            case "I/O" -> Repository.getInstance().setStatus("Input/Output block was drawn");
+            case "I/O" -> {
+                Repository.getInstance().setStatus("Input/Output block was drawn");
+                Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 25, e.getY(), "RED"));
+            }
             case "Var" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
             case "Arrow" -> Repository.getInstance().setStatus("Arrow was drawn");
         }
