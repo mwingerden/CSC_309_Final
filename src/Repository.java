@@ -64,6 +64,14 @@ public class Repository extends Observable {
         this.blockToDraw = blockToDraw;
     }
 
+    public void clearBlocks(){
+        if (!drawings.isEmpty()){
+            drawings.clear();
+            setChanged();
+            notifyObservers();
+        }
+    }
+
     public void setStatus(String status){
         this.status = status;
         setChanged();

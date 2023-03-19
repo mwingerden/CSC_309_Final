@@ -18,11 +18,18 @@ public class MenuBar extends JMenuBar {
         JMenuItem command = new JMenuItem("Instr");
         JMenuItem start = new JMenuItem("Start");
         JMenuItem end = new JMenuItem("End");
+        JMenuItem io = new JMenuItem("I/O");
+        JMenuItem var = new JMenuItem("Var");
+        JMenuItem arrow = new JMenuItem("Arrow");
 
+        newItem.addActionListener(mainController);
         ifElse.addActionListener(mainController);
         command.addActionListener(mainController);
         start.addActionListener(mainController);
         end.addActionListener(mainController);
+        io.addActionListener(mainController);
+        var.addActionListener(mainController);
+        arrow.addActionListener(mainController);
 
         file.add(newItem);
         file.add(save);
@@ -34,6 +41,9 @@ public class MenuBar extends JMenuBar {
         shape.add(command);
         shape.add(start);
         shape.add(end);
+        shape.add(io);
+        shape.add(var);
+        shape.add(arrow);
 
         menubar.add(file);
         menubar.add(help);

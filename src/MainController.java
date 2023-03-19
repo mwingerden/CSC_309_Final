@@ -4,24 +4,26 @@ import java.util.Objects;
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("If")){
-            Repository.getInstance().setBlockToDraw("If");
+        switch (e.getActionCommand()) {
+            case "If" -> Repository.getInstance().setBlockToDraw("If");
+            case "Instr" -> Repository.getInstance().setBlockToDraw("Instr");
+            case "Start" -> Repository.getInstance().setBlockToDraw("Start");
+            case "End" -> Repository.getInstance().setBlockToDraw("End");
+            case "I/O" -> Repository.getInstance().setBlockToDraw("I/O");
+            case "Var" -> Repository.getInstance().setBlockToDraw("Var");
+            case "Arrow" -> Repository.getInstance().setBlockToDraw("Arrow");
+            case "New" -> {
+                Repository.getInstance().setStatus("New diagram");
+                Repository.getInstance().clearBlocks();
+            }
         }
-        if(e.getActionCommand().equals("Instr")){
-            Repository.getInstance().setBlockToDraw("Instr");
-        }
-        if(e.getActionCommand().equals("Start")){
-            Repository.getInstance().setBlockToDraw("Start");
-        }
-        if(e.getActionCommand().equals("End")){
-            Repository.getInstance().setBlockToDraw("End");
-        }
+
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (Repository.getInstance().getBlockToDraw().equals("If")){
-            Repository.getInstance().setStatus("If block was drawn");
+            Repository.getInstance().setStatus("Condition block was drawn");
         }
         if (Repository.getInstance().getBlockToDraw().equals("Instr")){
             Repository.getInstance().setStatus("Command block was drawn");
@@ -32,6 +34,16 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         if (Repository.getInstance().getBlockToDraw().equals("End")){
             Repository.getInstance().setStatus("Ending block was drawn");
         }
+        if (Repository.getInstance().getBlockToDraw().equals("I/O")){
+            Repository.getInstance().setStatus("Input/Output block was drawn");
+        }
+        if (Repository.getInstance().getBlockToDraw().equals("Var")){
+            Repository.getInstance().setStatus("Variable declaration block was drawn");
+        }
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow")){
+            Repository.getInstance().setStatus("Arrow was drawn");
+        }
+
     }
 
     @Override
