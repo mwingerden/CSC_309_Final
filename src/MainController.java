@@ -22,26 +22,14 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (Repository.getInstance().getBlockToDraw().equals("If")){
-            Repository.getInstance().setStatus("Condition block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("Instr")){
-            Repository.getInstance().setStatus("Command block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("Start")){
-            Repository.getInstance().setStatus("Starting block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("End")){
-            Repository.getInstance().setStatus("Ending block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("I/O")){
-            Repository.getInstance().setStatus("Input/Output block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("Var")){
-            Repository.getInstance().setStatus("Variable declaration block was drawn");
-        }
-        if (Repository.getInstance().getBlockToDraw().equals("Arrow")){
-            Repository.getInstance().setStatus("Arrow was drawn");
+        switch (Repository.getInstance().getBlockToDraw()) {
+            case "If" -> Repository.getInstance().setStatus("Condition block was drawn");
+            case "Instr" -> Repository.getInstance().setStatus("Command block was drawn");
+            case "Start" -> Repository.getInstance().setStatus("Starting block was drawn");
+            case "End" -> Repository.getInstance().setStatus("Ending block was drawn");
+            case "I/O" -> Repository.getInstance().setStatus("Input/Output block was drawn");
+            case "Var" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
+            case "Arrow" -> Repository.getInstance().setStatus("Arrow was drawn");
         }
 
     }
