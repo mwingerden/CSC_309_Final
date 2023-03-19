@@ -23,7 +23,10 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (Repository.getInstance().getBlockToDraw()) {
-            case "If" -> Repository.getInstance().setStatus("Condition block was drawn");
+            case "If" -> {
+                Repository.getInstance().setStatus("Condition block was drawn");
+                /*code for drawing block*/
+            }
             case "Instr" -> Repository.getInstance().setStatus("Command block was drawn");
             case "Start" -> Repository.getInstance().setStatus("Starting block was drawn");
             case "End" -> Repository.getInstance().setStatus("Ending block was drawn");

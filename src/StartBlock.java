@@ -1,8 +1,8 @@
 import java.awt.*;
 
-public class Start extends Block
+public class StartBlock extends Block
 {
-    public Start(int x, int y, int x2, int y2, String c)
+    public StartBlock(int x, int y, int x2, int y2, String c)
     {
         super(x, y, 100, 50, c);
     }

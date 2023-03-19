@@ -1,7 +1,7 @@
 import java.awt.*;
 
-public class Condition extends Block{
-    public Condition(int x, int y) {
+public class InstructionBlock extends Block {
+    public InstructionBlock(int x, int y) {
         super(x, y, 150, 75, String.valueOf(Color.RED));
     }
 

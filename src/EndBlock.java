@@ -1,8 +1,8 @@
 import java.awt.*;
 
-public class End extends Block
+public class EndBlock extends Block
 {
-    public End(int x, int y, int x2, int y2, String c)
+    public EndBlock(int x, int y, int x2, int y2, String c)
     {
         super(x, y, 100, 50, c);
     }
