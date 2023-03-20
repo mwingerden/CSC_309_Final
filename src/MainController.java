@@ -27,9 +27,18 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Condition block was drawn");
                 Repository.getInstance().addBlock(new ConditionBlock(e.getX() - 50, e.getY() - 50));
             }
-            case "Instr" -> Repository.getInstance().setStatus("Command block was drawn");
-            case "Start" -> Repository.getInstance().setStatus("Starting block was drawn");
-            case "End" -> Repository.getInstance().setStatus("Ending block was drawn");
+            case "Instr" -> {
+                Repository.getInstance().setStatus("Command block was drawn");
+                Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 50, e.getY() - 50));
+            }
+            case "Start" -> {
+                Repository.getInstance().setStatus("Starting block was drawn");
+                Repository.getInstance().addBlock(new StartBlock(e.getX() - 50, e.getY() - 25, 100, 50, "PINK"));
+            }
+            case "End" -> {
+                Repository.getInstance().setStatus("Ending block was drawn");
+                Repository.getInstance().addBlock(new EndBlock(e.getX() - 50, e.getY() - 25, 100, 50, "BLUE"));
+            }
             case "I/O" -> {
                 Repository.getInstance().setStatus("Input/Output block was drawn");
                 Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 25, e.getY(), "RED"));
