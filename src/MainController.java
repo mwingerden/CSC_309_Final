@@ -20,9 +20,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             }
             case "Save" -> {
                 Repository.getInstance().setStatus("Saving diagram");
+                Repository.getInstance().setBlockToDraw("None");
             }
             case "Load" -> {
                 Repository.getInstance().setStatus("Loading diagram");
+                Repository.getInstance().setBlockToDraw("None");
             }
         }
 
@@ -56,7 +58,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
             }
             case "Variable" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
-            case "Arrow" -> Repository.getInstance().setStatus("Arrow was drawn");
+            case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
         }
 
     }
