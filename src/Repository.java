@@ -80,7 +80,9 @@ public class Repository extends Observable {
         this.status = status;
         setChanged();
         notifyObservers(status);
-    }public void addText(int x, int y) {
+    }
+
+    public void addText(int x, int y) {
         //TODO Uncomment when contains is implemented and the rest of the blocks are implemented.
 //        for (Draw drawings : drawings) {
 //            if (drawings.contains(x, y)) {

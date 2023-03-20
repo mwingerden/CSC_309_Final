@@ -13,8 +13,8 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             case "Var" -> Repository.getInstance().setBlockToDraw("Var");
             case "Arrow" -> Repository.getInstance().setBlockToDraw("Arrow");
             case "New" -> {
-                Repository.getInstance().setStatus("New diagram");
                 Repository.getInstance().clearBlocks();
+                Repository.getInstance().setStatus("New diagram");
             }
         }
 
