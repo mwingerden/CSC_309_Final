@@ -16,7 +16,6 @@ public class Main extends JFrame{
         StatusBar statusBar = new StatusBar(77);
         WorkSpace workSpace = new WorkSpace();
 
-
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
 
