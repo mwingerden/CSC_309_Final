@@ -29,19 +29,19 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             }
             case "Instr" -> {
                 Repository.getInstance().setStatus("Command block was drawn");
-                Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 50, e.getY() - 50));
+                Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 75, e.getY() - 32));
             }
             case "Start" -> {
                 Repository.getInstance().setStatus("Starting block was drawn");
-                Repository.getInstance().addBlock(new StartBlock(e.getX() - 50, e.getY() - 25, 100, 50, "PINK"));
+                Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, 80, 80, "PINK"));
             }
             case "End" -> {
                 Repository.getInstance().setStatus("Ending block was drawn");
-                Repository.getInstance().addBlock(new EndBlock(e.getX() - 50, e.getY() - 25, 100, 50, "BLUE"));
+                Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, 80, 80, "BLUE"));
             }
             case "I/O" -> {
                 Repository.getInstance().setStatus("Input/Output block was drawn");
-                Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 25, e.getY(), "RED"));
+                Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 30, e.getY()));
             }
             case "Var" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
             case "Arrow" -> Repository.getInstance().setStatus("Arrow was drawn");
