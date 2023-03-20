@@ -14,19 +14,24 @@ public class MenuBar extends JMenuBar {
         JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
         JMenuItem about = new JMenuItem("About");
-        JMenuItem ifElse = new JMenuItem("If");
-        JMenuItem command = new JMenuItem("Instr");
+        JMenuItem ifElse = new JMenuItem("If/Else");
+        JMenuItem command = new JMenuItem("Instruct");
         JMenuItem start = new JMenuItem("Start");
         JMenuItem end = new JMenuItem("End");
+        JMenuItem method = new JMenuItem("Method");
         JMenuItem io = new JMenuItem("I/O");
-        JMenuItem var = new JMenuItem("Var");
+        JMenuItem var = new JMenuItem("Variable");
         JMenuItem arrow = new JMenuItem("Arrow");
 
         newItem.addActionListener(mainController);
+        save.addActionListener(mainController);
+        load.addActionListener(mainController);
+
         ifElse.addActionListener(mainController);
         command.addActionListener(mainController);
         start.addActionListener(mainController);
         end.addActionListener(mainController);
+        method.addActionListener(mainController);
         io.addActionListener(mainController);
         var.addActionListener(mainController);
         arrow.addActionListener(mainController);
@@ -37,10 +42,11 @@ public class MenuBar extends JMenuBar {
 
         help.add(about);
 
-        shape.add(ifElse);
-        shape.add(command);
         shape.add(start);
         shape.add(end);
+        shape.add(ifElse);
+        shape.add(command);
+        shape.add(method);
         shape.add(io);
         shape.add(var);
         shape.add(arrow);

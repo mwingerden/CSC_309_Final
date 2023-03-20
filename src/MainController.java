@@ -5,16 +5,24 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "If" -> Repository.getInstance().setBlockToDraw("If");
-            case "Instr" -> Repository.getInstance().setBlockToDraw("Instr");
+            case "If/Else" -> Repository.getInstance().setBlockToDraw("If/Else");
+            case "Instruct" -> Repository.getInstance().setBlockToDraw("Instruct");
             case "Start" -> Repository.getInstance().setBlockToDraw("Start");
             case "End" -> Repository.getInstance().setBlockToDraw("End");
             case "I/O" -> Repository.getInstance().setBlockToDraw("I/O");
-            case "Var" -> Repository.getInstance().setBlockToDraw("Var");
+            case "Method" -> Repository.getInstance().setBlockToDraw("Method");
+            case "Variable" -> Repository.getInstance().setBlockToDraw("Variable");
             case "Arrow" -> Repository.getInstance().setBlockToDraw("Arrow");
             case "New" -> {
                 Repository.getInstance().clearBlocks();
                 Repository.getInstance().setStatus("New diagram");
+                Repository.getInstance().setBlockToDraw("None");
+            }
+            case "Save" -> {
+                Repository.getInstance().setStatus("Saving diagram");
+            }
+            case "Load" -> {
+                Repository.getInstance().setStatus("Loading diagram");
             }
         }
 
@@ -23,11 +31,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     @Override
     public void mouseClicked(MouseEvent e) {
         switch (Repository.getInstance().getBlockToDraw()) {
-            case "If" -> {
+            case "If/Else" -> {
                 Repository.getInstance().setStatus("Condition block was drawn");
                 Repository.getInstance().addBlock(new ConditionBlock(e.getX() - 50, e.getY() - 50));
             }
-            case "Instr" -> {
+            case "Instruct" -> {
                 Repository.getInstance().setStatus("Command block was drawn");
                 Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 75, e.getY() - 32));
             }
@@ -43,7 +51,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Input/Output block was drawn");
                 Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 30, e.getY()));
             }
-            case "Var" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
+            case "Method" -> {
+                Repository.getInstance().setStatus("Method call block was drawn");
+
+            }
+            case "Variable" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
             case "Arrow" -> Repository.getInstance().setStatus("Arrow was drawn");
         }
 
