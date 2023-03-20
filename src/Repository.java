@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
@@ -22,42 +21,110 @@ public class Repository extends Observable {
 
     public List<Draw> getDrawings() {
         return this.drawings;
+        //TODO: Uncomment when arrow is created. This implementation draws the arrows underneath the blocks.
+//        List<Draw> newDrawings = new ArrayList<>();
+//        List<Block> codeBlocks = new ArrayList<>();
+//        List<Arrow> arrows = new ArrayList<>();
+//
+//        for (Draw drawing : drawings) {
+//            if (drawing instanceof Block) {
+//                codeBlocks.add((Block) drawing);
+//            } else if (drawing instanceof Arrow) {
+//                arrows.add((Arrow) drawing);
+//            }
+//        }
+//        newDrawings.addAll(arrows);
+//        newDrawings.addAll(codeBlocks);
+//        return newDrawings;
     }
 
-    public void dragBlock(int x, int y) {
-        Block blockToDrag = null;
-        Block newBlock = null;
-        int dragX;
-        int dragY;
+    public void saveList() {
+        String name = (String) JOptionPane.showInputDialog(
+                new WorkSpace(),
+                "Type Name for the Save File:",
+                "Save File",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""
+        );
+        if (name != null) {
+            Save.save(drawings, name);
+            setChanged();
+            notifyObservers("save");
+        }
+    }
 
-        //TODO: Uncomment when the method contains is implemented.
-        //TODO: Uncomment when the rest of the block classes are created.
-        for(Draw drawing : drawings) {
-//            if(drawing instanceof Block && drawing.contains(x, y)) {
-//                blockToDrag = (CodeBlock) drawing;
-//                dragX = ((drawing.getX2() - drawing.getX1()) / 2);
-//                dragY = ((drawing.getY2() - drawing.getY1()) / 2);
-//                if (blockToDrag instanceof InstructionBlock) {
-//                    newBlock = new InstructionBlock(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof ConditionBlock) {
-//                    newBlock = new ConditionBlock(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof VariableDeclarationBlock) {
-//                    newBlock = new VariableDeclarationBlock(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof CallMethodBlock) {
-//                    newBlock = new CallMethodBlock(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof InputOutputBlock) {
-//                    newBlock = new InputOutputBlock(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof StartBlock) {
-//                    newBlock = new Start(x - dragX, y - dragY);
-//                } else if (blockToDrag instanceof EndBlock) {
-//                    newBlock = new End(x - dragX, y - dragY);
+    public void loadList() {
+        String name = (String) JOptionPane.showInputDialog(
+                new WorkSpace(),
+                "Enter Name to Load File:",
+                "Enter Name",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""
+        );
+        if (name != null) {
+            drawings.clear();
+            drawings = Load.load(name);
+            setChanged();
+            notifyObservers("load");
+        }
+    }
+
+    public void drag(int x, int y) {
+        //TODO: Uncomment when the rest of the blocks are created.
+//        Block blockToDrag = null;
+//        int dragX;
+//        int dragY;
+//
+//        for (Draw drawing : drawings) {
+//            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
+//                blockToDrag = (Block) drawing;
+//            }
+//        }
+//
+//        if (blockToDrag != null) {
+//            dragX = ((blockToDrag.getX2() - blockToDrag.getX1()) / 2);
+//            dragY = ((blockToDrag.getY2() - blockToDrag.getY1()) / 2);
+//            if (blockToDrag instanceof InstructionBlock) {
+//                dragging(blockToDrag, new InstructionBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof ConditionBlock) {
+//                dragging(blockToDrag, new ConditionBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof VariableDeclarationBlock) {
+//                dragging(blockToDrag, new VariableDeclarationBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof CallMethodBlock) {
+//                dragging(blockToDrag, new CallMethodBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof InputOutputBlock) {
+//                dragging(blockToDrag, new InputOutputBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof StartBlock) {
+//                dragging(blockToDrag, new StartBlock(x - dragX, y - dragY));
+//            } else if (blockToDrag instanceof EndBlock) {
+//                dragging(blockToDrag, new EndBlock(x - dragX, y - dragY));
+//            }
+//        }
+//        setChanged();
+//        notifyObservers("Dragging");
+    }
+
+    private void dragging(Block block, Block newBlock) {
+        //TODO: Uncomment when arrow is created
+//        List<Draw> tempList = new ArrayList<>(drawings);
+//        newBlock.setText(block.getText());
+//        for (Draw temp1 : tempList) {
+//            if (temp1 instanceof Arrow arrow) {
+//                if (arrow.getBlock1().equals(block)) {
+//                    drawings.add(new Arrow(newBlock, arrow.getBlock2()));
+//                    drawings.remove(arrow);
+//                } else if (arrow.getBlock2().equals(block)) {
+//                    drawings.add(new Arrow(arrow.getBlock1(), newBlock));
+//                    drawings.remove(arrow);
 //                }
 //            }
-        }
-        drawings.remove(blockToDrag);
-        drawings.add(newBlock);
-        setChanged();
-        notifyObservers("Dragging");
+//        }
+//        drawings.remove(block);
+//        drawings.add(newBlock);
     }
 
     public void setBlockToDraw(String blockToDraw) {
@@ -84,9 +151,9 @@ public class Repository extends Observable {
 
     public void addText(int x, int y) {
         //TODO Uncomment when contains is implemented and the rest of the blocks are implemented.
-//        for (Draw drawings : drawings) {
-//            if (drawings.contains(x, y)) {
-//                if (!(drawings instanceof StartBlock || drawings instanceof EndBlock)) {
+//        for (Draw drawing : drawings) {
+//            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
+//                if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
 //                    String text = (String) JOptionPane.showInputDialog(
 //                            new WorkSpace(),
 //                            "Name:",
@@ -96,9 +163,11 @@ public class Repository extends Observable {
 //                            null,
 //                            ""
 //                    );
-//                    drawings.setText(text);
-//                    setChanged();
-//                    notifyObservers("Set Text to " + blockToDraw);
+//                    if (text != null) {
+//                        ((Block) drawing).setText(text);
+//                        setChanged();
+//                        notifyObservers("Created Text");
+//                    }
 //                    return;
 //                }
 //            }
