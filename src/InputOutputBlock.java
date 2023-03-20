@@ -12,6 +12,6 @@ public class InputOutputBlock extends Block{
         int[] xCoords = {x, x2, x + 50, x - 50};
         int[] yCoords = {y - 30, y - 30, y2, y2};
 
-        g2.drawPolygon(xCoords, yCoords, 4);
+        g2.fillPolygon(xCoords, yCoords, 4);
     }
 }
