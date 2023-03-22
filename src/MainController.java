@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.*;
 import java.util.Objects;
 
@@ -36,40 +37,45 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
-            switch (Repository.getInstance().getBlockToDraw()) {
-                case "If/Else" -> {
-                    Repository.getInstance().setStatus("Condition block was drawn");
-                    Repository.getInstance().addBlock(new ConditionBlock(e.getX() - 50, e.getY() - 50));
-                }
-                case "Instruct" -> {
-                    Repository.getInstance().setStatus("Command block was drawn");
-                    Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 75, e.getY() - 32));
-                }
-                case "Start" -> {
-                    Repository.getInstance().setStatus("Starting block was drawn");
-                    Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, "PINK"));
-                }
-                case "End" -> {
-                    Repository.getInstance().setStatus("Ending block was drawn");
-                    Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, "BLUE"));
-                }
-                case "I/O" -> {
-                    Repository.getInstance().setStatus("Input/Output block was drawn");
-                    Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 30, e.getY()));
-                }
-                case "Method" -> {
-                    Repository.getInstance().setStatus("Method call block was drawn");
-                    Repository.getInstance().addBlock(new CallMethodBlock(e.getX()-75, e.getY()-32));
+        if (SwingUtilities.isRightMouseButton(e)) {
+            Repository.getInstance().addText(e.getX(), e.getY());
+        } else {
+            if (e.getButton() == MouseEvent.BUTTON1) {
+                switch (Repository.getInstance().getBlockToDraw()) {
+                    case "If/Else" -> {
+                        Repository.getInstance().setStatus("Condition block was drawn");
+                        Repository.getInstance().addBlock(new ConditionBlock(e.getX() - 50, e.getY() - 50));
+                    }
+                    case "Instruct" -> {
+                        Repository.getInstance().setStatus("Command block was drawn");
+                        Repository.getInstance().addBlock(new InstructionBlock(e.getX() - 75, e.getY() - 32));
+                    }
+                    case "Start" -> {
+                        Repository.getInstance().setStatus("Starting block was drawn");
+                        Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, "PINK"));
+                    }
+                    case "End" -> {
+                        Repository.getInstance().setStatus("Ending block was drawn");
+                        Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, "BLUE"));
+                    }
+                    case "I/O" -> {
+                        Repository.getInstance().setStatus("Input/Output block was drawn");
+                        Repository.getInstance().addBlock(new InputOutputBlock(e.getX() - 30, e.getY()));
+                    }
+                    case "Method" -> {
+                        Repository.getInstance().setStatus("Method call block was drawn");
+                        Repository.getInstance().addBlock(new CallMethodBlock(e.getX()-75, e.getY()-32));
 
+                    }
+                    case "Variable" -> {
+                        Repository.getInstance().setStatus("Variable declaration block was drawn");
+                        Repository.getInstance().addBlock(new VariableDeclarationBlock(e.getX()-75, e.getY() -32));
+                    }
+                    case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
                 }
-                case "Variable" -> {
-                    Repository.getInstance().setStatus("Variable declaration block was drawn");
-                    Repository.getInstance().addBlock(new VariableDeclarationBlock(e.getX()-75, e.getY() -32));
-                }
-                case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
             }
         }
+
 
     }
 

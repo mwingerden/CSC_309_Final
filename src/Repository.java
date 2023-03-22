@@ -20,8 +20,6 @@ public class Repository extends Observable {
     }
 
     public List<Draw> getDrawings() {
-
-        //TODO: Uncomment when arrow is created. This implementation draws the arrows underneath the blocks.
         List<Draw> newDrawings = new ArrayList<>();
         List<Block> codeBlocks = new ArrayList<>();
         List<Arrow> arrows = new ArrayList<>();
@@ -151,7 +149,6 @@ public class Repository extends Observable {
     }
 
     public void addText(int x, int y) {
-        //TODO Uncomment when contains is implemented and the rest of the blocks are implemented.
         for (Draw drawing : drawings) {
             if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
                 if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
