@@ -42,49 +42,49 @@ public class Load {
     }
 
     private static Draw loadCodeBlock(JSONObject codeBlock) {
-        Draw drawing = null;
+        Block drawing = null;
         //TODO: Uncomment when the block classes are created.
-//        if (codeBlock.get("Name").equals("CallMethodBlock")) {
-//            drawing = new CallMethodBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("ConditionBlock")) {
-//            drawing = new ConditionBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("EndBlock")) {
-//            drawing = new EndBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("InputOutputBlock")) {
-//            drawing = new InputOutputBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("InstructionBlock")) {
-//            drawing = new InstructionBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("StartBlock")) {
-//            drawing = new StartBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        } else if (codeBlock.get("Name").equals("VariableDeclarationBlock")) {
-//            drawing = new VariableDeclarationBlock(Integer.parseInt((String) codeBlock.get("X1")),
-//                    Integer.parseInt((String) codeBlock.get("Y1")));
-//            drawing.setText((String) codeBlock.get("Text"));
-//        }
+        if (codeBlock.get("Name").equals("CallMethodBlock")) {
+            drawing = new CallMethodBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")));
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("ConditionBlock")) {
+            drawing = new ConditionBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")));
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("EndBlock")) {
+            drawing = new EndBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")), "PINK");
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("InputOutputBlock")) {
+            drawing = new InputOutputBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")));
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("InstructionBlock")) {
+            drawing = new InstructionBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")));
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("StartBlock")) {
+            drawing = new StartBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")),"BLUE");
+            drawing.setText((String) codeBlock.get("Text"));
+        } else if (codeBlock.get("Name").equals("VariableDeclarationBlock")) {
+            drawing = new VariableDeclarationBlock(Integer.parseInt((String) codeBlock.get("X1")),
+                    Integer.parseInt((String) codeBlock.get("Y1")));
+            drawing.setText((String) codeBlock.get("Text"));
+        }
         return drawing;
     }
 
     private static Draw loadArrow(JSONArray arrow) {
         //TODO: Uncomment when arrow class is created.
-//        Arrow arrowFinal = new Arrow();
-//        for (Object o : arrow) {
-//            JSONObject temp = (JSONObject) o;
-//            Draw codeBlock = loadCodeBlock((JSONObject) temp.get("CodeBlock"));
-//            arrowFinal.addBlock((CodeBlock) codeBlock);
-//        }
-//        return arrowFinal;
-        return null;
+        Arrow arrowFinal;
+        ArrayList<Block> CodeBlocks = new ArrayList<>();
+        for (Object o : arrow) {
+            JSONObject temp = (JSONObject) o;
+            CodeBlocks.add((Block)loadCodeBlock((JSONObject) temp.get("CodeBlock")));
+        }
+        arrowFinal = new Arrow(CodeBlocks.get(0), CodeBlocks.get(1));
+        return arrowFinal;
     }
 }
