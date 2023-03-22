@@ -1,10 +1,22 @@
 import java.awt.*;
 
+/**
+ * The CallMethodBlock class that extends block abstract class.
+ */
 public class CallMethodBlock extends Block{
+    /**
+     * Constructor method for CallMethodBlock giving the required parameters.
+     * @param x
+     * @param y
+     */
     public CallMethodBlock(int x, int y) {
         super(x, y, x+150, y+75, String.valueOf(Color.RED));
     }
 
+    /**
+     * The draw method handles drawing the block, uses two lines and rectangles to represent CallMethodBlock.
+     * @param g
+     */
     @Override
     public void draw(Graphics g) {
         g.setColor(color);
@@ -14,6 +26,12 @@ public class CallMethodBlock extends Block{
         g.drawLine(x+10, y, x+10, y2);
         g.drawLine(x2-10, y, x2-10, y2);
     }
+
+    /**
+     * The getter methods used to return the center x or y.
+     * @return x
+     * @return y
+     */
     @Override
     public int getCenterX(){
         int width = x2-x;

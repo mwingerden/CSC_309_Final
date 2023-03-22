@@ -9,9 +9,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Load class that handles the loading of files and blocks.
+ */
 public class Load {
     private static final List<Draw> drawingsList = new ArrayList<>();
 
+    /**
+     * load method will try to load a file of a certain name.
+     * @param name
+     * @return drawingsList
+     */
     @SuppressWarnings("unchecked")
     public static List<Draw> load(String name) {
         JSONParser jsonParser = new JSONParser();
@@ -29,6 +37,10 @@ public class Load {
         return drawingsList;
     }
 
+    /**
+     * parseDrawingObject method adds arrows or blocks to list if needed.
+     * @param drawing
+     */
     private static void parseDrawingObject(JSONObject drawing) {
         JSONObject drawingObject = (JSONObject) drawing.get("CodeBlock");
         if (drawingObject != null) {
@@ -41,9 +53,14 @@ public class Load {
         }
     }
 
+    /**
+     * loadCodeBlock method returns the different blocks and loads them into a list.
+     * @param codeBlock
+     * @return drawing
+     */
     private static Draw loadCodeBlock(JSONObject codeBlock) {
         Block drawing = null;
-        //TODO: Uncomment when the block classes are created.
+
         if (codeBlock.get("Name").equals("CallMethodBlock")) {
             drawing = new CallMethodBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
@@ -76,8 +93,12 @@ public class Load {
         return drawing;
     }
 
+    /**
+     * loadArrow method adds the arrow between blocks and returns needed arrow for each.
+     * @param arrow
+     * @return arrowFinal
+     */
     private static Draw loadArrow(JSONArray arrow) {
-        //TODO: Uncomment when arrow class is created.
         Arrow arrowFinal;
         ArrayList<Block> CodeBlocks = new ArrayList<>();
         for (Object o : arrow) {

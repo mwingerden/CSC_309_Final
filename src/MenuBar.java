@@ -1,7 +1,13 @@
 import javax.swing.*;
 
+/**
+ * The MenuBar class where the user will use menu items to interact with the application.
+ */
 public class MenuBar extends JMenuBar {
 
+    /**
+     * MenuBar constructor sets up all the needed menu for the user.
+     */
     public MenuBar(){
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();

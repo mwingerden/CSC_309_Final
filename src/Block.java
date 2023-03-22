@@ -1,15 +1,30 @@
 import java.awt.*;
 
+/**
+ * The abstract Block class represents the different blocks that the user can pick from the menu.
+ */
 public abstract class Block implements Draw
 {
     protected int x, y, x2, y2;
     protected Color color;
     protected String text;
 
+    /**
+     * These are the abstract methods that all the blocks will implement.
+     * @param g
+     */
     public abstract void draw(Graphics g);
     public abstract int getCenterX();
     public abstract int getCenterY();
 
+    /**
+     * The block constructor taking all the needed parameters for each block that will be drawn.
+     * @param x
+     * @param y
+     * @param x2
+     * @param y2
+     * @param c
+     */
     public Block(int x, int y, int x2, int y2, String c)
     {
         this.x=x;
@@ -26,12 +41,21 @@ public abstract class Block implements Draw
 
         }
     }
-    //TODO: Add a method call contains that checks a given x and y that is inside x1,x2,y1,y2
+
+    /**
+     * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2).
+     * @param xcoord
+     * @param ycoord
+     * @return
+     */
     boolean contains(int xcoord, int ycoord){
         return (xcoord>x && xcoord<x2 && ycoord> y && ycoord<y2);
     }
-    //TODO: Create setter and getters for the coordinates.
 
+    /**
+     * Getter methods for each of the different coordinates.
+     * @return
+     */
     int getX1(){
         return this.x;
     }
@@ -58,7 +82,10 @@ public abstract class Block implements Draw
     }
 
 
-    //TODO: Have method to set the text and draw text inside block.
+    /**
+     * Set and get methods for the strings text in the block.
+     * @param text
+     */
     public void setText(String text){
         this.text = text;
     }

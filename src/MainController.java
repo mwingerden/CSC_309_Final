@@ -3,11 +3,19 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The MainController class handles the actions made by the user.
+ */
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
     int startDragx;
     int startDragy;
     int endDragx;
     int endDragy;
+
+    /**
+     * actionPerformed class takes the user inputs and uses the repository to set/get blocks.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -42,6 +50,10 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     }
 
+    /**
+     * The mouse methods receive the actions by the user and creates blocks and arrows needed.
+     * @param e the event to be processed
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e)) {
