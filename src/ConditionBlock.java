@@ -1,10 +1,22 @@
 import java.awt.*;
 
+/**
+ * The ConditionBlock class represented by a diamond shape when drawn by the user.
+ */
 public class ConditionBlock extends Block{
+    /**
+     * ConditionBlock constructor taking in the necessary parameters.
+     * @param x
+     * @param y
+     */
     public ConditionBlock(int x, int y) {
         super(x, y, x + 100, y + 50, String.valueOf(Color.RED));
     }
 
+    /**
+     * Draw method uses abstract class graphics 2D to draw the diamond block.
+     * @param g
+     */
     @Override
     public void draw(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -19,6 +31,13 @@ public class ConditionBlock extends Block{
             g.drawString(this.text, x + 10, getCenterY());
         }
     }
+
+    /**
+     * Contains method compares if x and y coordinates are aligned.
+     * @param xcoord
+     * @param ycoord
+     * @return
+     */
     @Override
     public boolean contains(int xcoord, int ycoord){
         int xcoord_aligned = xcoord - x;
@@ -34,6 +53,11 @@ public class ConditionBlock extends Block{
         return false;
 
     }
+
+    /**
+     * Getter methods returning x and y coordinates.
+     * @return
+     */
     @Override
     public int getCenterX(){
         return x + 50;

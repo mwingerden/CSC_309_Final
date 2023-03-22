@@ -72,7 +72,6 @@ public class Save {
 
     @SuppressWarnings("unchecked")
     private static JSONObject storeArrow(Draw arrowDraw) {
-        //TODO: Uncomment when arrow class is created.
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObjectDetails;

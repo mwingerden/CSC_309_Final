@@ -4,6 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+/**
+ * The Repository class holds all the needed information of other classes.
+ *
+ *  *  * @author  Nathon Ho
+ *  *  * @author  Matthew Wingerden
+ *  *  * @author  Pablo Nguyen
+ *  *  * @author  Juan Custodio
+ */
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
     private List<Draw> drawings;
@@ -20,6 +28,10 @@ public class Repository extends Observable {
         return instance;
     }
 
+    /**
+     * getDrawings method adds all blocks and arrows to a list of drawings and returns said new list.
+     * @return newDrawings
+     */
     public List<Draw> getDrawings() {
         List<Draw> newDrawings = new ArrayList<>();
         List<Block> codeBlocks = new ArrayList<>();
@@ -38,6 +50,10 @@ public class Repository extends Observable {
         return newDrawings;
     }
 
+    /**
+     * A saveList method that allows the user to save the work space if needed.
+     * @throws IOException
+     */
     public void saveList() throws IOException {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
@@ -55,6 +71,9 @@ public class Repository extends Observable {
         }
     }
 
+    /**
+     * A loadList method allowing the user to load a previously saved file.
+     */
     public void loadList() {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
@@ -73,8 +92,14 @@ public class Repository extends Observable {
         }
     }
 
+    /**
+     * draw method allowing user to draw from and to different coordinates for each kind of block.
+     * @param x
+     * @param y
+     * @param newx
+     * @param newy
+     */
     public void drag(int x, int y, int newx, int newy) {
-        //TODO: Uncomment when the rest of the blocks are created.
         Block blockToDrag = null;
         int dragX;
         int dragY;
@@ -108,8 +133,12 @@ public class Repository extends Observable {
         notifyObservers("Dragging");
     }
 
+    /**
+     * dragging method allows the user to drag the different blocks around with arrows.
+     * @param block
+     * @param newBlock
+     */
     private void dragging(Block block, Block newBlock) {
-        //TODO: Uncomment when arrow is created
         List<Draw> tempList = new ArrayList<>(drawings);
         newBlock.setText(block.getText());
         for (Draw temp1 : tempList) {
@@ -127,14 +156,25 @@ public class Repository extends Observable {
         drawings.add(newBlock);
     }
 
+    /**
+     * setter that helps decide what block is drawn.
+     * @param blockToDraw
+     */
     public void setBlockToDraw(String blockToDraw) {
         this.blockToDraw = blockToDraw;
     }
 
+    /**
+     * addBlock method adds the block to the drawings list.
+     * @param block
+     */
     public void addBlock(Block block){
         drawings.add(block);
     }
 
+    /**
+     * A method that clears all the blocks on the work space.
+     */
     public void clearBlocks(){
         if (!drawings.isEmpty()){
             drawings.clear();
@@ -143,12 +183,21 @@ public class Repository extends Observable {
         }
     }
 
+    /**
+     * Setter method used to change the status bar text status.
+     * @param status
+     */
     public void setStatus(String status){
         this.status = status;
         setChanged();
         notifyObservers(status);
     }
 
+    /**
+     * addText method allowing text to be set in the blocks.
+     * @param x
+     * @param y
+     */
     public void addText(int x, int y) {
         for (Draw drawing : drawings) {
             if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
@@ -172,6 +221,14 @@ public class Repository extends Observable {
             }
         }
     }
+
+    /**
+     * addArrow method used by the MainController to add arrows between blocks.
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     */
     public void addArrow(int x1, int y1, int x2, int y2){
         Block b1 = null;
         Block b2 = null;
@@ -190,10 +247,18 @@ public class Repository extends Observable {
         notifyObservers();
     }
 
+    /**
+     * Getter method that returns what the status displays.
+     * @return status
+     */
     public String getStatus(){
         return status;
     }
 
+    /**
+     * A getter method that returns a block, used to decide which block is needed to draw.
+     * @return blockToDraw
+     */
     public String getBlockToDraw() {
         return blockToDraw;
     }

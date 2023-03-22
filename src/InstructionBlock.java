@@ -1,5 +1,8 @@
 import java.awt.*;
 
+/**
+ * InstructionBlock represented by a simple rectangle, user can pick this block from menu.
+ */
 public class InstructionBlock extends Block {
     public InstructionBlock(int x, int y) {
         super(x, y, x+150, y+75, String.valueOf(Color.RED));
@@ -15,6 +18,12 @@ public class InstructionBlock extends Block {
             g.drawString(this.text, getCenterX()-10, getCenterY()+10);
         }
     }
+
+    /**
+     * Two getter methods returning the center coordinate of x and y of the InstructionBlock.
+     * @return x
+     * @return y
+     */
     @Override
     public int getCenterX(){
         int width = x2-x;
