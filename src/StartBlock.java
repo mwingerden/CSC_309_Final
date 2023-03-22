@@ -15,5 +15,15 @@ public class StartBlock extends Block
         g.setColor(Color.black);
         g.drawOval(x, y, x2-x, y2-y);
     }
+    @Override
+    public int getCenterX(){
+
+        return x + 40;
+
+    }
+    @Override
+    public int getCenterY() {
+        return y+ 40;
+    }
 
 }

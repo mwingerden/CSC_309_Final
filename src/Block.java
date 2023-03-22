@@ -7,6 +7,8 @@ public abstract class Block implements Draw
     protected String text;
 
     public abstract void draw(Graphics g);
+    public abstract int getCenterX();
+    public abstract int getCenterY();
 
     public Block(int x, int y, int x2, int y2, String c)
     {
@@ -29,6 +31,7 @@ public abstract class Block implements Draw
         return (xcoord>x && xcoord<x2 && ycoord> y && ycoord<y2);
     }
     //TODO: Create setter and getters for the coordinates.
+
     int getX1(){
         return this.x;
     }
@@ -41,7 +44,6 @@ public abstract class Block implements Draw
     int getY2(){
         return this.y2;
     }
-
     void setX1(int x){
         this.x = x;
     }
@@ -54,6 +56,7 @@ public abstract class Block implements Draw
     void setY2(int y){
         this.y2 = y;
     }
+
 
     //TODO: Have method to set the text and draw text inside block.
     public void setText(String text){

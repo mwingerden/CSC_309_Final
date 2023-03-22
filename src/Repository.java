@@ -20,22 +20,23 @@ public class Repository extends Observable {
     }
 
     public List<Draw> getDrawings() {
-        return this.drawings;
+
         //TODO: Uncomment when arrow is created. This implementation draws the arrows underneath the blocks.
-//        List<Draw> newDrawings = new ArrayList<>();
-//        List<Block> codeBlocks = new ArrayList<>();
-//        List<Arrow> arrows = new ArrayList<>();
-//
-//        for (Draw drawing : drawings) {
-//            if (drawing instanceof Block) {
-//                codeBlocks.add((Block) drawing);
-//            } else if (drawing instanceof Arrow) {
-//                arrows.add((Arrow) drawing);
-//            }
-//        }
-//        newDrawings.addAll(arrows);
-//        newDrawings.addAll(codeBlocks);
-//        return newDrawings;
+        List<Draw> newDrawings = new ArrayList<>();
+        List<Block> codeBlocks = new ArrayList<>();
+        List<Arrow> arrows = new ArrayList<>();
+
+        for (Draw drawing : drawings) {
+            if (drawing instanceof Block) {
+                codeBlocks.add((Block) drawing);
+            } else if (drawing instanceof Arrow) {
+                arrows.add((Arrow) drawing);
+            }
+
+       }
+        newDrawings.addAll(arrows);
+        newDrawings.addAll(codeBlocks);
+        return newDrawings;
     }
 
     public void saveList() {
@@ -73,7 +74,7 @@ public class Repository extends Observable {
         }
     }
 
-    public void drag(int x, int y) {
+    public void drag(int x, int y, int newx, int newy) {
         //TODO: Uncomment when the rest of the blocks are created.
         Block blockToDrag = null;
         int dragX;
@@ -86,22 +87,22 @@ public class Repository extends Observable {
         }
 
         if (blockToDrag != null) {
-            dragX = ((blockToDrag.getX2() - blockToDrag.getX1()) / 2);
-            dragY = ((blockToDrag.getY2() - blockToDrag.getY1()) / 2);
+            dragX = newx;//((blockToDrag.getX2() - blockToDrag.getX1()) / 2);
+            dragY = newy;//((blockToDrag.getY2() - blockToDrag.getY1()) / 2);
             if (blockToDrag instanceof InstructionBlock) {
-                dragging(blockToDrag, new InstructionBlock(x - dragX, y - dragY));
+                dragging(blockToDrag, new InstructionBlock(dragX-75, dragY-32));
             } else if (blockToDrag instanceof ConditionBlock) {
-                dragging(blockToDrag, new ConditionBlock(x - dragX, y - dragY));
+                dragging(blockToDrag, new ConditionBlock(dragX - 50,  dragY - 50));
             } else if (blockToDrag instanceof VariableDeclarationBlock) {
-                dragging(blockToDrag, new VariableDeclarationBlock(x - dragX, y - dragY));
+                dragging(blockToDrag, new VariableDeclarationBlock(dragX - 75, dragY - 32));
             } else if (blockToDrag instanceof CallMethodBlock) {
-                dragging(blockToDrag, new CallMethodBlock(x - dragX, y - dragY));
+                dragging(blockToDrag, new CallMethodBlock(dragX - 75, dragY- 32));
             } else if (blockToDrag instanceof InputOutputBlock) {
-                dragging(blockToDrag, new InputOutputBlock(x - dragX, y - dragY));
+                dragging(blockToDrag, new InputOutputBlock(dragX - 30, dragY));
             } else if (blockToDrag instanceof StartBlock) {
-                dragging(blockToDrag, new StartBlock(x - dragX, y - dragY, "PINK"));
+                dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40, "PINK"));
             } else if (blockToDrag instanceof EndBlock) {
-                dragging(blockToDrag, new EndBlock(x - dragX, y - dragY, "BLUE"));
+                dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40, "BLUE"));
             }
         }
         setChanged();
@@ -151,27 +152,44 @@ public class Repository extends Observable {
 
     public void addText(int x, int y) {
         //TODO Uncomment when contains is implemented and the rest of the blocks are implemented.
-//        for (Draw drawing : drawings) {
-//            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
-//                if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
-//                    String text = (String) JOptionPane.showInputDialog(
-//                            new WorkSpace(),
-//                            "Name:",
-//                            "Enter Name",
-//                            JOptionPane.PLAIN_MESSAGE,
-//                            null,
-//                            null,
-//                            ""
-//                    );
-//                    if (text != null) {
-//                        ((Block) drawing).setText(text);
-//                        setChanged();
-//                        notifyObservers("Created Text");
-//                    }
-//                    return;
-//                }
-//            }
-//        }
+        for (Draw drawing : drawings) {
+            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
+                if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
+                    String text = (String) JOptionPane.showInputDialog(
+                            new WorkSpace(),
+                            "Name:",
+                            "Enter Name",
+                            JOptionPane.PLAIN_MESSAGE,
+                            null,
+                            null,
+                            ""
+                    );
+                    if (text != null) {
+                        ((Block) drawing).setText(text);
+                        setChanged();
+                        notifyObservers("Created Text");
+                    }
+                    return;
+                }
+            }
+        }
+    }
+    public void addArrow(int x1, int y1, int x2, int y2){
+        Block b1 = null;
+        Block b2 = null;
+        for (Draw drawing : drawings) {
+            if (drawing instanceof Block && ((Block) drawing).contains(x1, y1)) {
+                b1 = (Block) drawing;
+            }
+            if (drawing instanceof Block && ((Block) drawing).contains(x2, y2)) {
+                b2 = (Block) drawing;
+            }
+        }
+        if(b1 != null && b2 != null){
+            drawings.add(new Arrow(b1,b2));
+        }
+        setChanged();
+        notifyObservers();
     }
 
     public String getStatus(){

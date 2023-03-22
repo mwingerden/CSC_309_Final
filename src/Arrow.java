@@ -11,10 +11,10 @@ public class Arrow implements Draw{
     }
     @Override
     public void draw(Graphics g) {
-        int x1 = b1.getX1();
-        int x2 = b2.getX2();
-        int y1 = b1.getY1();
-        int y2 = b2.getY2();
+        int x1 = b1.getCenterX();
+        int x2 = b2.getCenterX();
+        int y1 = b1.getCenterY();
+        int y2 = b2.getCenterY();
 
         g.drawLine(x1,y1,x2,y2);
     }

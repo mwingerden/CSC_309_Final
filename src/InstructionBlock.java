@@ -12,4 +12,15 @@ public class InstructionBlock extends Block {
         g.setColor(Color.BLACK);
         g.drawRect(x, y, x2-x, y2-y);
     }
+    @Override
+    public int getCenterX(){
+        int width = x2-x;
+        return x + (width/2);
+
+    }
+    @Override
+    public int getCenterY() {
+        int length = y2 - y;
+        return y+ (length/2);
+    }
 }

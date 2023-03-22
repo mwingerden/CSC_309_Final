@@ -11,4 +11,12 @@ public class EndBlock extends Block
         g.setColor(Color.BLACK);
         g.fillOval(x,y,x2-x, y2-y);
     }
+    @Override
+    public int getCenterX(){
+        return x + 40;
+    }
+    @Override
+    public int getCenterY() {
+        return y+ 40;
+    }
 }

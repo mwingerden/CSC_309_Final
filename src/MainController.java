@@ -85,6 +85,13 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         endDragx = e.getX();
         endDragy = e.getY();
 
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+            Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
+        }
+        else {
+            Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
+        }
+
     }
 
     @Override
@@ -99,6 +106,16 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        endDragx = e.getX();
+        endDragy = e.getY();
+
+        if(!Repository.getInstance().getBlockToDraw().equals("Arrow")){
+            Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
+            startDragx = endDragx;
+            startDragy = endDragy;
+        }
+
+
 
     }
 

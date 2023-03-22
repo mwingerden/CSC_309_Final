@@ -14,4 +14,15 @@ public class VariableDeclarationBlock extends Block{
         g.drawLine(x+10, y, x+10, y2);
         g.drawLine(x, y+10, x2, y+10);
     }
+    @Override
+    public int getCenterX(){
+        int width = x2-x;
+        return x + (width/2);
+
+    }
+    @Override
+    public int getCenterY() {
+        int length = y2 - y;
+        return y+ (length/2);
+    }
 }

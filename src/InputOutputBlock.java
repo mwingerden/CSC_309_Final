@@ -18,4 +18,24 @@ public class InputOutputBlock extends Block{
         g2.setColor(Color.BLACK);
         g2.drawPolygon(xCoords, yCoords, 4);
     }
+
+    @Override
+    public boolean contains(int xcoord, int ycoord){
+        if (xcoord>=x && xcoord<=(x+50 )&& ycoord >= (y-30) && ycoord <=(y+30) ){
+            return true;
+        }
+
+
+        return false;
+
+    }
+    @Override
+    public int getCenterX(){
+        return x + 25;
+
+    }
+    @Override
+    public int getCenterY() {
+        return y;
+    }
 }
