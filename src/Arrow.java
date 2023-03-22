@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Arrow implements Draw{
 
@@ -23,5 +24,11 @@ public class Arrow implements Draw{
     }
     Block getBlock2(){
         return this.b2;
+    }
+    ArrayList<Block> getCodeBlocks(){
+        ArrayList<Block> codeBlocks =  new ArrayList<>();
+        codeBlocks.add(b1);
+        codeBlocks.add(b2);
+        return codeBlocks;
     }
 }
