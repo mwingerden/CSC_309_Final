@@ -75,6 +75,12 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+            Repository.getInstance().setStatus("Arrow is being drawn");
+        }
+        else{
+            Repository.getInstance().setStatus("Dragging");
+        }
         startDragx = e.getX();
         startDragy = e.getY();
 
