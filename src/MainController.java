@@ -2,6 +2,10 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
+    int startDragx;
+    int startDragy;
+    int endDragx;
+    int endDragy;
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
@@ -44,11 +48,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 }
                 case "Start" -> {
                     Repository.getInstance().setStatus("Starting block was drawn");
-                    Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, 80, 80, "PINK"));
+                    Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, "PINK"));
                 }
                 case "End" -> {
                     Repository.getInstance().setStatus("Ending block was drawn");
-                    Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, 80, 80, "BLUE"));
+                    Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, "BLUE"));
                 }
                 case "I/O" -> {
                     Repository.getInstance().setStatus("Input/Output block was drawn");
@@ -56,9 +60,13 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 }
                 case "Method" -> {
                     Repository.getInstance().setStatus("Method call block was drawn");
+                    Repository.getInstance().addBlock(new CallMethodBlock(e.getX()-75, e.getY()-32));
 
                 }
-                case "Variable" -> Repository.getInstance().setStatus("Variable declaration block was drawn");
+                case "Variable" -> {
+                    Repository.getInstance().setStatus("Variable declaration block was drawn");
+                    Repository.getInstance().addBlock(new VariableDeclarationBlock(e.getX()-75, e.getY() -32));
+                }
                 case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
             }
         }
@@ -67,11 +75,15 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
     @Override
     public void mousePressed(MouseEvent e) {
+        startDragx = e.getX();
+        startDragy = e.getY();
 
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        endDragx = e.getX();
+        endDragy = e.getY();
 
     }
 

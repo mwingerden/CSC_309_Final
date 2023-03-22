@@ -15,5 +15,7 @@ public class ConditionBlock extends Block{
         g2.fillPolygon(xCoords, yCoords, 4);
         g2.setColor(Color.BLACK);
         g2.drawPolygon(xCoords, yCoords, 4);
+
+        g2.drawString(this.text,x, y );
     }
 }

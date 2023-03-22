@@ -1,7 +1,7 @@
 import java.awt.*;
 
-public class InstructionBlock extends Block {
-    public InstructionBlock(int x, int y) {
+public class VariableDeclarationBlock extends Block{
+    public VariableDeclarationBlock(int x, int y) {
         super(x, y, x+150, y+75, String.valueOf(Color.RED));
     }
 
@@ -11,5 +11,7 @@ public class InstructionBlock extends Block {
         g.fillRect(x, y, x2-x, y2-y);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, x2-x, y2-y);
+        g.drawLine(x+10, y, x+10, y2);
+        g.drawLine(x, y+10, x2, y+10);
     }
 }
