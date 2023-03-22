@@ -25,6 +25,7 @@ public abstract class Block implements Draw
             default: color=Color.WHITE;
 
         }
+        this.text = null;
     }
     //TODO: Add a method call contains that checks a given x and y that is inside x1,x2,y1,y2
     boolean contains(int xcoord, int ycoord){

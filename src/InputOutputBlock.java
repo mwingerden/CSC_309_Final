@@ -17,6 +17,9 @@ public class InputOutputBlock extends Block{
         g2.fillPolygon(xCoords, yCoords, 4);
         g2.setColor(Color.BLACK);
         g2.drawPolygon(xCoords, yCoords, 4);
+        if(this.text != null) {
+            g.drawString(this.text, x, y);
+        }
     }
 
     @Override

@@ -13,6 +13,9 @@ public class VariableDeclarationBlock extends Block{
         g.drawRect(x, y, x2-x, y2-y);
         g.drawLine(x+10, y, x+10, y2);
         g.drawLine(x, y+10, x2, y+10);
+        if(this.text != null) {
+            g.drawString(this.text, x+20, getCenterY()+10);
+        }
     }
     @Override
     public int getCenterX(){

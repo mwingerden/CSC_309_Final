@@ -14,6 +14,9 @@ public class StartBlock extends Block
         g.fillOval(x,y,x2-x, y2-y);
         g.setColor(Color.black);
         g.drawOval(x, y, x2-x, y2-y);
+        if(this.text != null) {
+            g.drawString(this.text, x , getCenterY());
+        }
     }
     @Override
     public int getCenterX(){
