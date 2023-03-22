@@ -1,13 +1,15 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
 public class Save {
     @SuppressWarnings("unchecked")
-    public static void save(List<Draw> drawings, String name) {
+    public static void save(List<Draw> drawings, String name) throws IOException {
         JSONArray drawingsList = new JSONArray();
         JSONObject jsonObject = null;
         for (Draw drawing : drawings) {
@@ -20,12 +22,17 @@ public class Save {
           }
             drawingsList.add(jsonObject);
         }
-
-        try (FileWriter file = new FileWriter("./DrawingJSONFiles/" + name + ".json")) {
+        try (FileWriter file = new FileWriter("DrawingJSONFiles/" + name + ".json")) {
             file.write(drawingsList.toJSONString());
             file.flush();
 
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            File newFile = new File("DrawingJSONFiles/" + name + ".json");
+            FileWriter file = new FileWriter(newFile);
+            file.write(drawingsList.toJSONString());
+            file.flush();
+
+        } catch (IOException e){
             e.printStackTrace();
         }
     }

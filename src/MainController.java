@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.Objects;
 
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
@@ -26,10 +27,16 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             case "Save" -> {
                 Repository.getInstance().setStatus("Saving diagram");
                 Repository.getInstance().setBlockToDraw("None");
+                try {
+                    Repository.getInstance().saveList();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
             case "Load" -> {
                 Repository.getInstance().setStatus("Loading diagram");
                 Repository.getInstance().setBlockToDraw("None");
+                Repository.getInstance().loadList();
             }
         }
 
@@ -126,9 +133,6 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             startDragx = endDragx;
             startDragy = endDragy;
         }
-
-
-
     }
 
     @Override

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -37,7 +38,7 @@ public class Repository extends Observable {
         return newDrawings;
     }
 
-    public void saveList() {
+    public void saveList() throws IOException {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
                 "Type Name for the Save File:",
