@@ -86,8 +86,8 @@ public class Repository extends Observable {
         }
 
         if (blockToDrag != null) {
-            dragX = newx;//((blockToDrag.getX2() - blockToDrag.getX1()) / 2);
-            dragY = newy;//((blockToDrag.getY2() - blockToDrag.getY1()) / 2);
+            dragX = newx;
+            dragY = newy;
             if (blockToDrag instanceof InstructionBlock) {
                 dragging(blockToDrag, new InstructionBlock(dragX-75, dragY-32));
             } else if (blockToDrag instanceof ConditionBlock) {
@@ -114,11 +114,11 @@ public class Repository extends Observable {
         newBlock.setText(block.getText());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
-                if (arrow.getBlock1().equals(block)) {
-                    drawings.add(new Arrow(newBlock, arrow.getBlock2()));
+                if (arrow.getInBlock().equals(block)) {
+                    drawings.add(new Arrow(newBlock, arrow.getOutBlock()));
                     drawings.remove(arrow);
-                } else if (arrow.getBlock2().equals(block)) {
-                    drawings.add(new Arrow(arrow.getBlock1(), newBlock));
+                } else if (arrow.getOutBlock().equals(block)) {
+                    drawings.add(new Arrow(arrow.getInBlock(), newBlock));
                     drawings.remove(arrow);
                 }
             }
