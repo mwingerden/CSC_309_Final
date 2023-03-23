@@ -7,7 +7,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The Save class stores the user's saved files
+ */
 public class Save {
+    /**
+     * save method saves the file and its components
+     * @param drawings, blocks and arrows to save
+     * @param name, file name
+     * @throws IOException
+     */
     @SuppressWarnings("unchecked")
     public static void save(List<Draw> drawings, String name) throws IOException {
         JSONArray drawingsList = new JSONArray();
@@ -16,7 +25,6 @@ public class Save {
             if (drawing instanceof Block) {
                 jsonObject = storeCodeBlock((Block)drawing);
             }
-            //TODO: Uncomment when arrow class is created.
              else if (drawing instanceof Arrow) {
                jsonObject = storeArrow(drawing);
           }
@@ -37,11 +45,15 @@ public class Save {
         }
     }
 
+    /**
+     * storeCodeBlock method will hold the blocks saved for the future
+     * @param codeBlock, type of block to store
+     * @return
+     */
     @SuppressWarnings("unchecked")
     private static JSONObject storeCodeBlock(Block codeBlock) {
         JSONObject jsonObject = new JSONObject();
         JSONObject jsonObjectDetails = new JSONObject();
-        //TODO: Uncomment when the block classes are created.
         jsonObjectDetails.put("X1", Integer.toString(codeBlock.getX1()));
         jsonObjectDetails.put("Y1", Integer.toString(codeBlock.getY1()));
         jsonObjectDetails.put("Text", codeBlock.getText());
@@ -70,6 +82,11 @@ public class Save {
         return jsonObject;
     }
 
+    /**
+     * storeArrow method will hold the arrows
+     * @param arrowDraw, arrows from blocks
+     * @return jsonObject, arrows
+     */
     @SuppressWarnings("unchecked")
     private static JSONObject storeArrow(Draw arrowDraw) {
         JSONObject jsonObject = new JSONObject();

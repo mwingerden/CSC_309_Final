@@ -2,12 +2,12 @@ import java.awt.*;
 import javax.swing.*;
 
 /**
- * The Main class sets the window up ,adds the work space and menu bar for the user.
+ * The Main class sets the window up ,adds the work space and menu bar for the user to see.
  *
- *  * @author  Nathon Ho
- *  * @author  Matthew Wingerden
- *  * @author  Pablo Nguyen
- *  * @author  Juan Custodio
+ * @author  Nathon Ho
+ * @author  Matthew Wingerden
+ * @author  Pablo Nguyen
+ * @author  Juan Custodio
  */
 public class Main extends JFrame{
 

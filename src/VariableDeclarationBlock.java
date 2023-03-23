@@ -5,12 +5,12 @@ import java.awt.*;
  */
 public class VariableDeclarationBlock extends Block{
     public VariableDeclarationBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED));
+        super(x, y, x+150, y+75, String.valueOf(Color.RED),1,1);
     }
 
     /**
      * draw method used to create the VariableDeclarationBlock rectangle.
-     * @param g
+     * @param g, Graphics class
      */
     @Override
     public void draw(Graphics g) {
@@ -24,7 +24,7 @@ public class VariableDeclarationBlock extends Block{
 
     /**
      * The getter methods returning the centered x and y coordinates of the VariableDeclarationBlock.
-     *
+     * @ return, center x or y
      */
     @Override
     public int getCenterX(){

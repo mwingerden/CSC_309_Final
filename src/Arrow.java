@@ -13,8 +13,8 @@ public class Arrow implements Draw {
     /**
      * This constructor method takes both block 1 and block 2 as parameters.
      *
-     * @param shape1
-     * @param shape2
+     * @param shape1, the first incoming block
+     * @param shape2, the second incoming block
      */
     public Arrow(Block shape1, Block shape2) {
         inBlock = shape1;
@@ -24,7 +24,7 @@ public class Arrow implements Draw {
     /**
      * The draw method draws the arrow by grabbing the center coordinates of both blocks.
      *
-     * @param g
+     * @param g, Graphics class
      */
     @Override
     public void draw(Graphics g) {
@@ -52,6 +52,7 @@ public class Arrow implements Draw {
         g2.fill(arrowHead);
 
     }
+
 
     /**
      * getter method to return incoming block.

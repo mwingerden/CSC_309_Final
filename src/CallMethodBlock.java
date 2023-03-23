@@ -6,16 +6,16 @@ import java.awt.*;
 public class CallMethodBlock extends Block{
     /**
      * Constructor method for CallMethodBlock giving the required parameters.
-     * @param x
-     * @param y
+     * @param x, block's x coordinate
+     * @param y, block's y coordinate
      */
     public CallMethodBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED));
+        super(x, y, x+150, y+75, String.valueOf(Color.RED),1,1);
     }
 
     /**
      * The draw method handles drawing the block, uses two lines and rectangles to represent CallMethodBlock.
-     * @param g
+     * @param g, Graphics abstract class
      */
     @Override
     public void draw(Graphics g) {
@@ -29,8 +29,8 @@ public class CallMethodBlock extends Block{
 
     /**
      * The getter methods used to return the center x or y.
-     * @return x
-     * @return y
+     * @return x, center x of block
+     * @return y, center y of block
      */
     @Override
     public int getCenterX(){

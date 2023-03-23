@@ -17,7 +17,7 @@ public class Load {
 
     /**
      * load method will try to load a file of a certain name.
-     * @param name
+     * @param name, file name
      * @return drawingsList
      */
     @SuppressWarnings("unchecked")
@@ -39,7 +39,7 @@ public class Load {
 
     /**
      * parseDrawingObject method adds arrows or blocks to list if needed.
-     * @param drawing
+     * @param drawing, can be either block or arrow
      */
     private static void parseDrawingObject(JSONObject drawing) {
         JSONObject drawingObject = (JSONObject) drawing.get("CodeBlock");
@@ -55,7 +55,7 @@ public class Load {
 
     /**
      * loadCodeBlock method returns the different blocks and loads them into a list.
-     * @param codeBlock
+     * @param codeBlock, type of block
      * @return drawing
      */
     private static Draw loadCodeBlock(JSONObject codeBlock) {
@@ -95,7 +95,7 @@ public class Load {
 
     /**
      * loadArrow method adds the arrow between blocks and returns needed arrow for each.
-     * @param arrow
+     * @param arrow, loaded arrow
      * @return arrowFinal
      */
     private static Draw loadArrow(JSONArray arrow) {

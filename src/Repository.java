@@ -7,15 +7,14 @@ import java.util.Observable;
 /**
  * The Repository class holds all the needed information of other classes.
  *
- *  *  * @author  Nathon Ho
- *  *  * @author  Matthew Wingerden
- *  *  * @author  Pablo Nguyen
- *  *  * @author  Juan Custodio
+ * @author  Nathon Ho
+ * @author  Matthew Wingerden
+ * @author  Pablo Nguyen
+ * @author  Juan Custodio
  */
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
     private List<Draw> drawings;
-
     String blockToDraw;
     String status;
 
@@ -94,10 +93,10 @@ public class Repository extends Observable {
 
     /**
      * draw method allowing user to draw from and to different coordinates for each kind of block.
-     * @param x
-     * @param y
-     * @param newx
-     * @param newy
+     * @param x, previous x coordinate
+     * @param y, previous y coordinate
+     * @param newx, the new x coordinate
+     * @param newy, the new y coordinate
      */
     public void drag(int x, int y, int newx, int newy) {
         Block blockToDrag = null;
@@ -135,8 +134,8 @@ public class Repository extends Observable {
 
     /**
      * dragging method allows the user to drag the different blocks around with arrows.
-     * @param block
-     * @param newBlock
+     * @param block, block that is being dragged
+     * @param newBlock, block after dragging
      */
     private void dragging(Block block, Block newBlock) {
         List<Draw> tempList = new ArrayList<>(drawings);
@@ -158,7 +157,7 @@ public class Repository extends Observable {
 
     /**
      * setter that helps decide what block is drawn.
-     * @param blockToDraw
+     * @param blockToDraw, what block is needed
      */
     public void setBlockToDraw(String blockToDraw) {
         this.blockToDraw = blockToDraw;
@@ -166,7 +165,7 @@ public class Repository extends Observable {
 
     /**
      * addBlock method adds the block to the drawings list.
-     * @param block
+     * @param block, added block
      */
     public void addBlock(Block block){
         drawings.add(block);
@@ -185,7 +184,7 @@ public class Repository extends Observable {
 
     /**
      * Setter method used to change the status bar text status.
-     * @param status
+     * @param status, text to be displayed
      */
     public void setStatus(String status){
         this.status = status;
@@ -195,8 +194,8 @@ public class Repository extends Observable {
 
     /**
      * addText method allowing text to be set in the blocks.
-     * @param x
-     * @param y
+     * @param x, block's x coordinate
+     * @param y, block's y coordinate
      */
     public void addText(int x, int y) {
         for (Draw drawing : drawings) {
@@ -224,10 +223,10 @@ public class Repository extends Observable {
 
     /**
      * addArrow method used by the MainController to add arrows between blocks.
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1, arrow's first x coordinate
+     * @param y1, arrow's first y coordinate
+     * @param x2, arrow's second x coordinate
+     * @param y2, arrow's second y coordinate
      */
     public void addArrow(int x1, int y1, int x2, int y2){
         Block b1 = null;
@@ -241,7 +240,11 @@ public class Repository extends Observable {
             }
         }
         if(b1 != null && b2 != null){
-            drawings.add(new Arrow(b1,b2));
+            if(b1.checkOutGoing() && b2.checkInGoing())
+            {
+                drawings.add(new Arrow(b1,b2));
+            }
+
         }
         setChanged();
         notifyObservers();

@@ -6,10 +6,10 @@ import java.util.Observer;
 /**
  * WorkSpace class where all the blocks will be displayed on by the user's inputs.
  *
- *  *  * @author  Nathon Ho
- *  *  * @author  Matthew Wingerden
- *  *  * @author  Pablo Nguyen
- *  *  * @author  Juan Custodio
+ * @author  Nathon Ho
+ * @author  Matthew Wingerden
+ * @author  Pablo Nguyen
+ * @author  Juan Custodio
  */
 public class WorkSpace extends JPanel implements Observer {
     Repository repository;
