@@ -6,16 +6,16 @@ import java.awt.*;
 public class ConditionBlock extends Block{
     /**
      * ConditionBlock constructor taking in the necessary parameters.
-     * @param x
-     * @param y
+     * @param x, block's x coordinate
+     * @param y, block's y coordinate
      */
     public ConditionBlock(int x, int y) {
-        super(x, y, x + 100, y + 50, String.valueOf(Color.RED));
+        super(x, y, x + 100, y + 50, String.valueOf(Color.RED),2,2);
     }
 
     /**
      * Draw method uses abstract class graphics 2D to draw the diamond block.
-     * @param g
+     * @param g, Graphics
      */
     @Override
     public void draw(Graphics g) {
@@ -34,9 +34,9 @@ public class ConditionBlock extends Block{
 
     /**
      * Contains method compares if x and y coordinates are aligned.
-     * @param xcoord
-     * @param ycoord
-     * @return
+     * @param xcoord, x coordinate to align
+     * @param ycoord, y coordinate to align
+     * @return false
      */
     @Override
     public boolean contains(int xcoord, int ycoord){
@@ -55,14 +55,19 @@ public class ConditionBlock extends Block{
     }
 
     /**
-     * Getter methods returning x and y coordinates.
-     * @return
+     * Getter method returning an x coordinate.
+     * @return x, center x of block
      */
     @Override
     public int getCenterX(){
         return x + 50;
 
     }
+
+    /**
+     * Getter method returning a y coordinate.
+     * @return y, center y of block
+     */
     @Override
     public int getCenterY() {
         return y+ 50;

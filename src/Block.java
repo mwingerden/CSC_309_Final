@@ -9,6 +9,11 @@ public abstract class Block implements Draw
     protected Color color;
     protected String text;
 
+    protected int arrowInLimit;
+    protected int arrowOutLimit;
+    protected int arrowInCount = 0;
+    protected int arrowOutCount = 0;
+
     /**
      * These are the abstract methods that all the blocks will implement.
      * @param g
@@ -19,18 +24,22 @@ public abstract class Block implements Draw
 
     /**
      * The block constructor taking all the needed parameters for each block that will be drawn.
-     * @param x
-     * @param y
-     * @param x2
-     * @param y2
-     * @param c
+     * @param x, first x coordinate
+     * @param y, first y coordinate
+     * @param x2, second x coordinate
+     * @param y2, second y coordinate
+     * @param c, color of block
+     * @param arrowInLimit, limit of arrows going into block
+     * @param arrowOutLimit, limit of arrow going out the block
      */
-    public Block(int x, int y, int x2, int y2, String c)
+    public Block(int x, int y, int x2, int y2, String c,int arrowInLimit, int arrowOutLimit)
     {
         this.x=x;
         this.y=y;
         this.x2=x2;
         this.y2=y2;
+        this.arrowInLimit = arrowInLimit;
+        this.arrowOutLimit = arrowOutLimit;
         switch (c) {
             case ("Black"):
                 color = Color.BLACK;
@@ -44,9 +53,36 @@ public abstract class Block implements Draw
     }
 
     /**
+     * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
+     * @return false
+     */
+    public boolean checkOutGoing(){
+        if(arrowOutCount < arrowOutLimit)
+        {
+            arrowOutCount++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * checkInGoing method checks if arrow count incoming is less than the blocks incoming arrow limit.
+     * @return false
+     */
+    public boolean checkInGoing()
+    {
+        if(arrowInCount < arrowInLimit)
+        {
+            arrowInCount++;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2).
-     * @param xcoord
-     * @param ycoord
+     * @param xcoord, x coordinate to check
+     * @param ycoord, y coordinate to check
      * @return
      */
     boolean contains(int xcoord, int ycoord){
@@ -55,7 +91,7 @@ public abstract class Block implements Draw
 
     /**
      * Getter methods for each of the different coordinates.
-     * @return
+     * @return the desired coordinate
      */
     int getX1(){
         return this.x;
@@ -85,7 +121,7 @@ public abstract class Block implements Draw
 
     /**
      * Set and get methods for the strings text in the block.
-     * @param text
+     * @param text, of the block
      */
     public void setText(String text){
         this.text = text;

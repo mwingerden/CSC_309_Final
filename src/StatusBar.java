@@ -10,7 +10,7 @@ public class StatusBar extends JPanel implements Observer {
 
     /**
      * Constructor method sets up the status bar attributes.
-     * @param x
+     * @param x, coordinate where bar will go
      */
     public StatusBar(int x){
         statusBar = new JTextField("Status", x);

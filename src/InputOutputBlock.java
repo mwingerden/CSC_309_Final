@@ -6,12 +6,12 @@ import java.awt.*;
 public class InputOutputBlock extends Block{
 
     public InputOutputBlock(int x, int y) {
-        super(x, y, x + 100, y + 30, String.valueOf(Color.WHITE));
+        super(x, y, x + 100, y + 30, String.valueOf(Color.WHITE),1,1);
     }
 
     /**
      * The draw method utilizes Graphics 2D abstract class to draw a parallelogram block.
-     * @param g
+     * @param g, Graphics abstract class
      */
     @Override
     public void draw(Graphics g) {
@@ -31,9 +31,9 @@ public class InputOutputBlock extends Block{
 
     /**
      * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2)
-     * @param xcoord
-     * @param ycoord
-     * @return
+     * @param xcoord, x to check
+     * @param ycoord, y to check
+     * @return false, if coordinates not present
      */
     @Override
     public boolean contains(int xcoord, int ycoord){
@@ -46,7 +46,7 @@ public class InputOutputBlock extends Block{
 
     /**
      * Getter methods that return the centered x and y coordinates.
-     * @return
+     * @return x , y
      */
     @Override
     public int getCenterX(){
