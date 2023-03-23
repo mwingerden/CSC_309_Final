@@ -5,6 +5,7 @@ import java.awt.*;
  */
 public class EndBlock extends Block
 {
+
     /**
      * EndBlock constructor receiving needed parameters.
      * @param x

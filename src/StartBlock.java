@@ -5,9 +5,11 @@ import java.awt.*;
  */
 public class StartBlock extends Block
 {
+    int numOut;
     public StartBlock(int x, int y, String c)
     {
         super(x, y, x+80, y+80, c);
+        numOut = 0;
     }
 
     /**
@@ -44,6 +46,14 @@ public class StartBlock extends Block
     @Override
     public int getCenterY() {
         return y+ 40;
+    }
+
+    public void increaseNumOut(){
+        numOut+=1;
+    }
+
+    public boolean maxNumsOut(){
+        return numOut == 1;
     }
 
 }

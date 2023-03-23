@@ -233,10 +233,20 @@ public class Repository extends Observable {
         Block b1 = null;
         Block b2 = null;
         for (Draw drawing : drawings) {
-            if (drawing instanceof Block && ((Block) drawing).contains(x1, y1)) {
-                b1 = (Block) drawing;
+            if (drawing instanceof Block && ((Block) drawing).contains(x1, y1) && !(drawing instanceof EndBlock)){
+                if (drawing instanceof StartBlock){
+                    if (((StartBlock)drawing).maxNumsOut() == true){
+                        b1 = null;
+                    }else{
+                        b1 = (Block) drawing;
+                       ((StartBlock) drawing).increaseNumOut();
+                    }
+                }else {
+
+                    b1 = (Block) drawing;
+                }
             }
-            if (drawing instanceof Block && ((Block) drawing).contains(x2, y2)) {
+            if (drawing instanceof Block && ((Block) drawing).contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
             }
         }
