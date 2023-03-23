@@ -241,7 +241,6 @@ public class Repository extends Observable {
                        ((StartBlock) drawing).increaseNumOut();
                     }
                 }else {
-
                     b1 = (Block) drawing;
                 }
             }

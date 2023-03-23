@@ -5,7 +5,7 @@ import java.awt.*;
  */
 public class InstructionBlock extends Block {
     public InstructionBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED),1,1);
+        super(x, y, x+150, y+75, String.valueOf(Color.RED),2,1);
     }
 
     @Override

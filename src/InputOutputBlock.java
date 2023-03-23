@@ -6,7 +6,7 @@ import java.awt.*;
 public class InputOutputBlock extends Block{
 
     public InputOutputBlock(int x, int y) {
-        super(x, y, x + 100, y + 30, String.valueOf(Color.WHITE),1,1);
+        super(x, y, x + 100, y + 30, String.valueOf(Color.WHITE),2,1);
     }
 
     /**

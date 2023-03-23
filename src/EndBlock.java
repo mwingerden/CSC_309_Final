@@ -13,7 +13,7 @@ public class EndBlock extends Block
      */
     public EndBlock(int x, int y, String c)
     {
-        super(x, y, x+80, y+80, c,1,0);
+        super(x, y, x+80, y+80, c,2,0);
     }
 
     /**

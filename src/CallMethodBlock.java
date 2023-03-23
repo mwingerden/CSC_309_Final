@@ -10,7 +10,7 @@ public class CallMethodBlock extends Block{
      * @param y, block's y coordinate
      */
     public CallMethodBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED),1,1);
+        super(x, y, x+150, y+75, String.valueOf(Color.RED),2,1);
     }
 
     /**
