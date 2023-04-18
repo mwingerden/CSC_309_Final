@@ -2,19 +2,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Load class that handles the loading of files and blocks.
  */
 public class Load {
     private static final List<Draw> drawingsList = new ArrayList<>();
-
     /**
      * load method will try to load a file of a certain name.
      * @param name, file name
@@ -36,7 +33,6 @@ public class Load {
         }
         return drawingsList;
     }
-
     /**
      * parseDrawingObject method adds arrows or blocks to list if needed.
      * @param drawing, can be either block or arrow
@@ -52,7 +48,6 @@ public class Load {
             drawingsList.add(loadArrow(drawingObjects));
         }
     }
-
     /**
      * loadCodeBlock method returns the different blocks and loads them into a list.
      * @param codeBlock, type of block
@@ -60,7 +55,6 @@ public class Load {
      */
     private static Draw loadCodeBlock(JSONObject codeBlock) {
         Block drawing = null;
-
         if (codeBlock.get("Name").equals("CallMethodBlock")) {
             drawing = new CallMethodBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
@@ -92,7 +86,6 @@ public class Load {
         }
         return drawing;
     }
-
     /**
      * loadArrow method adds the arrow between blocks and returns needed arrow for each.
      * @param arrow, loaded arrow

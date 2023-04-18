@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
-
 /**
  * WorkSpace class where all the blocks will be displayed on by the user's inputs.
  *
@@ -13,7 +12,6 @@ import java.util.Observer;
  */
 public class WorkSpace extends JPanel implements Observer {
     Repository repository;
-
     /**
      * The WorkSpace method sets up the layout of the panel.
      */
@@ -26,7 +24,6 @@ public class WorkSpace extends JPanel implements Observer {
         addMouseListener(controller);
         addMouseMotionListener(controller);
     }
-
     /**
      * paintComponent method that allows the different blocks to be drawn on screen by user.
      * @param g the <code>Graphics</code> object to protect
@@ -37,7 +34,6 @@ public class WorkSpace extends JPanel implements Observer {
             drawing.draw(g);
         }
     }
-
     /**
      * update method handles the repainting after each component is drawn.
      * @param o     the observable object.

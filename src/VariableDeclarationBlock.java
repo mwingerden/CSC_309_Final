@@ -1,5 +1,4 @@
 import java.awt.*;
-
 /**
  * The VariableDeclarationBlock class represented by a rectangle with two lines.
  */
@@ -7,7 +6,6 @@ public class VariableDeclarationBlock extends Block{
     public VariableDeclarationBlock(int x, int y) {
         super(x, y, x+150, y+75, String.valueOf(Color.RED),2,1);
     }
-
     /**
      * draw method used to create the VariableDeclarationBlock rectangle.
      * @param g, Graphics class
@@ -24,7 +22,6 @@ public class VariableDeclarationBlock extends Block{
             g.drawString(this.text, x+20, getCenterY()+10);
         }
     }
-
     /**
      * The getter methods returning the centered x and y coordinates of the VariableDeclarationBlock.
      * @ return, center x or y
@@ -33,7 +30,6 @@ public class VariableDeclarationBlock extends Block{
     public int getCenterX(){
         int width = x2-x;
         return x + (width/2);
-
     }
     @Override
     public int getCenterY() {

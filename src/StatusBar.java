@@ -7,7 +7,6 @@ import java.util.Observer;
  */
 public class StatusBar extends JPanel implements Observer {
     JTextField statusBar;
-
     /**
      * Constructor method sets up the status bar attributes.
      * @param x, coordinate where bar will go
@@ -20,7 +19,6 @@ public class StatusBar extends JPanel implements Observer {
         Repository repository = Repository.getInstance();
         repository.addObserver(this);
     }
-
     /**
      * update method sets the current action to be performed.
      * @param o     the observable object.

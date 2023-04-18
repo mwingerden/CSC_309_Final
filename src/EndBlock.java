@@ -1,5 +1,4 @@
 import java.awt.*;
-
 /**
  * The EndBlock class representing the final block in the work space.
  */
@@ -15,7 +14,6 @@ public class EndBlock extends Block
     {
         super(x, y, x+80, y+80, c,2,0);
     }
-
     /**
      * A draw method to represent a black colored EndBlock
      * @param g
@@ -25,7 +23,6 @@ public class EndBlock extends Block
         g.setColor(Color.BLACK);
         g.fillOval(x,y,x2-x, y2-y);
     }
-
     /**
      * The getter methods that return the centered x and y coordinates.
      * @return x

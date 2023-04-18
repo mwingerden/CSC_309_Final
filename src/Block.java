@@ -1,5 +1,4 @@
 import java.awt.*;
-
 /**
  * The abstract Block class represents the different blocks that the user can pick from the menu.
  */
@@ -8,12 +7,10 @@ public abstract class Block implements Draw
     protected int x, y, x2, y2;
     protected Color color;
     protected String text;
-
     protected int arrowInLimit;
     protected int arrowOutLimit;
     protected int arrowInCount = 0;
     protected int arrowOutCount = 0;
-
     /**
      * These are the abstract methods that all the blocks will implement.
      * @param g
@@ -21,7 +18,6 @@ public abstract class Block implements Draw
     public abstract void draw(Graphics g);
     public abstract int getCenterX();
     public abstract int getCenterY();
-
     /**
      * The block constructor taking all the needed parameters for each block that will be drawn.
      * @param x, first x coordinate
@@ -47,11 +43,9 @@ public abstract class Block implements Draw
             case("Red"):
                 color=Color.RED; break;
             default: color=Color.WHITE;
-
         }
         this.text = null;
     }
-
     /**
      * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
      * @return false
@@ -64,7 +58,6 @@ public abstract class Block implements Draw
         }
         return false;
     }
-
     /**
      * checkInGoing method checks if arrow count incoming is less than the blocks incoming arrow limit.
      * @return false
@@ -78,7 +71,6 @@ public abstract class Block implements Draw
         }
         return false;
     }
-
     /**
      * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2).
      * @param xcoord, x coordinate to check
@@ -88,9 +80,8 @@ public abstract class Block implements Draw
     boolean contains(int xcoord, int ycoord){
         return (xcoord>x && xcoord<x2 && ycoord> y && ycoord<y2);
     }
-
     /**
-     * Getter methods for each of the different coordinates.
+     * * Getter methods for each of the different coordinates.
      * @return the desired coordinate
      */
     int getX1(){
@@ -117,8 +108,6 @@ public abstract class Block implements Draw
     void setY2(int y){
         this.y2 = y;
     }
-
-
     /**
      * Set and get methods for the strings text in the block.
      * @param text, of the block
@@ -129,5 +118,4 @@ public abstract class Block implements Draw
     public String getText(){
         return this.text;
     }
-
 }

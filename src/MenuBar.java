@@ -1,21 +1,17 @@
 import javax.swing.*;
-
 /**
  * The MenuBar class where the user will use menu items to interact with the application.
  */
 public class MenuBar extends JMenuBar {
-
     /**
      * MenuBar constructor sets up all the needed menu for the user.
      */
     public MenuBar(){
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
-
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
-
         JMenuItem newItem = new JMenuItem("New");
         JMenuItem save = new JMenuItem("Save");
         JMenuItem load = new JMenuItem("Load");
@@ -28,11 +24,9 @@ public class MenuBar extends JMenuBar {
         JMenuItem io = new JMenuItem("I/O");
         JMenuItem var = new JMenuItem("Variable");
         JMenuItem arrow = new JMenuItem("Arrow");
-
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
         load.addActionListener(mainController);
-
         ifElse.addActionListener(mainController);
         command.addActionListener(mainController);
         start.addActionListener(mainController);
@@ -41,13 +35,10 @@ public class MenuBar extends JMenuBar {
         io.addActionListener(mainController);
         var.addActionListener(mainController);
         arrow.addActionListener(mainController);
-
         file.add(newItem);
         file.add(save);
         file.add(load);
-
         help.add(about);
-
         shape.add(start);
         shape.add(end);
         shape.add(ifElse);
@@ -56,11 +47,9 @@ public class MenuBar extends JMenuBar {
         shape.add(io);
         shape.add(var);
         shape.add(arrow);
-
         menubar.add(file);
         menubar.add(help);
         menubar.add(shape);
-
         add(menubar);
     }
 }

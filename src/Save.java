@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
 /**
  * The Save class stores the user's saved files
  */
@@ -33,18 +32,15 @@ public class Save {
         try (FileWriter file = new FileWriter("DrawingJSONFiles/" + name + ".json")) {
             file.write(drawingsList.toJSONString());
             file.flush();
-
         } catch (FileNotFoundException e) {
             File newFile = new File("DrawingJSONFiles/" + name + ".json");
             FileWriter file = new FileWriter(newFile);
             file.write(drawingsList.toJSONString());
             file.flush();
-
         } catch (IOException e){
             e.printStackTrace();
         }
     }
-
     /**
      * storeCodeBlock method will hold the blocks saved for the future
      * @param codeBlock, type of block to store
@@ -81,7 +77,6 @@ public class Save {
         }
         return jsonObject;
     }
-
     /**
      * storeArrow method will hold the arrows
      * @param arrowDraw, arrows from blocks
