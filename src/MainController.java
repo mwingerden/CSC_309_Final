@@ -25,6 +25,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             case "Method" -> Repository.getInstance().setBlockToDraw("Method");
             case "Variable" -> Repository.getInstance().setBlockToDraw("Variable");
             case "Arrow" -> Repository.getInstance().setBlockToDraw("Arrow");
+            //TODO: The button press or other such actions are most likely be placed here.
+            case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
+            case "Student" -> Repository.getInstance().updatePanel("StudentListView");
             default -> menuItemClicked(e.getActionCommand());
         }
     }

@@ -20,6 +20,13 @@ public class Repository extends Observable {
         this.blockToDraw = "";
         this.drawings = new ArrayList<>();
     }
+
+    //TODO: Updates the observers with the new panel info.
+    public void updatePanel(String panel) {
+        setChanged();
+        notifyObservers(panel);
+    }
+
     public static Repository getInstance() {
         return instance;
     }

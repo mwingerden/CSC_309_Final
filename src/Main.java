@@ -21,13 +21,16 @@ public class Main extends JFrame{
      */
     public Main() {
         super("Final Project");
-        MenuBar menuBar = new MenuBar();
-        StatusBar statusBar = new StatusBar(77);
-        WorkSpace workSpace = new WorkSpace();
-        BorderLayout layout = new BorderLayout();
-        setLayout(layout);
-        add(menuBar, BorderLayout.NORTH);
-        add(workSpace, BorderLayout.CENTER);
-        add(statusBar, BorderLayout.SOUTH);
+        setLayout(new CardLayout());
+
+        add(new PanelLayout(), BorderLayout.CENTER);
+//        MenuBar menuBar = new MenuBar();
+//        StatusBar statusBar = new StatusBar(77);
+//        WorkSpace workSpace = new WorkSpace();
+//        BorderLayout layout = new BorderLayout();
+//        setLayout(layout);
+//        add(menuBar, BorderLayout.NORTH);
+//        add(workSpace, BorderLayout.CENTER);
+//        add(statusBar, BorderLayout.SOUTH);
     }
 }
