@@ -26,6 +26,11 @@ public class WorkSpace extends JPanel implements Observer {
         setPreferredSize(new Dimension(300, 300));
         addMouseListener(controller);
         addMouseMotionListener(controller);
+
+        MenuBar menuBar = new MenuBar();
+        BorderLayout layout = new BorderLayout();
+        setLayout(layout);
+        add(menuBar, BorderLayout.NORTH);
     }
     /**
      * paintComponent method that allows the different blocks to be drawn on screen by user.
