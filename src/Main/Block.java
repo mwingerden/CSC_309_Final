@@ -1,6 +1,8 @@
+package Main;
+
 import java.awt.*;
 /**
- * The abstract Block class represents the different blocks that the user can pick from the menu.
+ * The abstract Main.Block class represents the different blocks that the user can pick from the menu.
  */
 public abstract class Block implements Draw
 {

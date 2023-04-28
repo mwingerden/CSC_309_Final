@@ -1,3 +1,5 @@
+package Main;
+
 import java.awt.*;
 import javax.swing.*;
 /**
@@ -7,6 +9,7 @@ import javax.swing.*;
  * @author  Matthew Wingerden
  * @author  Pablo Nguyen
  * @author  Juan Custodio
+ * @author  Mary Lemmer
  */
 public class Main extends JFrame{
     public static void main(String[] args) {
@@ -24,9 +27,9 @@ public class Main extends JFrame{
         setLayout(new CardLayout());
 
         add(new PanelLayout(), BorderLayout.CENTER);
-//        MenuBar menuBar = new MenuBar();
-//        StatusBar statusBar = new StatusBar(77);
-//        WorkSpace workSpace = new WorkSpace();
+//        Main.MenuBar menuBar = new Main.MenuBar();
+//        Main.StatusBar statusBar = new Main.StatusBar(77);
+//        Main.WorkSpace workSpace = new Main.WorkSpace();
 //        BorderLayout layout = new BorderLayout();
 //        setLayout(layout);
 //        add(menuBar, BorderLayout.NORTH);

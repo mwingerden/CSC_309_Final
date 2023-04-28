@@ -1,3 +1,5 @@
+package Main;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -7,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 /**
- * The Save class stores the user's saved files
+ * The Main.Save class stores the user's saved files
  */
 public class Save {
     /**
@@ -54,25 +56,25 @@ public class Save {
         jsonObjectDetails.put("Y1", Integer.toString(codeBlock.getY1()));
         jsonObjectDetails.put("Text", codeBlock.getText());
         if (codeBlock instanceof CallMethodBlock) {
-            jsonObjectDetails.put("Name", "CallMethodBlock");
+            jsonObjectDetails.put("Name", "Main.CallMethodBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof ConditionBlock) {
-            jsonObjectDetails.put("Name", "ConditionBlock");
+            jsonObjectDetails.put("Name", "Main.ConditionBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof EndBlock) {
-            jsonObjectDetails.put("Name", "EndBlock");
+            jsonObjectDetails.put("Name", "Main.EndBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof InputOutputBlock) {
-            jsonObjectDetails.put("Name", "InputOutputBlock");
+            jsonObjectDetails.put("Name", "Main.InputOutputBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof InstructionBlock) {
-            jsonObjectDetails.put("Name", "InstructionBlock");
+            jsonObjectDetails.put("Name", "Main.InstructionBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof StartBlock) {
-            jsonObjectDetails.put("Name", "StartBlock");
+            jsonObjectDetails.put("Name", "Main.StartBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof VariableDeclarationBlock) {
-            jsonObjectDetails.put("Name", "VariableDeclarationBlock");
+            jsonObjectDetails.put("Name", "Main.VariableDeclarationBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         }
         return jsonObject;
@@ -94,7 +96,7 @@ public class Save {
             jsonObjectDetails = storeCodeBlock(codeBlock);
             jsonArray.add(jsonObjectDetails);
         }
-        jsonObject.put("Arrow", jsonArray);
+        jsonObject.put("Main.Arrow", jsonArray);
         return jsonObject;
     }
 }
