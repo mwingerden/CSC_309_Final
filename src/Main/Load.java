@@ -22,7 +22,7 @@ public class Load {
     @SuppressWarnings("unchecked")
     public static List<Draw> load(String name) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("DrawingJSONFiles/" + name + ".json")) {
+        try (FileReader reader = new FileReader("Drawings/" + name + ".json")) {
             Object obj = jsonParser.parse(reader);
             JSONArray drawings = (JSONArray) obj;
             drawings.forEach(drawing -> parseDrawingObject((JSONObject) drawing));

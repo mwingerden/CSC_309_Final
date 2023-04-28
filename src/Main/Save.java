@@ -31,11 +31,11 @@ public class Save {
           }
             drawingsList.add(jsonObject);
         }
-        try (FileWriter file = new FileWriter("DrawingJSONFiles/" + name + ".json")) {
+        try (FileWriter file = new FileWriter("Drawings/" + name + ".json")) {
             file.write(drawingsList.toJSONString());
             file.flush();
         } catch (FileNotFoundException e) {
-            File newFile = new File("DrawingJSONFiles/" + name + ".json");
+            File newFile = new File("Drawings/" + name + ".json");
             FileWriter file = new FileWriter(newFile);
             file.write(drawingsList.toJSONString());
             file.flush();
