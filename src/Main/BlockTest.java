@@ -1,3 +1,5 @@
+package Main;
+
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -5,7 +7,7 @@ import java.awt.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * BlockTest class tests the methods from the block class and other block types.
+ * Main.BlockTest class tests the methods from the block class and other block types.
  */
 
 public class BlockTest
