@@ -1,15 +1,18 @@
+package Main;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 /**
- * The Repository class holds all the needed information of other classes.
+ * The Main.Repository class holds all the needed information of other classes.
  *
  * @author  Nathon Ho
  * @author  Matthew Wingerden
  * @author  Pablo Nguyen
  * @author  Juan Custodio
+ * @author  Mary Lemmer
  */
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
@@ -56,8 +59,8 @@ public class Repository extends Observable {
     public void saveList() throws IOException {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
-                "Type Name for the Save File:",
-                "Save File",
+                "Type Name for the Main.Save File:",
+                "Main.Save File",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 null,
@@ -75,7 +78,7 @@ public class Repository extends Observable {
     public void loadList() {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
-                "Enter Name to Load File:",
+                "Enter Name to Main.Load File:",
                 "Enter Name",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
@@ -108,25 +111,30 @@ public class Repository extends Observable {
         if (blockToDrag != null) {
             dragX = newx;
             dragY = newy;
-            if (blockToDrag instanceof InstructionBlock) {
-                dragging(blockToDrag, new InstructionBlock(dragX-75, dragY-32));
-            } else if (blockToDrag instanceof ConditionBlock) {
-                dragging(blockToDrag, new ConditionBlock(dragX - 50,  dragY - 50));
-            } else if (blockToDrag instanceof VariableDeclarationBlock) {
-                dragging(blockToDrag, new VariableDeclarationBlock(dragX - 75, dragY - 32));
-            } else if (blockToDrag instanceof CallMethodBlock) {
-                dragging(blockToDrag, new CallMethodBlock(dragX - 75, dragY- 32));
-            } else if (blockToDrag instanceof InputOutputBlock) {
-                dragging(blockToDrag, new InputOutputBlock(dragX - 30, dragY));
-            } else if (blockToDrag instanceof StartBlock) {
-                dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40, "PINK"));
-            } else if (blockToDrag instanceof EndBlock) {
-                dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40, "BLUE"));
-            }
+            applyDrag(blockToDrag, dragX, dragY);
         }
         setChanged();
         notifyObservers("Dragging");
     }
+
+    private void applyDrag(Block blockToDrag, int dragX, int dragY) {
+        if (blockToDrag instanceof InstructionBlock) {
+            dragging(blockToDrag, new InstructionBlock(dragX-75, dragY-32));
+        } else if (blockToDrag instanceof ConditionBlock) {
+            dragging(blockToDrag, new ConditionBlock(dragX - 50,  dragY - 50));
+        } else if (blockToDrag instanceof VariableDeclarationBlock) {
+            dragging(blockToDrag, new VariableDeclarationBlock(dragX - 75, dragY - 32));
+        } else if (blockToDrag instanceof CallMethodBlock) {
+            dragging(blockToDrag, new CallMethodBlock(dragX - 75, dragY- 32));
+        } else if (blockToDrag instanceof InputOutputBlock) {
+            dragging(blockToDrag, new InputOutputBlock(dragX - 30, dragY));
+        } else if (blockToDrag instanceof StartBlock) {
+            dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40, "PINK"));
+        } else if (blockToDrag instanceof EndBlock) {
+            dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40, "BLUE"));
+        }
+    }
+
     /**
      * dragging method allows the user to drag the different blocks around with arrows.
      * @param block, block that is being dragged
@@ -211,7 +219,7 @@ public class Repository extends Observable {
         }
     }
     /**
-     * addArrow method used by the MainController to add arrows between blocks.
+     * addArrow method used by the Main.MainController to add arrows between blocks.
      * @param x1, arrow's first x coordinate
      * @param y1, arrow's first y coordinate
      * @param x2, arrow's second x coordinate
@@ -222,16 +230,7 @@ public class Repository extends Observable {
         Block b2 = null;
         for (Draw drawing : drawings) {
             if (drawing instanceof Block && ((Block) drawing).contains(x1, y1) && !(drawing instanceof EndBlock)){
-                if (drawing instanceof StartBlock){
-                    if (((StartBlock)drawing).maxNumsOut() == true){
-                        b1 = null;
-                    }else{
-                        b1 = (Block) drawing;
-                       ((StartBlock) drawing).increaseNumOut();
-                    }
-                }else {
-                    b1 = (Block) drawing;
-                }
+                b1 = blockOneArrow(drawing, x1, y1);
             }
             if (drawing instanceof Block && ((Block) drawing).contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
@@ -246,6 +245,20 @@ public class Repository extends Observable {
         setChanged();
         notifyObservers();
     }
+
+    private Block blockOneArrow(Draw drawing, int x1, int y1) {
+        if (drawing instanceof StartBlock){
+            if (((StartBlock)drawing).maxNumsOut()){
+                return null;
+            }else{
+                ((StartBlock) drawing).increaseNumOut();
+                return (Block) drawing;
+            }
+        }else {
+            return (Block) drawing;
+        }
+    }
+
     /**
      * Getter method that returns what the status displays.
      * @return status

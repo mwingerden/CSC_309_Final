@@ -1,7 +1,9 @@
+package Main;
+
 import java.awt.*;
 
 /**
- * The StartBlock class that is represented by a circle, user selects and sets this block on the work space.
+ * The Main.StartBlock class that is represented by a circle, user selects and sets this block on the work space.
  */
 public class StartBlock extends Block
 

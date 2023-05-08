@@ -1,19 +1,22 @@
+package Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 /**
- * WorkSpace class where all the blocks will be displayed on by the user's inputs.
+ * Main.WorkSpace class where all the blocks will be displayed on by the user's inputs.
  *
  * @author  Nathon Ho
  * @author  Matthew Wingerden
  * @author  Pablo Nguyen
  * @author  Juan Custodio
+ * @author  Mary Lemmer
  */
 public class WorkSpace extends JPanel implements Observer {
     Repository repository;
     /**
-     * The WorkSpace method sets up the layout of the panel.
+     * The Main.WorkSpace method sets up the layout of the panel.
      */
     public WorkSpace() {
         repository = Repository.getInstance();

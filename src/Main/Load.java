@@ -1,3 +1,5 @@
+package Main;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -8,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
- * Load class that handles the loading of files and blocks.
+ * Main.Load class that handles the loading of files and blocks.
  */
 public class Load {
     private static final List<Draw> drawingsList = new ArrayList<>();
@@ -20,7 +22,7 @@ public class Load {
     @SuppressWarnings("unchecked")
     public static List<Draw> load(String name) {
         JSONParser jsonParser = new JSONParser();
-        try (FileReader reader = new FileReader("DrawingJSONFiles/" + name + ".json")) {
+        try (FileReader reader = new FileReader("Drawings/" + name + ".json")) {
             Object obj = jsonParser.parse(reader);
             JSONArray drawings = (JSONArray) obj;
             drawings.forEach(drawing -> parseDrawingObject((JSONObject) drawing));
@@ -43,7 +45,7 @@ public class Load {
             drawingsList.add(loadCodeBlock(drawingObject));
             return;
         }
-        JSONArray drawingObjects = (JSONArray) drawing.get("Arrow");
+        JSONArray drawingObjects = (JSONArray) drawing.get("Main.Arrow");
         if (drawingObjects != null) {
             drawingsList.add(loadArrow(drawingObjects));
         }
@@ -55,31 +57,31 @@ public class Load {
      */
     private static Draw loadCodeBlock(JSONObject codeBlock) {
         Block drawing = null;
-        if (codeBlock.get("Name").equals("CallMethodBlock")) {
+        if (codeBlock.get("Name").equals("Main.CallMethodBlock")) {
             drawing = new CallMethodBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("ConditionBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.ConditionBlock")) {
             drawing = new ConditionBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("EndBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.EndBlock")) {
             drawing = new EndBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")), "PINK");
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("InputOutputBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.InputOutputBlock")) {
             drawing = new InputOutputBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("InstructionBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.InstructionBlock")) {
             drawing = new InstructionBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("StartBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.StartBlock")) {
             drawing = new StartBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")),"BLUE");
             drawing.setText((String) codeBlock.get("Text"));
-        } else if (codeBlock.get("Name").equals("VariableDeclarationBlock")) {
+        } else if (codeBlock.get("Name").equals("Main.VariableDeclarationBlock")) {
             drawing = new VariableDeclarationBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
             drawing.setText((String) codeBlock.get("Text"));

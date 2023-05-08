@@ -1,6 +1,8 @@
+package Main;
+
 import java.awt.*;
 /**
- * InstructionBlock represented by a simple rectangle, user can pick this block from menu.
+ * Main.InstructionBlock represented by a simple rectangle, user can pick this block from menu.
  */
 public class InstructionBlock extends Block {
     public InstructionBlock(int x, int y) {
@@ -17,7 +19,7 @@ public class InstructionBlock extends Block {
         }
     }
     /**
-     * Two getter methods returning the center coordinate of x and y of the InstructionBlock.
+     * Two getter methods returning the center coordinate of x and y of the Main.InstructionBlock.
      * @return x
      * @return y
      */

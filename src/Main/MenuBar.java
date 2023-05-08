@@ -1,20 +1,23 @@
+package Main;
+
 import javax.swing.*;
 /**
- * The MenuBar class where the user will use menu items to interact with the application.
+ * The Main.MenuBar class where the user will use menu items to interact with the application.
  */
 public class MenuBar extends JMenuBar {
     /**
-     * MenuBar constructor sets up all the needed menu for the user.
+     * Main.MenuBar constructor sets up all the needed menu for the user.
      */
     public MenuBar(){
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
+        JMenuItem home = new JMenuItem("Home");
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
         JMenuItem newItem = new JMenuItem("New");
-        JMenuItem save = new JMenuItem("Save");
-        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Main.Save");
+        JMenuItem load = new JMenuItem("Main.Load");
         JMenuItem about = new JMenuItem("About");
         JMenuItem ifElse = new JMenuItem("If/Else");
         JMenuItem command = new JMenuItem("Instruct");
@@ -23,7 +26,8 @@ public class MenuBar extends JMenuBar {
         JMenuItem method = new JMenuItem("Method");
         JMenuItem io = new JMenuItem("I/O");
         JMenuItem var = new JMenuItem("Variable");
-        JMenuItem arrow = new JMenuItem("Arrow");
+        JMenuItem arrow = new JMenuItem("Main.Arrow");
+        home.addActionListener(mainController);
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
         load.addActionListener(mainController);
@@ -50,6 +54,7 @@ public class MenuBar extends JMenuBar {
         menubar.add(file);
         menubar.add(help);
         menubar.add(shape);
+        menubar.add(home);
         add(menubar);
     }
 }
