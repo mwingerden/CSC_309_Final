@@ -1,5 +1,3 @@
-package com.tests;
-
 import javax.swing.*;
 /**
  * The com.tests.MenuBar class where the user will use menu items to interact with the application.

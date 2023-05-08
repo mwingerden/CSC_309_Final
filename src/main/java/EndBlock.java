@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 /**
  * The com.tests.EndBlock class representing the final block in the work space.

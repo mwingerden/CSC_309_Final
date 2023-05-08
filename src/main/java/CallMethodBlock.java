@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 /**
  * The com.tests.CallMethodBlock class that extends block abstract class.

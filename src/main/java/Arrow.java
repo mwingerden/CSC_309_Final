@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;

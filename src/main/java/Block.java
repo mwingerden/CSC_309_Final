@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 /**
  * The abstract com.tests.Block class represents the different blocks that the user can pick from the menu.

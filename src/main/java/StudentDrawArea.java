@@ -1,9 +1,8 @@
-package com.tests;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+
 /**
  * com.tests.WorkSpace class where all the blocks will be displayed on by the user's inputs.
  *
@@ -13,24 +12,23 @@ import java.util.Observer;
  * @author  Juan Custodio
  * @author  Mary Lemmer
  */
-public class WorkSpace extends JPanel implements Observer {
+public class StudentDrawArea extends JPanel implements Observer {
     Repository repository;
     /**
      * The com.tests.WorkSpace method sets up the layout of the panel.
      */
-    public WorkSpace() {
+    public StudentDrawArea() {
         repository = Repository.getInstance();
         repository.addObserver(this);
         MainController controller = new MainController();
+        BorderLayout layout = new BorderLayout();
+        setLayout(layout);
         setBackground(Color.PINK);
         setPreferredSize(new Dimension(300, 300));
         addMouseListener(controller);
         addMouseMotionListener(controller);
-
-        com.tests.MenuBar menuBar = new com.tests.MenuBar();
-        BorderLayout layout = new BorderLayout();
-        setLayout(layout);
-        add(menuBar, BorderLayout.NORTH);
+        add(new MenuBar(), BorderLayout.NORTH);
+        add(new StatusBar(77), BorderLayout.SOUTH);
     }
     /**
      * paintComponent method that allows the different blocks to be drawn on screen by user.

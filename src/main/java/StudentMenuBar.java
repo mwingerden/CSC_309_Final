@@ -1,5 +1,3 @@
-package com.tests;
-
 import javax.swing.*;
 
 public class StudentMenuBar extends JMenuBar {

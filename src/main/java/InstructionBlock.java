@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 /**
  * com.tests.InstructionBlock represented by a simple rectangle, user can pick this block from menu.

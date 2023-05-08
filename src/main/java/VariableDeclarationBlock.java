@@ -1,5 +1,3 @@
-package com.tests;
-
 import java.awt.*;
 /**
  * The com.tests.VariableDeclarationBlock class represented by a rectangle with two lines.

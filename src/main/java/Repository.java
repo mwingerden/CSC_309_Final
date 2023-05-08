@@ -1,5 +1,3 @@
-package com.tests;
-
 import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
