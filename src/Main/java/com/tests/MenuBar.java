@@ -1,0 +1,60 @@
+package com.tests;
+
+import javax.swing.*;
+/**
+ * The com.tests.MenuBar class where the user will use menu items to interact with the application.
+ */
+public class MenuBar extends JMenuBar {
+    /**
+     * com.tests.MenuBar constructor sets up all the needed menu for the user.
+     */
+    public MenuBar(){
+        MainController mainController = new MainController();
+        JMenuBar menubar = new JMenuBar();
+        JMenuItem home = new JMenuItem("Home");
+        JMenu file = new JMenu("File");
+        JMenu help = new JMenu("Help");
+        JMenu shape = new JMenu("Shape");
+        JMenuItem newItem = new JMenuItem("New");
+        JMenuItem save = new JMenuItem("com.tests.Save");
+        JMenuItem load = new JMenuItem("com.tests.Load");
+        JMenuItem about = new JMenuItem("About");
+        JMenuItem ifElse = new JMenuItem("If/Else");
+        JMenuItem command = new JMenuItem("Instruct");
+        JMenuItem start = new JMenuItem("Start");
+        JMenuItem end = new JMenuItem("End");
+        JMenuItem method = new JMenuItem("Method");
+        JMenuItem io = new JMenuItem("I/O");
+        JMenuItem var = new JMenuItem("Variable");
+        JMenuItem arrow = new JMenuItem("com.tests.Arrow");
+        home.addActionListener(mainController);
+        newItem.addActionListener(mainController);
+        save.addActionListener(mainController);
+        load.addActionListener(mainController);
+        ifElse.addActionListener(mainController);
+        command.addActionListener(mainController);
+        start.addActionListener(mainController);
+        end.addActionListener(mainController);
+        method.addActionListener(mainController);
+        io.addActionListener(mainController);
+        var.addActionListener(mainController);
+        arrow.addActionListener(mainController);
+        file.add(newItem);
+        file.add(save);
+        file.add(load);
+        help.add(about);
+        shape.add(start);
+        shape.add(end);
+        shape.add(ifElse);
+        shape.add(command);
+        shape.add(method);
+        shape.add(io);
+        shape.add(var);
+        shape.add(arrow);
+        menubar.add(file);
+        menubar.add(help);
+        menubar.add(shape);
+        menubar.add(home);
+        add(menubar);
+    }
+}
