@@ -32,13 +32,15 @@ public class PanelLayout extends JPanel implements Observer {
         //TODO: This is where the panel will be updated.
         //TODO: The repository will update the panel with the name of the panel to switch to.
         //TODO: The name should correlate to the name declared in the constructor when you add a new panel.
-        String panel = (String) arg;
-        CardLayout cl = (CardLayout)(this.getLayout());
-        switch(panel) {
-            case "Main.StudentListView" -> cl.show(this, "Main.StudentListView");
-            case "Main.TeacherListView" -> cl.show(this, "Main.TeacherListView");
-            case "StudentDrawArea" -> cl.show(this, "StudentDrawArea");
-            case "Main.StartUp" -> cl.show(this, "Main.StartUp");
+        if (arg != null) {
+            String panel = (String) arg;
+            CardLayout cl = (CardLayout) (this.getLayout());
+            switch (panel) {
+                case "Main.StudentListView" -> cl.show(this, "Main.StudentListView");
+                case "Main.TeacherListView" -> cl.show(this, "Main.TeacherListView");
+                case "StudentDrawArea" -> cl.show(this, "StudentDrawArea");
+                case "Main.StartUp" -> cl.show(this, "Main.StartUp");
+            }
         }
 
 //        if (panel.equalsIgnoreCase("new") || panel.equalsIgnoreCase("edit")) {

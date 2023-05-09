@@ -236,7 +236,7 @@ public class Repository extends Observable {
                 b2 = (Block) drawing;
             }
         }
-        if(b1 != null && b2 != null){
+        if(b1 != null && b2 != null && b1 != b2){
             if(b1.checkOutGoing() && b2.checkInGoing())
             {
                 drawings.add(new Arrow(b1,b2));
