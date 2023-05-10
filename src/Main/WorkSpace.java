@@ -27,10 +27,18 @@ public class WorkSpace extends JPanel implements Observer {
         addMouseListener(controller);
         addMouseMotionListener(controller);
 
+        JPanel north = new JPanel();
+        north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
+        north.setBackground(Color.PINK);
+
         MenuBar menuBar = new MenuBar();
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-        add(menuBar, BorderLayout.NORTH);
+
+        north.add(menuBar, BorderLayout.NORTH);
+        north.add(new ProblemDescription(), BorderLayout.NORTH);
+
+        add(north, BorderLayout.NORTH);
     }
     /**
      * paintComponent method that allows the different blocks to be drawn on screen by user.

@@ -19,9 +19,13 @@ public class Save {
      * @throws IOException
      */
     @SuppressWarnings("unchecked")
-    public static void save(List<Draw> drawings, String name) throws IOException {
+    public static void save(List<Draw> drawings, String name, String description) throws IOException {
         JSONArray drawingsList = new JSONArray();
-        JSONObject jsonObject = null;
+        JSONObject jsonObject = new JSONObject();
+
+        jsonObject.put("Problem Description", description);
+        drawingsList.add(jsonObject);
+
         for (Draw drawing : drawings) {
             if (drawing instanceof Block) {
                 jsonObject = storeCodeBlock((Block)drawing);

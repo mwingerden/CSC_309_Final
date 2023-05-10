@@ -19,6 +19,7 @@ public class Repository extends Observable {
     private List<Draw> drawings;
     String blockToDraw;
     String status;
+    String problemDesc;
     private Repository() {
         this.blockToDraw = "";
         this.drawings = new ArrayList<>();
@@ -59,19 +60,30 @@ public class Repository extends Observable {
     public void saveList() throws IOException {
         String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
-                "Type Name for the Main.Save File:",
-                "Main.Save File",
+                "Problem Title:",
+                "Problem Title",
                 JOptionPane.PLAIN_MESSAGE,
                 null,
                 null,
                 ""
         );
         if (name != null) {
-            Save.save(drawings, name);
             setChanged();
-            notifyObservers("save");
+            notifyObservers("Save Description");
+            Save.save(drawings, name, problemDesc);
+//            setChanged();
+//            notifyObservers("save");
         }
     }
+
+    public void saveProblemDescription(String desc) {
+        this.problemDesc = desc;
+    }
+
+    public String loadProblemDescription() {
+        return this.problemDesc;
+    }
+
     /**
      * A loadList method allowing the user to load a previously saved file.
      */
@@ -89,7 +101,7 @@ public class Repository extends Observable {
             drawings.clear();
             drawings = Load.load(name);
             setChanged();
-            notifyObservers("load");
+            notifyObservers("Load Description");
         }
     }
     /**
@@ -178,7 +190,7 @@ public class Repository extends Observable {
         if (!drawings.isEmpty()){
             drawings.clear();
             setChanged();
-            notifyObservers();
+            notifyObservers("Clear Description");
         }
     }
     /**

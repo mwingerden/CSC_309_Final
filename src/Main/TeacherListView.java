@@ -27,6 +27,7 @@ public class TeacherListView extends JPanel {
 
         JPanel southPanel = new JPanel();
         JButton newButton = new JButton("New");
+        newButton.addActionListener(mainController);
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
         southPanel.add(newButton);

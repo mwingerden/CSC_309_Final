@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Main.Load class that handles the loading of files and blocks.
  */
@@ -29,7 +30,7 @@ public class Load {
         } catch (IOException | ParseException e) {
             JOptionPane.showMessageDialog(
                     new WorkSpace(),
-                    "There is no file by the name of " + name + ".",
+                    "There is no problem by the name of " + name + ".",
                     "Warning",
                     JOptionPane.WARNING_MESSAGE);
         }
@@ -40,6 +41,12 @@ public class Load {
      * @param drawing, can be either block or arrow
      */
     private static void parseDrawingObject(JSONObject drawing) {
+        String description = (String) drawing.get("Problem Description");
+        if (description != null) {
+            Repository.getInstance().saveProblemDescription(description);
+            return;
+        }
+
         JSONObject drawingObject = (JSONObject) drawing.get("CodeBlock");
         if (drawingObject != null) {
             drawingsList.add(loadCodeBlock(drawingObject));
