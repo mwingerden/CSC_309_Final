@@ -16,9 +16,10 @@ import java.util.Observable;
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
     private List<Draw> drawings;
-    String blockToDraw;
-    String status;
-    String problemDesc;
+    private String blockToDraw;
+    private String status;
+    private String problemDesc;
+    private String problemName;
     private Repository() {
         this.blockToDraw = "";
         this.drawings = new ArrayList<>();
@@ -52,6 +53,12 @@ public class Repository extends Observable {
         newDrawings.addAll(codeBlocks);
         return newDrawings;
     }
+
+    public void setProblemLoad(String name)
+    {
+        this.problemName = name;
+    }
+
     /**
      * A saveList method that allows the user to save the work space if needed.
      * @throws IOException

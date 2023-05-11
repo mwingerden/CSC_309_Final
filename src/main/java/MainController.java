@@ -110,6 +110,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setBlockToDraw("None");
                 Repository.getInstance().loadList();
             }
+            default -> {
+                Repository.getInstance().setProblemLoad(e);
+            }
         }
     }
     private void change_status(MouseEvent e){

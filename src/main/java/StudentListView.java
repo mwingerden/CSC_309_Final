@@ -1,6 +1,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 
 public class StudentListView extends JPanel{
     Repository repository;
@@ -19,6 +21,7 @@ public class StudentListView extends JPanel{
 
         JButton attempt = new JButton("Attempt");
         attempt.addActionListener(e -> Repository.getInstance().updatePanel("StudentDrawArea"));
+        //attempt.addActionListener(new MainController());
         add(attempt, BorderLayout.SOUTH);
 
         JPanel panelCenter = new JPanel();
@@ -36,25 +39,50 @@ public class StudentListView extends JPanel{
     }
 
     private void listProblems(JPanel problemPanel) {
-        JRadioButton p1 = new JRadioButton("Problem 1: Basic");
-        JRadioButton p2 = new JRadioButton("Problem 2: Intermediate");
-        JRadioButton p3 = new JRadioButton("Problem 3: Advanced");
+        File file = new File("./Drawings/");
+        File[] files = file.listFiles();
 
+        ArrayList<JRadioButton> buttons = new ArrayList<>();
+
+        for(File f: files )
+        {
+            JRadioButton temp = new JRadioButton(f.getName());
+            temp.addActionListener(new MainController());
+            temp.setFont(new Font("Serif", Font.PLAIN, 28));
+            temp.setSize(6,6);
+            buttons.add(temp);
+        }
         ButtonGroup bg = new ButtonGroup();
-        bg.add(p1);
-        bg.add(p2);
-        bg.add(p3);
 
-        p1.setFont(new Font("Serif", Font.PLAIN, 28));
-        p2.setFont(new Font("Serif", Font.PLAIN, 28));
-        p3.setFont(new Font("Serif", Font.PLAIN, 28));
+        for(JRadioButton button: buttons)
+        {
+            bg.add(button);
+        }
 
-        p1.setSize(6,6);
-        p2.setSize(6,6);
-        p3.setSize(6,6);
+        for(JRadioButton button: buttons)
+        {
+            problemPanel.add(button);
+        }
+//        JRadioButton p1 = new JRadioButton("Problem 1: Basic");
+//        JRadioButton p2 = new JRadioButton("Problem 2: Intermediate");
+//        JRadioButton p3 = new JRadioButton("Problem 3: Advanced");
+//
+//        ButtonGroup bg = new ButtonGroup();
+//        bg.add(p1);
+//        bg.add(p2);
+//        bg.add(p3);
+//
+//        p1.setFont(new Font("Serif", Font.PLAIN, 28));
+//        p2.setFont(new Font("Serif", Font.PLAIN, 28));
+//        p3.setFont(new Font("Serif", Font.PLAIN, 28));
+//
+//        p1.setSize(6,6);
+//        p2.setSize(6,6);
+//        p3.setSize(6,6);
+//
+//        problemPanel.add(p1);
+//        problemPanel.add(p2);
+//        problemPanel.add(p3);
 
-        problemPanel.add(p1);
-        problemPanel.add(p2);
-        problemPanel.add(p3);
     }
 }
