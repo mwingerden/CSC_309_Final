@@ -46,11 +46,16 @@ public class StudentListView extends JPanel{
 
         for(File f: files )
         {
-            JRadioButton temp = new JRadioButton(f.getName());
-            temp.addActionListener(new MainController());
-            temp.setFont(new Font("Serif", Font.PLAIN, 28));
-            temp.setSize(6,6);
-            buttons.add(temp);
+            if(f.getName().endsWith(".json"))
+            {
+                String fileName = f.getName();
+                fileName = fileName.substring(0, fileName.lastIndexOf("."));
+                JRadioButton temp = new JRadioButton(fileName);
+                temp.addActionListener(new MainController());
+                temp.setFont(new Font("Serif", Font.PLAIN, 28));
+                temp.setSize(6, 6);
+                buttons.add(temp);
+            }
         }
         ButtonGroup bg = new ButtonGroup();
 
