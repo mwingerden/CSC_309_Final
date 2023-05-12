@@ -1,5 +1,6 @@
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,17 @@ public class Repository extends Observable {
         newDrawings.addAll(arrows);
         newDrawings.addAll(codeBlocks);
         return newDrawings;
+    }
+
+    public void deleteProblem(){
+        File f1 = new File("Drawings/"+ problemName + ".json");
+        if(f1.delete()){
+            System.out.println("deleted");
+        } else{
+            System.out.println("not deleted");
+        }
+        setChanged();
+        notifyObservers();
     }
 
     public void setProblemLoad(String name)

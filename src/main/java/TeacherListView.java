@@ -36,6 +36,7 @@ public class TeacherListView extends JPanel implements Observer {
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(mainController);
         JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(mainController);
         southPanel.add(newButton);
         southPanel.add(editButton);
         southPanel.add(deleteButton);

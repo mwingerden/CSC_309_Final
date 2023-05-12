@@ -43,6 +43,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
 
             case "New" -> {Repository.getInstance().updatePanel("WorkSpace");
                 Repository.getInstance().clearBlocks();}
+            case "Delete" -> {
+                Repository.getInstance().deleteProblem();
+            }
             default -> menuItemClicked(e.getActionCommand());
         }
     }
