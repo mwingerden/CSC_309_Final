@@ -32,16 +32,16 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private void setupProblemInfoPanel() {
         this.problemInfoPanel = new JPanel();
-        this.problemInfoPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        this.problemInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         BoxLayout problemInfoLayout = new BoxLayout(problemInfoPanel, BoxLayout.PAGE_AXIS);
         problemInfoPanel.setLayout(problemInfoLayout);
 
         // Problem Title
         JLabel problemTitle = new JLabel(Repository.getInstance()
                 .getLoadedProblem()
-                .getProblemName(), JLabel.LEFT);
+                .getProblemName(), SwingConstants.LEFT);
         problemTitle.setFont(new Font("Serif", Font.BOLD, 24));
-        problemTitle.setVerticalAlignment(JLabel.TOP);
+        problemTitle.setVerticalAlignment(SwingConstants.TOP);
 
         // Problem Description
         JTextArea problemDescription = new JTextArea(Repository.getInstance()

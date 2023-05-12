@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * The Main.Repository class holds all the needed information of other classes.
@@ -51,10 +50,10 @@ public class Repository extends Observable {
         List<Block> codeBlocks = new ArrayList<>();
         List<Arrow> arrows = new ArrayList<>();
         for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block) {
-                codeBlocks.add((Block) drawing);
-            } else if (drawing instanceof Arrow) {
-                arrows.add((Arrow) drawing);
+            if (drawing instanceof Block block) {
+                codeBlocks.add(block);
+            } else if (drawing instanceof Arrow arrow) {
+                arrows.add(arrow);
             }
        }
         newDrawings.addAll(arrows);
@@ -68,7 +67,7 @@ public class Repository extends Observable {
 
     /**
      * A saveList method that allows the user to save the work space if needed.
-     * @throws IOException
+     * @throws IOException if unable to save file
      */
     public String saveList(Problem problemToSave) throws IOException {
         if (Objects.isNull(problemToSave)) {
@@ -154,7 +153,7 @@ public class Repository extends Observable {
         int dragX;
         int dragY;
         for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
+            if (drawing instanceof Block block && block.contains(x, y)) {
                 blockToDrag = (Block) drawing;
             }
         }
@@ -247,7 +246,7 @@ public class Repository extends Observable {
      */
     public void addText(int x, int y) {
         for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
+            if (drawing instanceof Block block && block.contains(x, y)) {
                 if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
                     String text = (String) JOptionPane.showInputDialog(
                             new WorkSpace(),
@@ -279,16 +278,15 @@ public class Repository extends Observable {
         Block b1 = null;
         Block b2 = null;
         for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block && ((Block) drawing).contains(x1, y1) && !(drawing instanceof EndBlock)){
+            if (drawing instanceof Block block && block.contains(x1, y1) && !(drawing instanceof EndBlock)){
                 b1 = blockOneArrow(drawing, x1, y1);
             }
-            if (drawing instanceof Block && ((Block) drawing).contains(x2, y2) && !(drawing instanceof StartBlock)) {
+            if (drawing instanceof Block block && block.contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
             }
         }
         if(b1 != null && b2 != null && b1 != b2){
-            if(b1.checkOutGoing() && b2.checkInGoing())
-            {
+            if(b1.checkOutGoing() && b2.checkInGoing()) {
                 drawnChart.add(new Arrow(b1,b2));
             }
         }
@@ -297,11 +295,11 @@ public class Repository extends Observable {
     }
 
     private Block blockOneArrow(Draw drawing, int x1, int y1) {
-        if (drawing instanceof StartBlock){
-            if (((StartBlock)drawing).maxNumsOut()){
+        if (drawing instanceof StartBlock startBlock){
+            if (startBlock.maxNumsOut()){
                 return null;
             }else{
-                ((StartBlock) drawing).increaseNumOut();
+                startBlock.increaseNumOut();
                 return (Block) drawing;
             }
         }else {

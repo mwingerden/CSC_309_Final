@@ -16,8 +16,6 @@ import java.util.Observer;
 public class StudentWorkspace extends JPanel implements Observer {
     Repository repository;
 
-    private String description;
-
     /**
      * The Main.TeacherWorkspace method sets up the layout of the panel.
      */

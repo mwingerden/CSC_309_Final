@@ -52,8 +52,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mousePressed(MouseEvent e) {
         if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
             Repository.getInstance().setStatus("Main.Arrow is being drawn");
-        }
-        else{
+        } else {
             Repository.getInstance().setStatus("Dragging");
         }
         startDragx = e.getX();
@@ -65,8 +64,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         endDragy = e.getY();
         if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
-        }
-        else {
+        } else {
             Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
         }
     }

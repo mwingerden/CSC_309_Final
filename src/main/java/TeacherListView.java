@@ -2,7 +2,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,7 +36,7 @@ public class TeacherListView extends JPanel {
 
         getTeacherProblemNames();
 
-        JPanel QA_Hint_Field = new JPanel();
+        //JPanel QA_Hint_Field = new JPanel();
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);

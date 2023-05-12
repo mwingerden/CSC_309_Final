@@ -42,11 +42,13 @@ public class Save {
         try (FileWriter file = new FileWriter("Drawings/" + problemToSave.getProblemName() + ".json")) {
             file.write(fileElements.toJSONString());
             file.flush();
+            file.close();
         } catch (FileNotFoundException e) {
             File newFile = new File("Drawings/" + problemToSave.getProblemName() + ".json");
             FileWriter file = new FileWriter(newFile);
             file.write(fileElements.toJSONString());
             file.flush();
+            file.close();
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -70,7 +72,7 @@ public class Save {
     /**
      * storeCodeBlock method will hold the blocks saved for the future
      * @param codeBlock, type of block to store
-     * @return
+     * @return JSONObject containing the information for a specific Block object
      */
     @SuppressWarnings("unchecked")
     private static JSONObject storeCodeBlock(Block codeBlock) {

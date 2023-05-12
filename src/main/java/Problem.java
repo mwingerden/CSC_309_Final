@@ -2,7 +2,7 @@ import java.util.List;
 
 public class Problem {
 
-    private String problemName;
+    private final String problemName;
 
     private String problemDescription;
 

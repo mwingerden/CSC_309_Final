@@ -22,9 +22,9 @@ public class StudentListView extends JPanel implements Observer {
         HomeMenu menuBar = new HomeMenu();
         add(menuBar, BorderLayout.PAGE_START);
 
-        JLabel selectProblem = new JLabel("Select Problem To Attempt:", JLabel.LEFT);
+        JLabel selectProblem = new JLabel("Select Problem To Attempt:", SwingConstants.LEFT);
         selectProblem.setFont(new Font("Serif", Font.BOLD, 36));
-        selectProblem.setVerticalAlignment(JLabel.TOP);
+        selectProblem.setVerticalAlignment(SwingConstants.TOP);
         add(selectProblem,BorderLayout.LINE_START);
 
         JButton attempt = new JButton("Attempt");
@@ -49,8 +49,7 @@ public class StudentListView extends JPanel implements Observer {
         }
     }
 
-    private JPanel listProblems()
-    {
+    private JPanel listProblems() {
 
         problems = new JPanel();
         BoxLayout problemBoxes = new BoxLayout(problems,BoxLayout.PAGE_AXIS);
@@ -64,8 +63,7 @@ public class StudentListView extends JPanel implements Observer {
 
         for(File f: files ) {
 
-            if(f.getName().endsWith(".json"))
-            {
+            if(f.getName().endsWith(".json")) {
                 String fileName = f.getName();
                 fileName = fileName.substring(0, fileName.lastIndexOf("."));
                 JRadioButton temp = new JRadioButton(fileName);
@@ -87,8 +85,7 @@ public class StudentListView extends JPanel implements Observer {
 
     }
     @Override
-    public void update(Observable o, Object arg)
-    {
+    public void update(Observable o, Object arg) {
         panelCenter.remove(problems);
         panelCenter.add(listProblems());
     }
