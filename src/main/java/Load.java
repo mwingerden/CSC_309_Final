@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Main.Load class that handles the loading of files and blocks.
@@ -48,6 +50,9 @@ public class Load {
 
     @SuppressWarnings("unchecked")
     private static List<Draw> parseDrawingArray(JSONArray drawingElements) {
+        if (Objects.isNull(drawingElements)) {
+            return Collections.emptyList();
+        }
         List<Draw> blocks = new ArrayList<>();
         drawingElements.forEach(drawObject -> blocks.add(getDrawObject((JSONObject) drawObject)));
         return blocks;

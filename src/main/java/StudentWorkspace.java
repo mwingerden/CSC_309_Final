@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
+
 /**
  * Main.TeacherWorkspace class where all the blocks will be displayed on by the user's inputs.
  *
@@ -12,7 +13,7 @@ import java.util.Observer;
  * @author  Juan Custodio
  * @author  Mary Lemmer
  */
-public class TeacherWorkspace extends JPanel implements Observer {
+public class StudentWorkspace extends JPanel implements Observer {
     Repository repository;
 
     private String description;
@@ -20,7 +21,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
     /**
      * The Main.TeacherWorkspace method sets up the layout of the panel.
      */
-    public TeacherWorkspace(String problemName) {
+    public StudentWorkspace() {
         repository = Repository.getInstance();
         repository.addObserver(this);
         MainController controller = new MainController();
@@ -28,8 +29,6 @@ public class TeacherWorkspace extends JPanel implements Observer {
         setPreferredSize(new Dimension(300, 300));
         addMouseListener(controller);
         addMouseMotionListener(controller);
-
-        Repository.getInstance().loadList(true, problemName);
 
         JPanel north = new JPanel();
         north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));

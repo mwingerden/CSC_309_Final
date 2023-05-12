@@ -56,6 +56,14 @@ public class Problem {
         this.problemDescription = problemDescription;
     }
 
+    public void setDrawing(boolean solution, List<Draw> drawing) {
+        if (solution) {
+            this.teacherSolution = drawing;
+        } else {
+            this.studentAttempt = drawing;
+        }
+    }
+
     public void setHints(List<String> hints) {
         this.hints = hints;
     }

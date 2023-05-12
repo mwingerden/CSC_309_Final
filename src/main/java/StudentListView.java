@@ -1,13 +1,17 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 
 public class StudentListView extends JPanel implements Observer {
     Repository repository = Repository.getInstance();
+
+    ButtonGroup problemButtons = new ButtonGroup();
     JPanel problems;
     JPanel panelCenter;
     public StudentListView() {
@@ -24,7 +28,7 @@ public class StudentListView extends JPanel implements Observer {
         add(selectProblem,BorderLayout.LINE_START);
 
         JButton attempt = new JButton("Attempt");
-        attempt.addActionListener(e -> Repository.getInstance().updatePanel("StudentDrawArea"));
+        attempt.addActionListener(this::openProblem);
         add(attempt, BorderLayout.SOUTH);
 
         panelCenter = new JPanel();
@@ -33,6 +37,16 @@ public class StudentListView extends JPanel implements Observer {
 
         panelCenter.add(listProblems(), BorderLayout.WEST);
         add(panelCenter, BorderLayout.CENTER);
+    }
+
+    private void openProblem(ActionEvent e) {
+        for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements();) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                Repository.getInstance().loadList(false, button.getText());
+                Repository.getInstance().updatePanel("StudentSolutionPanel");
+            }
+        }
     }
 
     private JPanel listProblems()
@@ -48,8 +62,7 @@ public class StudentListView extends JPanel implements Observer {
         ArrayList<JRadioButton> buttons = new ArrayList<>();
 
 
-        for(File f: files )
-        {
+        for(File f: files ) {
 
             if(f.getName().endsWith(".json"))
             {
@@ -63,15 +76,11 @@ public class StudentListView extends JPanel implements Observer {
             }
         }
 
-        ButtonGroup bg = new ButtonGroup();
-
-        for(JRadioButton button: buttons)
-        {
-            bg.add(button);
+        for(JRadioButton button: buttons) {
+            this.problemButtons.add(button);
         }
 
-        for(JRadioButton button: buttons)
-        {
+        for(JRadioButton button: buttons) {
             problems.add(button);
         }
         return problems;

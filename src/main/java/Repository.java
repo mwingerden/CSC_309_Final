@@ -1,10 +1,9 @@
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Observable;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * The Main.Repository class holds all the needed information of other classes.
  *
@@ -19,6 +18,8 @@ public class Repository extends Observable {
 
     private Problem loadedProblem;
     private List<Draw> drawnChart;
+
+    private boolean loadSolution = false;
     private String blockToDraw;
     private String status;
     private Repository() {
@@ -77,15 +78,18 @@ public class Repository extends Observable {
             if (name != null) {
                 problemToSave = new Problem(name,
                         "",
-                        null,
-                        null,
-                        null);
+                        Collections.emptyList(),
+                        Collections.emptyList(),
+                        Collections.emptyList());
             }
+        } else {
+            problemToSave.setDrawing(this.loadSolution, this.drawnChart);
         }
         if (!Objects.isNull(problemToSave)) {
+            Save.save(problemToSave);
+            this.loadedProblem = problemToSave;
             setChanged();
             notifyObservers("Save Description");
-            Save.save(problemToSave);
             return problemToSave.getProblemName();
 //            setChanged();
 //            notifyObservers("save");
@@ -106,8 +110,10 @@ public class Repository extends Observable {
             }
             if (loadSolution) {
                 this.drawnChart = this.loadedProblem.getTeacherSolution();
+                this.loadSolution = true;
             } else {
                 this.drawnChart = this.loadedProblem.getStudentAttempt();
+                this.loadSolution = false;
             }
             setChanged();
             notifyObservers("Load Description");

@@ -89,20 +89,34 @@ public class TeacherListView extends JPanel {
     }
 
     private void openProblem(ActionEvent e) {
-        for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-            if (button.isSelected()) {
-                this.workspace = new TeacherWorkspace(button.getText());
-                if (this.problemNotSelected) {
-                    remove(this.selectProblem);
-                    add(this.workspace,BorderLayout.CENTER);
+        if (e.getActionCommand().equals("New")) {
+            this.loadedWorkspace = Repository.getInstance().getLoadedProblem().getProblemName();
+            this.workspace = new TeacherWorkspace(this.loadedWorkspace);
+            if (this.problemNotSelected) {
+                remove(this.selectProblem);
+                add(this.workspace,BorderLayout.CENTER);
+                this.problemNotSelected = false;
+            }
+            this.problemsPanel.revalidate();
+            this.problemsPanel.repaint();
+            this.revalidate();
+            this.repaint();
+        } else {
+            for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
+                AbstractButton button = buttons.nextElement();
+                if (button.isSelected()) {
                     this.loadedWorkspace = button.getText();
-                    this.problemNotSelected = false;
+                    this.workspace = new TeacherWorkspace(this.loadedWorkspace);
+                    if (this.problemNotSelected) {
+                        remove(this.selectProblem);
+                        add(this.workspace, BorderLayout.CENTER);
+                        this.problemNotSelected = false;
+                    }
+                    this.problemsPanel.revalidate();
+                    this.problemsPanel.repaint();
+                    this.revalidate();
+                    this.repaint();
                 }
-                this.problemsPanel.revalidate();
-                this.problemsPanel.repaint();
-                this.revalidate();
-                this.repaint();
             }
         }
     }
@@ -140,7 +154,7 @@ public class TeacherListView extends JPanel {
     private void getTeacherProblemNames() {
         try (Stream<Path> stream = Files.list(Paths.get("Drawings/"))) {
             this.teacherProblemNames = stream
-                    .filter(file -> !Files.isDirectory(file))
+                    .filter(file -> !Files.isDirectory(file) && file.getFileName().toString().endsWith(".json"))
                     .map(Path::getFileName)
                     .map(Path::toString)
                     .collect(Collectors.toList());

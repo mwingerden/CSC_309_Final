@@ -1,16 +1,14 @@
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 /**
  * The Main.MenuBar class where the user will use menu items to interact with the application.
  */
-public class TeacherWorkspaceMenuBar extends JMenuBar {
+public class WorkspaceMenuBar extends JMenuBar {
     /**
      * Main.MenuBar constructor sets up all the needed menu for the user.
      */
-    public TeacherWorkspaceMenuBar(){
+    public WorkspaceMenuBar(){
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
         JMenu file = new JMenu("File");
@@ -18,7 +16,6 @@ public class TeacherWorkspaceMenuBar extends JMenuBar {
         JMenu shape = new JMenu("Shape");
         JMenuItem newItem = new JMenuItem("New");
         JMenuItem save = new JMenuItem("Main.Save");
-        JMenuItem load = new JMenuItem("Main.Load");
         JMenuItem about = new JMenuItem("About");
         JMenuItem ifElse = new JMenuItem("If/Else");
         JMenuItem command = new JMenuItem("Instruct");
@@ -30,7 +27,6 @@ public class TeacherWorkspaceMenuBar extends JMenuBar {
         JMenuItem arrow = new JMenuItem("Main.Arrow");
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
-        load.addActionListener(mainController);
         ifElse.addActionListener(mainController);
         command.addActionListener(mainController);
         start.addActionListener(mainController);
@@ -41,7 +37,6 @@ public class TeacherWorkspaceMenuBar extends JMenuBar {
         arrow.addActionListener(mainController);
         file.add(newItem);
         file.add(save);
-        file.add(load);
         help.add(about);
         shape.add(start);
         shape.add(end);
