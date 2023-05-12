@@ -11,6 +11,7 @@ public class MenuBar extends JMenuBar {
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
         JMenuItem home = new JMenuItem("Home");
+        JMenuItem Back = new JMenuItem("Back");
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
@@ -27,6 +28,7 @@ public class MenuBar extends JMenuBar {
         JMenuItem var = new JMenuItem("Variable");
         JMenuItem arrow = new JMenuItem("Arrow");
         home.addActionListener(mainController);
+        Back.addActionListener(mainController);
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
         load.addActionListener(mainController);
@@ -54,6 +56,7 @@ public class MenuBar extends JMenuBar {
         menubar.add(help);
         menubar.add(shape);
         menubar.add(home);
+        menubar.add(Back);
         add(menubar);
     }
 }

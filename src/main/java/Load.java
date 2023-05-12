@@ -37,7 +37,7 @@ public class Load {
         return drawingsList;
     }
 
-    public static List<String> get_names(){
+    public static ArrayList<String> get_names(){
         ArrayList<String> names = new ArrayList<>();
 
         File drawings = new File("Drawings");

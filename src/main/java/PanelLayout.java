@@ -22,6 +22,7 @@ public class PanelLayout extends JPanel implements Observer {
         add(new TeacherListView(), "TeacherListView");
 //        add(new WorkSpace("teacher"), "TeacherDrawArea");
         add(new StudentDrawArea(), "StudentDrawArea");
+        add(new WorkSpace(), "WorkSpace");
 //        add(new WorkSpace("teacher"), "TeacherList");
 //        add(new WorkSpace("student"), "StudentList");
     }
@@ -39,6 +40,7 @@ public class PanelLayout extends JPanel implements Observer {
                 case "TeacherListView" -> cl.show(this, "TeacherListView");
                 case "StudentDrawArea" -> cl.show(this, "StudentDrawArea");
                 case "StartUp" -> cl.show(this, "StartUp");
+                case "WorkSpace" -> cl.show(this, "WorkSpace");
             }
         }
 

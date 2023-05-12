@@ -20,9 +20,13 @@ public class Repository extends Observable {
     private String status;
     private String problemDesc;
     private String problemName;
+    private Boolean editing;
+
     private Repository() {
         this.blockToDraw = "";
         this.drawings = new ArrayList<>();
+        this.problemName = null;
+        this.editing = false;
     }
 
     //TODO: Updates the observers with the new panel info.
@@ -63,22 +67,35 @@ public class Repository extends Observable {
      * A saveList method that allows the user to save the work space if needed.
      * @throws IOException
      */
+
+    public void setEditing(){
+        editing = true;
+    }
+
+    public void unsetEditing(){
+        editing = false;
+    }
+
     public void saveList() throws IOException {
-        String name = (String) JOptionPane.showInputDialog(
-                new WorkSpace(),
-                "Problem Title:",
-                "Problem Title",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                ""
-        );
+        String name = problemName;
+        if (!editing) {
+            name = (String) JOptionPane.showInputDialog(
+                    new WorkSpace(),
+                    "Problem Title:",
+                    "Problem Title",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+        }
+
         if (name != null) {
             setChanged();
             notifyObservers("Save Description");
             Save.save(drawings, name, problemDesc);
-//            setChanged();
-//            notifyObservers("save");
+            setChanged();
+            notifyObservers("save");
         }
     }
 
@@ -94,7 +111,7 @@ public class Repository extends Observable {
      * A loadList method allowing the user to load a previously saved file.
      */
     public void loadList() {
-        String name = (String) JOptionPane.showInputDialog(
+        /*String name = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
                 "Enter Name to Main.Load File:",
                 "Enter Name",
@@ -102,14 +119,15 @@ public class Repository extends Observable {
                 null,
                 null,
                 ""
-        );
-        if (name != null) {
+        );*/
+        if (problemName != null) {
             drawings.clear();
-            drawings = Load.load(name);
+            drawings = Load.load(problemName);
             setChanged();
             notifyObservers("Load Description");
         }
     }
+
     /**
      * draw method allowing user to draw from and to different coordinates for each kind of block.
      * @param x, previous x coordinate

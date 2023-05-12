@@ -10,6 +10,7 @@ public class StudentListView extends JPanel implements Observer {
     Repository repository = Repository.getInstance();
     JPanel problems;
     JPanel panelCenter;
+
     public StudentListView() {
         repository.addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
