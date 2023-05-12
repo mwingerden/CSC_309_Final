@@ -11,7 +11,7 @@ public class ProblemDescription extends JPanel implements Observer {
     public ProblemDescription() {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Color.LIGHT_GRAY);
-        problemDescText = new JTextField();
+        problemDescText = new JTextField(Repository.getInstance().getLoadedProblem().getProblemDescription());
         JLabel text = new JLabel("Problem Description:");
         add(text);
         add(problemDescText);
@@ -23,10 +23,10 @@ public class ProblemDescription extends JPanel implements Observer {
         String update = (String) arg;
         if(update != null) {
             switch (update) {
-                case "Save Description" -> repository
+                case "Saved" -> repository
                         .getLoadedProblem()
                         .setProblemDescription(problemDescText.getText());
-                case "Load Description" -> problemDescText
+                case "Loaded" -> problemDescText
                         .setText(repository.getLoadedProblem().getProblemDescription());
                 case "Clear Description" -> problemDescText.setText("");
             }

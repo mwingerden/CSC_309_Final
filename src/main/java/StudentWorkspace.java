@@ -30,18 +30,15 @@ public class StudentWorkspace extends JPanel implements Observer {
         addMouseListener(controller);
         addMouseMotionListener(controller);
 
-        JPanel north = new JPanel();
-        north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
-        north.setBackground(Color.PINK);
-
-        WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
+        JPanel workspacePanel = new JPanel();
+        workspacePanel.setLayout(new BoxLayout(workspacePanel, BoxLayout.Y_AXIS));
+        workspacePanel.setBackground(Color.PINK);
 
-        north.add(workspaceMenuBar, BorderLayout.NORTH);
-        north.add(new ProblemDescription(), BorderLayout.NORTH);
+        WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();
 
-        add(north, BorderLayout.NORTH);
+        add(workspaceMenuBar, BorderLayout.NORTH);
     }
 
     /**

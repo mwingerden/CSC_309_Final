@@ -3,8 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class StudentSolutionPanel extends JPanel {
+public class StudentSolutionPanel extends JPanel implements Observer {
 
     private List<String> hintList;
 
@@ -12,11 +14,16 @@ public class StudentSolutionPanel extends JPanel {
 
     private JTextArea problemHintArea;
 
+    private JPanel problemInfoPanel;
+
+    private JButton hintButton;
+
     public StudentSolutionPanel() {
+        Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
         setLayout(majorityLayout);
 
-        StudentMenuBar menuBar = new StudentMenuBar();
+        HomeMenu menuBar = new HomeMenu();
         add(menuBar, BorderLayout.PAGE_START);
 
         this.setupProblemInfoPanel();
@@ -24,10 +31,10 @@ public class StudentSolutionPanel extends JPanel {
     }
 
     private void setupProblemInfoPanel() {
-        JPanel problemInfoPanel = new JPanel();
+        this.problemInfoPanel = new JPanel();
+        this.problemInfoPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);
         BoxLayout problemInfoLayout = new BoxLayout(problemInfoPanel, BoxLayout.PAGE_AXIS);
         problemInfoPanel.setLayout(problemInfoLayout);
-        add(problemInfoPanel, BorderLayout.WEST);
 
         // Problem Title
         JLabel problemTitle = new JLabel(Repository.getInstance()
@@ -52,7 +59,7 @@ public class StudentSolutionPanel extends JPanel {
         this.hintList.add("Another Example Hint");
         this.hintList.add("And This Is Example Hint 3.");
 
-        JButton hintButton = new JButton("Get Hint");
+        this.hintButton = new JButton("Get Hint");
         hintButton.addActionListener(this::updateHints);
 
 
@@ -65,11 +72,22 @@ public class StudentSolutionPanel extends JPanel {
     }
 
     private void updateHints(ActionEvent e) {
-        if (this.problemHintArea.getText().equals("Click button below for hint")) {
+        if (this.problemHintArea.getText().equals("Click button below for hint.")) {
             this.problemHintArea.setText(this.hintList.get(0)+"\n");
             this.hintIndex++;
         } else {
-            this.problemHintArea.append(this.hintList.get(this.hintIndex));
+            this.problemHintArea.append(this.hintList.get(this.hintIndex)+"\n");
+            this.hintIndex++;
+            if (hintIndex == 3) {
+                this.hintButton.setText("No More Hints Available.");
+                this.hintButton.setEnabled(false);
+            }
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.remove(problemInfoPanel);
+        this.setupProblemInfoPanel();
     }
 }

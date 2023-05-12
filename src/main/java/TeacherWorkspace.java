@@ -20,7 +20,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
     /**
      * The Main.TeacherWorkspace method sets up the layout of the panel.
      */
-    public TeacherWorkspace(String problemName) {
+    public TeacherWorkspace() {
         repository = Repository.getInstance();
         repository.addObserver(this);
         MainController controller = new MainController();
@@ -28,21 +28,24 @@ public class TeacherWorkspace extends JPanel implements Observer {
         setPreferredSize(new Dimension(300, 300));
         addMouseListener(controller);
         addMouseMotionListener(controller);
+        addMouseMotionListener(controller);
 
-        Repository.getInstance().loadList(true, problemName);
-
-        JPanel north = new JPanel();
-        north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
-        north.setBackground(Color.PINK);
-
-        WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
+        JPanel workspacePanel = new JPanel();
+        workspacePanel.setLayout(new BoxLayout(workspacePanel, BoxLayout.LINE_AXIS));
+        workspacePanel.setBackground(Color.DARK_GRAY);
 
-        north.add(workspaceMenuBar, BorderLayout.NORTH);
-        north.add(new ProblemDescription(), BorderLayout.NORTH);
+        String problemEditing = "Currently Editing: "+repository.getLoadedProblem().getProblemName();
+        JLabel problemTitle = new JLabel(problemEditing);
+        problemTitle.setForeground(Color.WHITE);
+        WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();
 
-        add(north, BorderLayout.NORTH);
+        add(workspaceMenuBar, BorderLayout.NORTH);
+        workspacePanel.add(problemTitle);
+        workspacePanel.add(Box.createRigidArea(new Dimension(25, 0)));
+        workspacePanel.add(new ProblemDescription());
+        add(workspacePanel, BorderLayout.SOUTH);
     }
 
     /**

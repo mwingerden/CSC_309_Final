@@ -1,6 +1,8 @@
 
 import javax.swing.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,7 +18,11 @@ import java.util.stream.Collectors;
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
 
-    private Problem loadedProblem;
+    private Problem loadedProblem = new Problem("",
+            "",
+            Collections.emptyList(),
+            Collections.emptyList(),
+            Collections.emptyList());
     private List<Draw> drawnChart;
 
     private boolean loadSolution = false;
@@ -81,20 +87,20 @@ public class Repository extends Observable {
                         Collections.emptyList(),
                         Collections.emptyList(),
                         Collections.emptyList());
+            } else {
+                return null;
             }
         } else {
             problemToSave.setDrawing(this.loadSolution, this.drawnChart);
         }
-        if (!Objects.isNull(problemToSave)) {
-            Save.save(problemToSave);
-            this.loadedProblem = problemToSave;
-            setChanged();
-            notifyObservers("Save Description");
-            return problemToSave.getProblemName();
+        this.loadedProblem = problemToSave;
+        setChanged();
+        notifyObservers("Saved");
+        Save.save(problemToSave);
+        return problemToSave.getProblemName();
 //            setChanged();
 //            notifyObservers("save");
-        }
-        return null;
+
     }
 
     /**
@@ -116,9 +122,26 @@ public class Repository extends Observable {
                 this.loadSolution = false;
             }
             setChanged();
-            notifyObservers("Load Description");
+            notifyObservers("Loaded");
         }
     }
+
+    public void delete(String problemName) {
+        try {
+            File deleteProblem = new File("Drawings/" + problemName + ".json");
+            Files.deleteIfExists(deleteProblem.toPath());
+            setChanged();
+            notifyObservers("Deleted");
+            clearChanged();
+        } catch (IOException ioe) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Selected problem unable to be found in Drawings directory.",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
     /**
      * draw method allowing user to draw from and to different coordinates for each kind of block.
      * @param x, previous x coordinate

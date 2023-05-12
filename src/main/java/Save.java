@@ -12,20 +12,16 @@ import java.util.List;
  */
 public class Save {
 
-    private static JSONArray fileElements = new JSONArray();
-
     /**
      * Saves all elements of a problem to a file in the Drawings directory.
      *
-     * @param name String name of the problem, becomes the file name
-     * @param description String description of the file. Represents what the student is supposed to solve
-     * @param teacherSolution List of draw objects representing the solution
-     * @param studentAttempt List of draw objects representing a student attempt at solving
-     * @param hints List of Strings giving the student hints
+     * @param problemToSave Problem object containing needed elements for a problem file.
      * @throws IOException if an issue occurs creating or opening file
      */
     @SuppressWarnings("unchecked")
     public static void save(Problem problemToSave) throws IOException {
+
+        JSONArray fileElements = new JSONArray();
 
         JSONObject problemDescription = new JSONObject();
         problemDescription.put("Problem Description", problemToSave.getProblemDescription());

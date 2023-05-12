@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,11 +19,11 @@ public class TeacherListView extends JPanel {
 
     private List<String> teacherProblemNames;
 
-    private final ButtonGroup problemButtons = new ButtonGroup();
+    private ButtonGroup problemButtons;
 
     private TeacherWorkspace workspace;
 
-    private final JPanel problemsPanel;
+    private JPanel problemsPanel;
 
     private final JLabel selectProblem = new JLabel("Select problem from the left or create a new one to begin.");
 
@@ -34,16 +32,32 @@ public class TeacherListView extends JPanel {
     private String loadedWorkspace = "";
 
     public TeacherListView() {
-        MainController mainController = new MainController();
 
         setBackground(Color.LIGHT_GRAY);
+
         getTeacherProblemNames();
+
+        JPanel QA_Hint_Field = new JPanel();
+
+        BorderLayout layout = new BorderLayout();
+        setLayout(layout);
+        HomeMenu menuBar = new HomeMenu();
+        add(menuBar, BorderLayout.PAGE_START);
+        setupProblemPanel();
+
+        this.selectProblem.setFont(new Font("Serif", Font.BOLD, 36));
+        add(this.problemsPanel, BorderLayout.WEST);
+        add(this.selectProblem, BorderLayout.CENTER);
+    }
+
+    private void setupProblemPanel() {
         ArrayList<JRadioButton> problems = new ArrayList<>();
         for(String problemName: this.teacherProblemNames){
             problems.add(new JRadioButton(problemName));
         }
 
         this.problemsPanel = new JPanel();
+        this.problemButtons = new ButtonGroup();
         for(JRadioButton button : problems){
             problemButtons.add(button);
             this.problemsPanel.add(button);
@@ -61,26 +75,21 @@ public class TeacherListView extends JPanel {
         southPanel.add(deleteButton);
 
         this.problemsPanel.setBackground(Color.GRAY);
-        GridLayout grid = new GridLayout(problems.size() + 1,1);
+        GridLayout grid = new GridLayout(this.problemButtons.getButtonCount() + 1,1);
         this.problemsPanel.setLayout(grid);
         this.problemsPanel.add(southPanel);
-
-        JPanel QA_Hint_Field = new JPanel();
-
-        BorderLayout layout = new BorderLayout();
-        setLayout(layout);
-        add(this.problemsPanel, BorderLayout.WEST);
-
-        this.selectProblem.setFont(new Font("Serif", Font.BOLD, 36));
-        add(this.selectProblem, BorderLayout.CENTER);
     }
 
     private void createNewProblem(ActionEvent e) {
         try {
             String name = Repository.getInstance().saveList(null);
-            JRadioButton newProblem = new JRadioButton(name);
-            problemButtons.add(newProblem);
-            this.problemsPanel.add(newProblem);
+            if (Objects.isNull(name)) {
+                return;
+            }
+            this.teacherProblemNames.add(name);
+            this.remove(this.problemsPanel);
+            this.setupProblemPanel();
+            this.add(this.problemsPanel, BorderLayout.WEST);
             openProblem(e);
 
         } catch (IOException ex) {
@@ -91,64 +100,55 @@ public class TeacherListView extends JPanel {
     private void openProblem(ActionEvent e) {
         if (e.getActionCommand().equals("New")) {
             this.loadedWorkspace = Repository.getInstance().getLoadedProblem().getProblemName();
-            this.workspace = new TeacherWorkspace(this.loadedWorkspace);
+            Repository.getInstance().loadList(true, this.loadedWorkspace);
             if (this.problemNotSelected) {
                 remove(this.selectProblem);
-                add(this.workspace,BorderLayout.CENTER);
                 this.problemNotSelected = false;
+            } else {
+                this.remove(this.workspace);
             }
-            this.problemsPanel.revalidate();
-            this.problemsPanel.repaint();
-            this.revalidate();
-            this.repaint();
+            this.workspace = new TeacherWorkspace();
         } else {
             for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
                 AbstractButton button = buttons.nextElement();
                 if (button.isSelected()) {
                     this.loadedWorkspace = button.getText();
-                    this.workspace = new TeacherWorkspace(this.loadedWorkspace);
+                    Repository.getInstance().loadList(true, this.loadedWorkspace);
                     if (this.problemNotSelected) {
                         remove(this.selectProblem);
-                        add(this.workspace, BorderLayout.CENTER);
                         this.problemNotSelected = false;
+                    } else {
+                        this.remove(this.workspace);
                     }
-                    this.problemsPanel.revalidate();
-                    this.problemsPanel.repaint();
-                    this.revalidate();
-                    this.repaint();
+                    this.workspace = new TeacherWorkspace();
+                    break;
                 }
             }
         }
+        this.add(this.workspace,BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }
 
     private void deleteProblem(ActionEvent e) {
-        try {
-            for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
-                AbstractButton button = buttons.nextElement();
-                if (button.isSelected()) {
-                    if (this.loadedWorkspace.equals(button.getText())) {
-                        remove(this.workspace);
-                        this.problemNotSelected = true;
-                        add(this.selectProblem, BorderLayout.CENTER);
-                    }
-                    File deleteProblem = new File("Drawings/" + button.getText() + ".json");
-                    Files.deleteIfExists(deleteProblem.toPath());
-                    this.problemButtons.remove(button);
-                    this.teacherProblemNames.remove(button.getText());
-                    remove(button);
-                    this.problemsPanel.revalidate();
-                    this.problemsPanel.repaint();
-                    this.revalidate();
-                    this.repaint();
+        for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                if (this.loadedWorkspace.equals(button.getText())) {
+                    remove(this.workspace);
+                    this.problemNotSelected = true;
+                    add(this.selectProblem, BorderLayout.CENTER);
+                }
+                this.teacherProblemNames.remove(button.getText());
+                Repository.getInstance().delete(button.getText());
+                this.remove(this.problemsPanel);
+                this.setupProblemPanel();
+                this.add(this.problemsPanel, BorderLayout.WEST);
+                this.revalidate();
+                this.repaint();
+                break;
                 }
             }
-        } catch (IOException ioe) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "Selected problem unable to be found in Drawings directory.",
-                    "Warning",
-                    JOptionPane.WARNING_MESSAGE);
-        }
     }
 
     private void getTeacherProblemNames() {
@@ -173,6 +173,4 @@ public class TeacherListView extends JPanel {
             }
         }
     }
-
-
 }

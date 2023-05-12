@@ -19,7 +19,7 @@ public class StudentListView extends JPanel implements Observer {
         BorderLayout majorityLayout = new BorderLayout();
         setLayout(majorityLayout);
 
-        StudentMenuBar menuBar = new StudentMenuBar();
+        HomeMenu menuBar = new HomeMenu();
         add(menuBar, BorderLayout.PAGE_START);
 
         JLabel selectProblem = new JLabel("Select Problem To Attempt:", JLabel.LEFT);
