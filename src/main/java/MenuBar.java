@@ -15,8 +15,8 @@ public class MenuBar extends JMenuBar {
         JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
         JMenuItem newItem = new JMenuItem("New");
-        JMenuItem save = new JMenuItem("Main.Save");
-        JMenuItem load = new JMenuItem("Main.Load");
+        JMenuItem save = new JMenuItem("Save");
+        JMenuItem load = new JMenuItem("Load");
         JMenuItem about = new JMenuItem("About");
         JMenuItem ifElse = new JMenuItem("If/Else");
         JMenuItem command = new JMenuItem("Instruct");
@@ -25,7 +25,7 @@ public class MenuBar extends JMenuBar {
         JMenuItem method = new JMenuItem("Method");
         JMenuItem io = new JMenuItem("I/O");
         JMenuItem var = new JMenuItem("Variable");
-        JMenuItem arrow = new JMenuItem("Main.Arrow");
+        JMenuItem arrow = new JMenuItem("Arrow");
         home.addActionListener(mainController);
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);

@@ -14,16 +14,16 @@ public class PanelLayout extends JPanel implements Observer {
         addMouseListener(controller);
         addMouseMotionListener(controller);
         setLayout(new CardLayout());
-        add(new StartUp(), "Main.StartUp");
+        add(new StartUp(), "StartUp");
         //TODO: This is where you would add the panels.
         //TODO: Just call add then the construction of the Panel along with a name descriptor as seen in the rest of the method.
         //TODO: The name descriptor will be used in the update below.
-        add(new StudentListView(), "Main.StudentListView");
-        add(new TeacherListView(), "Main.TeacherListView");
-//        add(new Main.WorkSpace("teacher"), "TeacherDrawArea");
+        add(new StudentListView(), "StudentListView");
+        add(new TeacherListView(), "TeacherListView");
+//        add(new WorkSpace("teacher"), "TeacherDrawArea");
         add(new StudentDrawArea(), "StudentDrawArea");
-//        add(new Main.WorkSpace("teacher"), "TeacherList");
-//        add(new Main.WorkSpace("student"), "StudentList");
+//        add(new WorkSpace("teacher"), "TeacherList");
+//        add(new WorkSpace("student"), "StudentList");
     }
 
     @Override
@@ -35,10 +35,10 @@ public class PanelLayout extends JPanel implements Observer {
             String panel = (String) arg;
             CardLayout cl = (CardLayout) (this.getLayout());
             switch (panel) {
-                case "Main.StudentListView" -> cl.show(this, "Main.StudentListView");
-                case "Main.TeacherListView" -> cl.show(this, "Main.TeacherListView");
+                case "StudentListView" -> cl.show(this, "StudentListView");
+                case "TeacherListView" -> cl.show(this, "TeacherListView");
                 case "StudentDrawArea" -> cl.show(this, "StudentDrawArea");
-                case "Main.StartUp" -> cl.show(this, "Main.StartUp");
+                case "StartUp" -> cl.show(this, "StartUp");
             }
         }
 

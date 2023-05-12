@@ -13,7 +13,7 @@ public class TeacherListView extends JPanel {
         setBackground(Color.LIGHT_GRAY);
         ArrayList<JRadioButton> problems = new ArrayList<>();
         for(int i = 0; i < 3; i++){
-            problems.add(new JRadioButton("Problem " + String.valueOf(i)));
+
         }
 
         ButtonGroup problemGroup = new ButtonGroup();

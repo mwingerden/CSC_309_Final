@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 /**
  * Main.Load class that handles the loading of files and blocks.
@@ -35,6 +36,19 @@ public class Load {
         }
         return drawingsList;
     }
+
+    public static List<String> get_names(){
+        ArrayList<String> names = new ArrayList<>();
+
+        File drawings = new File("Drawings");
+
+        for (File f : drawings.listFiles()){
+            names.add(f.getName().replaceAll("\\.\\w+",""));
+        }
+
+        return names;
+    }
+
     /**
      * parseDrawingObject method adds arrows or blocks to list if needed.
      * @param drawing, can be either block or arrow

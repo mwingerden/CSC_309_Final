@@ -18,6 +18,9 @@ public class Main extends JFrame{
         main.setDefaultCloseOperation(EXIT_ON_CLOSE);
         main.setLocationRelativeTo(null);
         main.setVisible(true);
+
+        System.out.println(Load.get_names());
+
     }
     /**
      * Main constructor method adds the menu, work space, and status bar to the window.
