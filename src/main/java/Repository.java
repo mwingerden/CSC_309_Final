@@ -64,7 +64,7 @@ public class Repository extends Observable {
      * A saveList method that allows the user to save the work space if needed.
      * @throws IOException
      */
-    public void saveList(Problem problemToSave) throws IOException {
+    public String saveList(Problem problemToSave) throws IOException {
         if (Objects.isNull(problemToSave)) {
             String name = (String) JOptionPane.showInputDialog(
                     new WorkSpace(),
@@ -87,6 +87,7 @@ public class Repository extends Observable {
             setChanged();
             notifyObservers("Save Description");
             Save.save(problemToSave);
+            return problemToSave.getProblemName();
 //            setChanged();
 //            notifyObservers("save");
         }
