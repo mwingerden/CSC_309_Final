@@ -12,7 +12,6 @@ public class PanelLayout extends JPanel implements Observer {
         repository.addObserver(this);
         MainController controller = new MainController();
         addMouseListener(controller);
-        addMouseMotionListener(controller);
         setLayout(new CardLayout());
         add(new StartUp(), "StartUp");
         //TODO: This is where you would add the panels.
