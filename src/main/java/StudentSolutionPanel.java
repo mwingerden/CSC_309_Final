@@ -83,11 +83,15 @@ public class StudentSolutionPanel extends JPanel implements Observer {
                 this.hintButton.setEnabled(false);
             }
         }
+        this.problemInfoPanel.repaint();
     }
 
     @Override
     public void update(Observable o, Object arg) {
-        this.remove(problemInfoPanel);
-        this.setupProblemInfoPanel();
+        if (((String) arg).equals("StudentSolutionPanel")) {
+            this.remove(problemInfoPanel);
+            this.hintIndex = 0;
+            this.setupProblemInfoPanel();
+        }
     }
 }
