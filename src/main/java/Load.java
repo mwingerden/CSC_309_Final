@@ -38,7 +38,7 @@ public class Load {
 
         } catch (IOException | ParseException e) {
             JOptionPane.showMessageDialog(
-                    new WorkSpace(),
+                    null,
                     "There is no problem by the name of " + name + ".",
                     "Warning",
                     JOptionPane.WARNING_MESSAGE);

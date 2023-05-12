@@ -100,18 +100,10 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Saving diagram");
                 Repository.getInstance().setBlockToDraw("None");
                 try {
-                    Repository.getInstance().saveList();
+                    Repository.getInstance().saveList(Repository.getInstance().getLoadedProblem());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-            }
-            case "Main.Load" -> {
-                Repository.getInstance().setStatus("Loading diagram");
-                Repository.getInstance().setBlockToDraw("None");
-                Repository.getInstance().loadList();
-            }
-            default -> {
-                Repository.getInstance().setProblemLoad(e);
             }
         }
     }

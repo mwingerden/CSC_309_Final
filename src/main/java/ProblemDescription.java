@@ -23,8 +23,11 @@ public class ProblemDescription extends JPanel implements Observer {
         String update = (String) arg;
         if(update != null) {
             switch (update) {
-                case "Save Description" -> repository.saveProblemDescription(problemDescText.getText());
-                case "Load Description" -> problemDescText.setText(repository.loadProblemDescription());
+                case "Save Description" -> repository
+                        .getLoadedProblem()
+                        .setProblemDescription(problemDescText.getText());
+                case "Load Description" -> problemDescText
+                        .setText(repository.getLoadedProblem().getProblemDescription());
                 case "Clear Description" -> problemDescText.setText("");
             }
 

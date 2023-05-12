@@ -36,7 +36,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
         north.setLayout(new BoxLayout(north, BoxLayout.Y_AXIS));
         north.setBackground(Color.PINK);
 
-        TeacherWorkspaceMenuBar teacherWorkspaceMenuBar = new TeacherWorkspaceMenuBar(problemName);
+        TeacherWorkspaceMenuBar teacherWorkspaceMenuBar = new TeacherWorkspaceMenuBar();
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
 

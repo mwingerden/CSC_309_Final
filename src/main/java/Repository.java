@@ -55,9 +55,8 @@ public class Repository extends Observable {
         return newDrawings;
     }
 
-    public void setProblemLoad(String name)
-    {
-        this.problemName = name;
+    public Problem getLoadedProblem() {
+        return this.loadedProblem;
     }
 
     /**
@@ -91,6 +90,7 @@ public class Repository extends Observable {
 //            setChanged();
 //            notifyObservers("save");
         }
+        return null;
     }
 
     /**

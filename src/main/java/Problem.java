@@ -3,6 +3,7 @@ import java.util.List;
 public class Problem {
 
     private String problemName;
+
     private String problemDescription;
 
     private List<Draw> teacherSolution;
@@ -49,5 +50,13 @@ public class Problem {
 
     public List<String> getHints() {
         return hints;
+    }
+
+    public void setProblemDescription(String problemDescription) {
+        this.problemDescription = problemDescription;
+    }
+
+    public void setHints(List<String> hints) {
+        this.hints = hints;
     }
 }
