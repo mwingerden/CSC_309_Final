@@ -3,11 +3,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class StudentListView extends JPanel{
-    Repository repository;
-
+public class StudentListView extends JPanel implements Observer {
+    Repository repository = Repository.getInstance();
+    JPanel problems;
+    JPanel panelCenter;
     public StudentListView() {
+        repository.addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
         setLayout(majorityLayout);
 
@@ -24,28 +28,36 @@ public class StudentListView extends JPanel{
         //attempt.addActionListener(new MainController());
         add(attempt, BorderLayout.SOUTH);
 
-        JPanel panelCenter = new JPanel();
+        panelCenter = new JPanel();
         BorderLayout problemCenter = new BorderLayout();
         panelCenter.setLayout(problemCenter);
 
-        JPanel problems = new JPanel();
-        BoxLayout problemBoxes = new BoxLayout(problems,BoxLayout.PAGE_AXIS);
-        problems.setLayout(problemBoxes);
+//        problems = new JPanel();
+//        BoxLayout problemBoxes = new BoxLayout(problems,BoxLayout.PAGE_AXIS);
+//        problems.setLayout(problemBoxes);
 
-        panelCenter.add(problems, BorderLayout.WEST);
+        panelCenter.add(listProblems(), BorderLayout.WEST);
 
-        listProblems(problems);
+        //listProblems(problems);
         add(panelCenter, BorderLayout.CENTER);
     }
 
-    private void listProblems(JPanel problemPanel) {
+    private JPanel listProblems()
+    {
+
+        problems = new JPanel();
+        BoxLayout problemBoxes = new BoxLayout(problems,BoxLayout.PAGE_AXIS);
+        problems.setLayout(problemBoxes);
+
         File file = new File("./Drawings/");
         File[] files = file.listFiles();
 
         ArrayList<JRadioButton> buttons = new ArrayList<>();
 
+
         for(File f: files )
         {
+
             if(f.getName().endsWith(".json"))
             {
                 String fileName = f.getName();
@@ -57,6 +69,7 @@ public class StudentListView extends JPanel{
                 buttons.add(temp);
             }
         }
+
         ButtonGroup bg = new ButtonGroup();
 
         for(JRadioButton button: buttons)
@@ -66,8 +79,9 @@ public class StudentListView extends JPanel{
 
         for(JRadioButton button: buttons)
         {
-            problemPanel.add(button);
+            problems.add(button);
         }
+        return problems;
 //        JRadioButton p1 = new JRadioButton("Problem 1: Basic");
 //        JRadioButton p2 = new JRadioButton("Problem 2: Intermediate");
 //        JRadioButton p3 = new JRadioButton("Problem 3: Advanced");
@@ -89,5 +103,11 @@ public class StudentListView extends JPanel{
 //        problemPanel.add(p2);
 //        problemPanel.add(p3);
 
+    }
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        panelCenter.remove(problems);
+        panelCenter.add(listProblems());
     }
 }
