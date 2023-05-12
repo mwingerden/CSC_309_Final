@@ -11,41 +11,66 @@ import java.util.List;
  * The Main.Save class stores the user's saved files
  */
 public class Save {
+
+    private static JSONArray fileElements = new JSONArray();
+
     /**
-     * save method saves the file and its components
-     * @param drawings, blocks and arrows to save
-     * @param name, file name
-     * @throws IOException
+     * Saves all elements of a problem to a file in the Drawings directory.
+     *
+     * @param name String name of the problem, becomes the file name
+     * @param description String description of the file. Represents what the student is supposed to solve
+     * @param teacherSolution List of draw objects representing the solution
+     * @param studentAttempt List of draw objects representing a student attempt at solving
+     * @param hints List of Strings giving the student hints
+     * @throws IOException if an issue occurs creating or opening file
      */
     @SuppressWarnings("unchecked")
-    public static void save(List<Draw> drawings, String name, String description) throws IOException {
-        JSONArray drawingsList = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
+    public static void save(Problem problemToSave) throws IOException {
 
-        jsonObject.put("Problem Description", description);
-        drawingsList.add(jsonObject);
+        JSONObject problemDescription = new JSONObject();
+        problemDescription.put("Problem Description", problemToSave.getProblemDescription());
+        fileElements.add(problemDescription);
 
-        for (Draw drawing : drawings) {
-            if (drawing instanceof Block) {
-                jsonObject = storeCodeBlock((Block)drawing);
-            }
-             else if (drawing instanceof Arrow) {
-               jsonObject = storeArrow(drawing);
-          }
-            drawingsList.add(jsonObject);
-        }
-        try (FileWriter file = new FileWriter("Drawings/" + name + ".json")) {
-            file.write(drawingsList.toJSONString());
+        JSONObject teacherDrawing = new JSONObject();
+        teacherDrawing.put("Teacher Solution", saveDrawingList(problemToSave.getTeacherSolution()));
+        fileElements.add(teacherDrawing);
+
+        JSONObject studentDrawing = new JSONObject();
+        studentDrawing.put("Student Attempt", saveDrawingList(problemToSave.getStudentAttempt()));
+        fileElements.add(studentDrawing);
+
+        JSONObject problemHints = new JSONObject();
+        problemHints.put("Hints", problemToSave.getHints());
+        fileElements.add(problemHints);
+
+        try (FileWriter file = new FileWriter("Drawings/" + problemToSave.getProblemName() + ".json")) {
+            file.write(fileElements.toJSONString());
             file.flush();
         } catch (FileNotFoundException e) {
-            File newFile = new File("Drawings/" + name + ".json");
+            File newFile = new File("Drawings/" + problemToSave.getProblemName() + ".json");
             FileWriter file = new FileWriter(newFile);
-            file.write(drawingsList.toJSONString());
+            file.write(fileElements.toJSONString());
             file.flush();
         } catch (IOException e){
             e.printStackTrace();
         }
     }
+
+    @SuppressWarnings("unchecked")
+    private static JSONArray saveDrawingList(List<Draw> drawings) {
+        JSONArray drawingArray = new JSONArray();
+        JSONObject shape = new JSONObject();
+        for (Draw drawing : drawings) {
+            if (drawing instanceof Block block) {
+                shape = storeCodeBlock(block);
+            } else if (drawing instanceof Arrow) {
+                shape = storeArrow(drawing);
+            }
+            drawingArray.add(shape);
+        }
+        return drawingArray;
+    }
+
     /**
      * storeCodeBlock method will hold the blocks saved for the future
      * @param codeBlock, type of block to store

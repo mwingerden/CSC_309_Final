@@ -25,20 +25,13 @@ public class StudentListView extends JPanel implements Observer {
 
         JButton attempt = new JButton("Attempt");
         attempt.addActionListener(e -> Repository.getInstance().updatePanel("StudentDrawArea"));
-        //attempt.addActionListener(new MainController());
         add(attempt, BorderLayout.SOUTH);
 
         panelCenter = new JPanel();
         BorderLayout problemCenter = new BorderLayout();
         panelCenter.setLayout(problemCenter);
 
-//        problems = new JPanel();
-//        BoxLayout problemBoxes = new BoxLayout(problems,BoxLayout.PAGE_AXIS);
-//        problems.setLayout(problemBoxes);
-
         panelCenter.add(listProblems(), BorderLayout.WEST);
-
-        //listProblems(problems);
         add(panelCenter, BorderLayout.CENTER);
     }
 
@@ -82,26 +75,6 @@ public class StudentListView extends JPanel implements Observer {
             problems.add(button);
         }
         return problems;
-//        JRadioButton p1 = new JRadioButton("Problem 1: Basic");
-//        JRadioButton p2 = new JRadioButton("Problem 2: Intermediate");
-//        JRadioButton p3 = new JRadioButton("Problem 3: Advanced");
-//
-//        ButtonGroup bg = new ButtonGroup();
-//        bg.add(p1);
-//        bg.add(p2);
-//        bg.add(p3);
-//
-//        p1.setFont(new Font("Serif", Font.PLAIN, 28));
-//        p2.setFont(new Font("Serif", Font.PLAIN, 28));
-//        p3.setFont(new Font("Serif", Font.PLAIN, 28));
-//
-//        p1.setSize(6,6);
-//        p2.setSize(6,6);
-//        p3.setSize(6,6);
-//
-//        problemPanel.add(p1);
-//        problemPanel.add(p2);
-//        problemPanel.add(p3);
 
     }
     @Override

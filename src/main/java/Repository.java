@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 /**
  * The Main.Repository class holds all the needed information of other classes.
@@ -15,14 +16,14 @@ import java.util.Observable;
  */
 public class Repository extends Observable {
     private static final Repository instance = new Repository();
-    private List<Draw> drawings;
+
+    private Problem loadedProblem;
+    private List<Draw> drawnChart;
     private String blockToDraw;
     private String status;
-    private String problemDesc;
-    private String problemName;
     private Repository() {
         this.blockToDraw = "";
-        this.drawings = new ArrayList<>();
+        this.drawnChart = new ArrayList<>();
     }
 
     //TODO: Updates the observers with the new panel info.
@@ -42,7 +43,7 @@ public class Repository extends Observable {
         List<Draw> newDrawings = new ArrayList<>();
         List<Block> codeBlocks = new ArrayList<>();
         List<Arrow> arrows = new ArrayList<>();
-        for (Draw drawing : drawings) {
+        for (Draw drawing : drawnChart) {
             if (drawing instanceof Block) {
                 codeBlocks.add((Block) drawing);
             } else if (drawing instanceof Arrow) {
@@ -63,49 +64,50 @@ public class Repository extends Observable {
      * A saveList method that allows the user to save the work space if needed.
      * @throws IOException
      */
-    public void saveList() throws IOException {
-        String name = (String) JOptionPane.showInputDialog(
-                new WorkSpace(),
-                "Problem Title:",
-                "Problem Title",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                ""
-        );
-        if (name != null) {
+    public void saveList(Problem problemToSave) throws IOException {
+        if (Objects.isNull(problemToSave)) {
+            String name = (String) JOptionPane.showInputDialog(
+                    new WorkSpace(),
+                    "Problem Title:",
+                    "Problem Title",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    null,
+                    ""
+            );
+            if (name != null) {
+                problemToSave = new Problem(name,
+                        "",
+                        null,
+                        null,
+                        null);
+            }
+        }
+        if (!Objects.isNull(problemToSave)) {
             setChanged();
             notifyObservers("Save Description");
-            Save.save(drawings, name, problemDesc);
+            Save.save(problemToSave);
 //            setChanged();
 //            notifyObservers("save");
         }
     }
 
-    public void saveProblemDescription(String desc) {
-        this.problemDesc = desc;
-    }
-
-    public String loadProblemDescription() {
-        return this.problemDesc;
-    }
-
     /**
      * A loadList method allowing the user to load a previously saved file.
      */
-    public void loadList() {
-        String name = (String) JOptionPane.showInputDialog(
-                new WorkSpace(),
-                "Enter Name to Main.Load File:",
-                "Enter Name",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                null,
-                ""
-        );
-        if (name != null) {
-            drawings.clear();
-            drawings = Load.load(name);
+    public void loadList(boolean loadSolution, String problemName) {
+        if (problemName != null) {
+            drawnChart.clear();
+            this.loadedProblem = Load.load(problemName);
+            // Error loading file
+            if (Objects.isNull(this.loadedProblem)) {
+                return;
+            }
+            if (loadSolution) {
+                this.drawnChart = this.loadedProblem.getTeacherSolution();
+            } else {
+                this.drawnChart = this.loadedProblem.getStudentAttempt();
+            }
             setChanged();
             notifyObservers("Load Description");
         }
@@ -121,7 +123,7 @@ public class Repository extends Observable {
         Block blockToDrag = null;
         int dragX;
         int dragY;
-        for (Draw drawing : drawings) {
+        for (Draw drawing : drawnChart) {
             if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
                 blockToDrag = (Block) drawing;
             }
@@ -159,21 +161,21 @@ public class Repository extends Observable {
      * @param newBlock, block after dragging
      */
     private void dragging(Block block, Block newBlock) {
-        List<Draw> tempList = new ArrayList<>(drawings);
+        List<Draw> tempList = new ArrayList<>(drawnChart);
         newBlock.setText(block.getText());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
                 if (arrow.getInBlock().equals(block)) {
-                    drawings.add(new Arrow(newBlock, arrow.getOutBlock()));
-                    drawings.remove(arrow);
+                    drawnChart.add(new Arrow(newBlock, arrow.getOutBlock()));
+                    drawnChart.remove(arrow);
                 } else if (arrow.getOutBlock().equals(block)) {
-                    drawings.add(new Arrow(arrow.getInBlock(), newBlock));
-                    drawings.remove(arrow);
+                    drawnChart.add(new Arrow(arrow.getInBlock(), newBlock));
+                    drawnChart.remove(arrow);
                 }
             }
         }
-        drawings.remove(block);
-        drawings.add(newBlock);
+        drawnChart.remove(block);
+        drawnChart.add(newBlock);
     }
     /**
      * setter that helps decide what block is drawn.
@@ -187,14 +189,14 @@ public class Repository extends Observable {
      * @param block, added block
      */
     public void addBlock(Block block){
-        drawings.add(block);
+        drawnChart.add(block);
     }
     /**
      * A method that clears all the blocks on the work space.
      */
     public void clearBlocks(){
-        if (!drawings.isEmpty()){
-            drawings.clear();
+        if (!drawnChart.isEmpty()){
+            drawnChart.clear();
             setChanged();
             notifyObservers("Clear Description");
         }
@@ -214,7 +216,7 @@ public class Repository extends Observable {
      * @param y, block's y coordinate
      */
     public void addText(int x, int y) {
-        for (Draw drawing : drawings) {
+        for (Draw drawing : drawnChart) {
             if (drawing instanceof Block && ((Block) drawing).contains(x, y)) {
                 if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
                     String text = (String) JOptionPane.showInputDialog(
@@ -246,7 +248,7 @@ public class Repository extends Observable {
     public void addArrow(int x1, int y1, int x2, int y2){
         Block b1 = null;
         Block b2 = null;
-        for (Draw drawing : drawings) {
+        for (Draw drawing : drawnChart) {
             if (drawing instanceof Block && ((Block) drawing).contains(x1, y1) && !(drawing instanceof EndBlock)){
                 b1 = blockOneArrow(drawing, x1, y1);
             }
@@ -257,7 +259,7 @@ public class Repository extends Observable {
         if(b1 != null && b2 != null && b1 != b2){
             if(b1.checkOutGoing() && b2.checkInGoing())
             {
-                drawings.add(new Arrow(b1,b2));
+                drawnChart.add(new Arrow(b1,b2));
             }
         }
         setChanged();
