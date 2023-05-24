@@ -194,11 +194,11 @@ public class Repository extends Observable {
         newBlock.setText(block.getText());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
-                if (arrow.getInBlock().equals(block)) {
-                    drawnChart.add(new Arrow(newBlock, arrow.getOutBlock()));
+                if (arrow.getBlock1().equals(block)) {
+                    drawnChart.add(new Arrow(newBlock, arrow.getBlock2()));
                     drawnChart.remove(arrow);
-                } else if (arrow.getOutBlock().equals(block)) {
-                    drawnChart.add(new Arrow(arrow.getInBlock(), newBlock));
+                } else if (arrow.getBlock2().equals(block)) {
+                    drawnChart.add(new Arrow(arrow.getBlock1(), newBlock));
                     drawnChart.remove(arrow);
                 }
             }

@@ -25,14 +25,14 @@ public class ArrowTest {
         Arrow arrow = new Arrow(b1, b2);
 
         //checks if different block classes can be used in arrow's constructor, also tests get methods
-        assertTrue(true, String.valueOf(arrow.getInBlock().equals(Block.class)));
-        assertTrue(true, String.valueOf(arrow.getOutBlock().equals(Block.class)));
+        assertTrue(true, String.valueOf(arrow.getBlock1().equals(Block.class)));
+        assertTrue(true, String.valueOf(arrow.getBlock2().equals(Block.class)));
 
         //checks to see that the values given to blocks carry into arrow properly
-        assertEquals(30, arrow.inBlock.x );
-        assertEquals(20, arrow.inBlock.y);
-        assertEquals(20, arrow.outBlock.x);
-        assertEquals(10, arrow.outBlock.y);
+        assertEquals(30, arrow.block1.x );
+        assertEquals(20, arrow.block1.y);
+        assertEquals(20, arrow.block2.x);
+        assertEquals(10, arrow.block2.y);
     }
 
     /**
