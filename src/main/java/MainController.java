@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The MainController class handles the actions made by the user.
+ * The Main.MainController class handles the actions made by the user.
  */
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
     int startDragx;
@@ -15,37 +15,21 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     int endDragy;
 
     private final List<String> drawingOptions = Arrays.asList("If/Else","Instruct","Start","End","I/O",
-            "Method","Variable","Arrow");
+            "Method","Variable","Main.Arrow");
     /**
      * actionPerformed class takes the user inputs and uses the repository to set/get blocks.
      * @param e the event to be processed
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (drawingOptions.contains(e.getActionCommand())) {
             Repository.getInstance().setBlockToDraw(e.getActionCommand());
         }
-        if(e.getSource() instanceof JRadioButton){
-            Repository.getInstance().setProblemLoad(e.getActionCommand());
-        }
         switch (e.getActionCommand()) {
             //TODO: The button press or other such actions are most likely be placed here.
-            case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
-            case "Student" -> Repository.getInstance().updatePanel("StudentListView");
-            case "Home" -> Repository.getInstance().updatePanel("StartUp");
-            case "Back" -> Repository.getInstance().updatePanel("TeacherListView");
-            case "Edit" -> {
-                Repository.getInstance().loadList();
-                Repository.getInstance().setEditing();
-                Repository.getInstance().updatePanel("WorkSpace");
-                }
-
-            case "New" -> {Repository.getInstance().updatePanel("WorkSpace");
-                Repository.getInstance().clearBlocks();}
-            case "Delete" -> {
-                Repository.getInstance().deleteProblem();
-            }
+            case "Teacher" -> Repository.getInstance().updatePanel("Main.TeacherListView");
+            case "Student" -> Repository.getInstance().updatePanel("Main.StudentListView");
+            case "Home" -> Repository.getInstance().updatePanel("Main.StartUp");
             default -> menuItemClicked(e.getActionCommand());
         }
     }
@@ -66,10 +50,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
-            Repository.getInstance().setStatus("Arrow is being drawn");
-        }
-        else{
+        if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
+            Repository.getInstance().setStatus("Main.Arrow is being drawn");
+        } else {
             Repository.getInstance().setStatus("Dragging");
         }
         startDragx = e.getX();
@@ -79,10 +62,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mouseReleased(MouseEvent e) {
         endDragx = e.getX();
         endDragy = e.getY();
-        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+        if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
-        }
-        else {
+        } else {
             Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
         }
     }
@@ -96,7 +78,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mouseDragged(MouseEvent e) {
         endDragx = e.getX();
         endDragy = e.getY();
-        if(!Repository.getInstance().getBlockToDraw().equals("Arrow")){
+        if(!Repository.getInstance().getBlockToDraw().equals("Main.Arrow")){
             Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
             startDragx = endDragx;
             startDragy = endDragy;
@@ -111,23 +93,15 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().clearBlocks();
                 Repository.getInstance().setStatus("New diagram");
                 Repository.getInstance().setBlockToDraw("None");
-                Repository.getInstance().unsetEditing();
             }
-            case "Save" -> {
+            case "Main.Save" -> {
                 Repository.getInstance().setStatus("Saving diagram");
                 Repository.getInstance().setBlockToDraw("None");
                 try {
-                    Repository.getInstance().saveList();
+                    Repository.getInstance().saveList(Repository.getInstance().getLoadedProblem());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                Repository.getInstance().updatePanel("TeacherListView");
-                Repository.getInstance().unsetEditing();
-            }
-            case "Load" -> {
-                Repository.getInstance().setStatus("Loading diagram");
-                Repository.getInstance().setBlockToDraw("None");
-                Repository.getInstance().loadList();
             }
         }
     }
@@ -161,7 +135,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Variable declaration block was drawn");
                 Repository.getInstance().addBlock(new VariableDeclarationBlock(e.getX() - 75, e.getY() - 32));
             }
-            case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
+            case "Main.Arrow" -> Repository.getInstance().setStatus("Main.Arrow is being drawn");
         }
     }
 }

@@ -1,9 +1,9 @@
 
 import javax.swing.*;
 
-public class StudentMenuBar extends JMenuBar {
+public class HomeMenu extends JMenuBar {
 
-    public StudentMenuBar() {
+    public HomeMenu() {
         MainController controller = new MainController();
         JMenuBar menuBar = new JMenuBar();
         JMenuItem home = new JMenuItem("Home");
