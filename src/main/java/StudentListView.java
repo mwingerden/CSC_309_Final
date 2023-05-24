@@ -14,7 +14,6 @@ public class StudentListView extends JPanel implements Observer {
     ButtonGroup problemButtons = new ButtonGroup();
     JPanel problems;
     JPanel panelCenter;
-
     public StudentListView() {
         repository.addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();

@@ -11,13 +11,12 @@ public class MenuBar extends JMenuBar {
         MainController mainController = new MainController();
         JMenuBar menubar = new JMenuBar();
         JMenuItem home = new JMenuItem("Home");
-        JMenuItem Back = new JMenuItem("Back");
         JMenu file = new JMenu("File");
         JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
         JMenuItem newItem = new JMenuItem("New");
-        JMenuItem save = new JMenuItem("Save");
-        JMenuItem load = new JMenuItem("Load");
+        JMenuItem save = new JMenuItem("Main.Save");
+        JMenuItem load = new JMenuItem("Main.Load");
         JMenuItem about = new JMenuItem("About");
         JMenuItem ifElse = new JMenuItem("If/Else");
         JMenuItem command = new JMenuItem("Instruct");
@@ -26,9 +25,8 @@ public class MenuBar extends JMenuBar {
         JMenuItem method = new JMenuItem("Method");
         JMenuItem io = new JMenuItem("I/O");
         JMenuItem var = new JMenuItem("Variable");
-        JMenuItem arrow = new JMenuItem("Arrow");
+        JMenuItem arrow = new JMenuItem("Main.Arrow");
         home.addActionListener(mainController);
-        Back.addActionListener(mainController);
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
         load.addActionListener(mainController);
@@ -56,7 +54,6 @@ public class MenuBar extends JMenuBar {
         menubar.add(help);
         menubar.add(shape);
         menubar.add(home);
-        menubar.add(Back);
         add(menubar);
     }
 }
