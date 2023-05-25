@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 /**
- * The Main.Repository class holds all the needed information of other classes.
+ * The Repository class holds all the needed information of other classes.
  *
  * @author  Nathon Ho
  * @author  Matthew Wingerden
@@ -268,7 +268,7 @@ public class Repository extends Observable {
         }
     }
     /**
-     * addArrow method used by the Main.MainController to add arrows between blocks.
+     * addArrow method used by the MainController to add arrows between blocks.
      * @param x1, arrow's first x coordinate
      * @param y1, arrow's first y coordinate
      * @param x2, arrow's second x coordinate

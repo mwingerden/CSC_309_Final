@@ -77,8 +77,8 @@ public class Arrow implements Draw {
      */
     ArrayList<Block> getCodeBlocks(){
         ArrayList<Block> codeBlocks =  new ArrayList<>();
-        codeBlocks.add(block2);
         codeBlocks.add(block1);
+        codeBlocks.add(block2);
         return codeBlocks;
     }
 }

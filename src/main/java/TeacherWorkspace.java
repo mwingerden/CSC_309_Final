@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 /**
- * Main.TeacherWorkspace class where all the blocks will be displayed on by the user's inputs.
+ * TeacherWorkspace class where all the blocks will be displayed on by the user's inputs.
  *
  * @author  Nathon Ho
  * @author  Matthew Wingerden
@@ -16,7 +16,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
     Repository repository;
 
     /**
-     * The Main.TeacherWorkspace method sets up the layout of the panel.
+     * The TeacherWorkspace method sets up the layout of the panel.
      */
     public TeacherWorkspace() {
         repository = Repository.getInstance();

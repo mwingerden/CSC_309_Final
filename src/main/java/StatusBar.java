@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Main.StatusBar class that shows the user what action is being performed at the bottom of the window.
+ * StatusBar class that shows the user what action is being performed at the bottom of the window.
  */
 public class StatusBar extends JPanel implements Observer {
     JTextField statusBar;

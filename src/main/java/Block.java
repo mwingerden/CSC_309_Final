@@ -1,7 +1,9 @@
 
 import java.awt.*;
+import java.util.Objects;
+
 /**
- * The abstract Main.Block class represents the different blocks that the user can pick from the menu.
+ * The abstract Block class represents the different blocks that the user can pick from the menu.
  */
 public abstract class Block implements Draw
 {
@@ -118,5 +120,45 @@ public abstract class Block implements Draw
     }
     public String getText(){
         return this.text;
+    }
+
+    public int getArrowInLimit() {
+        return arrowInLimit;
+    }
+
+    public void setArrowInLimit(int arrowInLimit) {
+        this.arrowInLimit = arrowInLimit;
+    }
+
+    public int getArrowOutLimit() {
+        return arrowOutLimit;
+    }
+
+    public void setArrowOutLimit(int arrowOutLimit) {
+        this.arrowOutLimit = arrowOutLimit;
+    }
+
+    public int getArrowInCount() {
+        return arrowInCount;
+    }
+
+    public void setArrowInCount(int arrowInCount) {
+        this.arrowInCount = arrowInCount;
+    }
+
+    public int getArrowOutCount() {
+        return arrowOutCount;
+    }
+
+    public void setArrowOutCount(int arrowOutCount) {
+        this.arrowOutCount = arrowOutCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Block block = (Block) o;
+        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount && arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) && Objects.equals(text, block.text);
     }
 }

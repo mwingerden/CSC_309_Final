@@ -2,21 +2,23 @@
 import javax.swing.*;
 
 /**
- * The Main.MenuBar class where the user will use menu items to interact with the application.
+ * The MenuBar class where the user will use menu items to interact with the application.
  */
 public class WorkspaceMenuBar extends JMenuBar {
     /**
-     * Main.MenuBar constructor sets up all the needed menu for the user.
+     * MenuBar constructor sets up all the needed menu for the user.
      */
-    public WorkspaceMenuBar(){
+    public WorkspaceMenuBar() {
         MainController mainController = new MainController();
-        JMenuBar menubar = new JMenuBar();
-        JMenu file = new JMenu("File");
-        JMenu help = new JMenu("Help");
+        JMenuBar menuBar = new JMenuBar();
+        JMenuItem home = new JMenuItem("Home");
+        JMenu file = new JMenu("Settings");
+//        JMenu help = new JMenu("Help");
         JMenu shape = new JMenu("Shape");
-        JMenuItem newItem = new JMenuItem("New");
-        JMenuItem save = new JMenuItem("Main.Save");
-        JMenuItem about = new JMenuItem("About");
+        JMenuItem newItem = new JMenuItem("Clear");
+        JMenuItem save = new JMenuItem("Save");
+//        JMenuItem load = new JMenuItem("Load");
+//        JMenuItem about = new JMenuItem("About");
         JMenuItem ifElse = new JMenuItem("If/Else");
         JMenuItem command = new JMenuItem("Instruct");
         JMenuItem start = new JMenuItem("Start");
@@ -24,9 +26,11 @@ public class WorkspaceMenuBar extends JMenuBar {
         JMenuItem method = new JMenuItem("Method");
         JMenuItem io = new JMenuItem("I/O");
         JMenuItem var = new JMenuItem("Variable");
-        JMenuItem arrow = new JMenuItem("Main.Arrow");
+        JMenuItem arrow = new JMenuItem("Arrow");
+        home.addActionListener(mainController);
         newItem.addActionListener(mainController);
         save.addActionListener(mainController);
+//        load.addActionListener(mainController);
         ifElse.addActionListener(mainController);
         command.addActionListener(mainController);
         start.addActionListener(mainController);
@@ -37,7 +41,8 @@ public class WorkspaceMenuBar extends JMenuBar {
         arrow.addActionListener(mainController);
         file.add(newItem);
         file.add(save);
-        help.add(about);
+//        file.add(load);
+//        help.add(about);
         shape.add(start);
         shape.add(end);
         shape.add(ifElse);
@@ -46,9 +51,10 @@ public class WorkspaceMenuBar extends JMenuBar {
         shape.add(io);
         shape.add(var);
         shape.add(arrow);
-        menubar.add(file);
-        menubar.add(help);
-        menubar.add(shape);
-        add(menubar);
+        menuBar.add(file);
+//        menuBar.add(help);
+        menuBar.add(shape);
+        menuBar.add(home);
+        add(menuBar);
     }
 }

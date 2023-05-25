@@ -1,12 +1,12 @@
 
 import java.awt.*;
 /**
- * The Main.EndBlock class representing the final block in the work space.
+ * The EndBlock class representing the final block in the work space.
  */
 public class EndBlock extends Block
 {
     /**
-     * Main.EndBlock constructor receiving needed parameters.
+     * EndBlock constructor receiving needed parameters.
      * @param x
      * @param y
      * @param c
@@ -16,7 +16,7 @@ public class EndBlock extends Block
         super(x, y, x+80, y+80, c,2,0);
     }
     /**
-     * A draw method to represent a black colored Main.EndBlock
+     * A draw method to represent a black colored EndBlock
      * @param g
      */
     @Override

@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * The Main.MainController class handles the actions made by the user.
+ * The MainController class handles the actions made by the user.
  */
 public class MainController implements MouseMotionListener, ActionListener, MouseListener {
     int startDragx;
@@ -15,7 +15,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     int endDragy;
 
     private final List<String> drawingOptions = Arrays.asList("If/Else","Instruct","Start","End","I/O",
-            "Method","Variable","Main.Arrow");
+            "Method","Variable","Arrow");
     /**
      * actionPerformed class takes the user inputs and uses the repository to set/get blocks.
      * @param e the event to be processed
@@ -27,9 +27,9 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         }
         switch (e.getActionCommand()) {
             //TODO: The button press or other such actions are most likely be placed here.
-            case "Teacher" -> Repository.getInstance().updatePanel("Main.TeacherListView");
-            case "Student" -> Repository.getInstance().updatePanel("Main.StudentListView");
-            case "Home" -> Repository.getInstance().updatePanel("Main.StartUp");
+            case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
+            case "Student" -> Repository.getInstance().updatePanel("StudentListView");
+            case "Home" -> Repository.getInstance().updatePanel("StartUp");
             default -> menuItemClicked(e.getActionCommand());
         }
     }
@@ -50,11 +50,12 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
-            Repository.getInstance().setStatus("Main.Arrow is being drawn");
-        } else {
-            Repository.getInstance().setStatus("Dragging");
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+            Repository.getInstance().setStatus("Arrow is being drawn");
         }
+//        else {
+//            Repository.getInstance().setStatus("Dragging");
+//        }
         startDragx = e.getX();
         startDragy = e.getY();
     }
@@ -62,7 +63,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mouseReleased(MouseEvent e) {
         endDragx = e.getX();
         endDragy = e.getY();
-        if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
         } else {
             Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
@@ -78,7 +79,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mouseDragged(MouseEvent e) {
         endDragx = e.getX();
         endDragy = e.getY();
-        if(!Repository.getInstance().getBlockToDraw().equals("Main.Arrow")){
+        if(!Repository.getInstance().getBlockToDraw().equals("Arrow")){
             Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
             startDragx = endDragx;
             startDragy = endDragy;
@@ -94,7 +95,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("New diagram");
                 Repository.getInstance().setBlockToDraw("None");
             }
-            case "Main.Save" -> {
+            case "Save" -> {
                 Repository.getInstance().setStatus("Saving diagram");
                 Repository.getInstance().setBlockToDraw("None");
                 try {
@@ -135,7 +136,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Variable declaration block was drawn");
                 Repository.getInstance().addBlock(new VariableDeclarationBlock(e.getX() - 75, e.getY() - 32));
             }
-            case "Main.Arrow" -> Repository.getInstance().setStatus("Main.Arrow is being drawn");
+            case "Arrow" -> Repository.getInstance().setStatus("Arrow is being drawn");
         }
     }
 }

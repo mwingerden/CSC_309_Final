@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 /**
- * The Main.Save class stores the user's saved files
+ * The Save class stores the user's saved files
  */
 public class Save {
 
@@ -80,27 +80,32 @@ public class Save {
         JSONObject jsonObjectDetails = new JSONObject();
         jsonObjectDetails.put("X1", Integer.toString(codeBlock.getX1()));
         jsonObjectDetails.put("Y1", Integer.toString(codeBlock.getY1()));
+        jsonObjectDetails.put("arrowInLimit", Integer.toString(codeBlock.getArrowInLimit()));
+        jsonObjectDetails.put("arrowOutLimit", Integer.toString(codeBlock.getArrowOutLimit()));
+        jsonObjectDetails.put("arrowInCount", Integer.toString(codeBlock.getArrowInCount()));
+        jsonObjectDetails.put("arrowOutCount", Integer.toString(codeBlock.getArrowOutCount()));
+
         jsonObjectDetails.put("Text", codeBlock.getText());
         if (codeBlock instanceof CallMethodBlock) {
-            jsonObjectDetails.put("Name", "Main.CallMethodBlock");
+            jsonObjectDetails.put("Name", "CallMethodBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof ConditionBlock) {
-            jsonObjectDetails.put("Name", "Main.ConditionBlock");
+            jsonObjectDetails.put("Name", "ConditionBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof EndBlock) {
-            jsonObjectDetails.put("Name", "Main.EndBlock");
+            jsonObjectDetails.put("Name", "EndBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof InputOutputBlock) {
-            jsonObjectDetails.put("Name", "Main.InputOutputBlock");
+            jsonObjectDetails.put("Name", "InputOutputBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof InstructionBlock) {
-            jsonObjectDetails.put("Name", "Main.InstructionBlock");
+            jsonObjectDetails.put("Name", "InstructionBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof StartBlock) {
-            jsonObjectDetails.put("Name", "Main.StartBlock");
+            jsonObjectDetails.put("Name", "StartBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         } else if (codeBlock instanceof VariableDeclarationBlock) {
-            jsonObjectDetails.put("Name", "Main.VariableDeclarationBlock");
+            jsonObjectDetails.put("Name", "VariableDeclarationBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);
         }
         return jsonObject;
@@ -122,7 +127,7 @@ public class Save {
             jsonObjectDetails = storeCodeBlock(codeBlock);
             jsonArray.add(jsonObjectDetails);
         }
-        jsonObject.put("Main.Arrow", jsonArray);
+        jsonObject.put("Arrow", jsonArray);
         return jsonObject;
     }
 }
