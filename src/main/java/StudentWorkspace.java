@@ -32,6 +32,9 @@ public class StudentWorkspace extends JPanel implements Observer {
         setLayout(layout);
         JPanel workspacePanel = new JPanel();
         workspacePanel.setLayout(new BoxLayout(workspacePanel, BoxLayout.Y_AXIS));
+        JButton submit = new JButton("Submit");
+        submit.addActionListener(new MainController());
+        add(submit, BorderLayout.SOUTH);
         workspacePanel.setBackground(Color.PINK);
 
         WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();

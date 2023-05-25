@@ -32,6 +32,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             case "Home" -> Repository.getInstance().updatePanel("StartUp");
             case "Undo" -> Repository.getInstance().UndoList();
             case "Redo" -> Repository.getInstance().RedoList();
+            case "Submit" -> Repository.getInstance().saveStudentSubmission();
             default -> menuItemClicked(e.getActionCommand());
         }
     }

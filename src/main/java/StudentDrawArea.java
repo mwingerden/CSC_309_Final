@@ -28,8 +28,11 @@ public class StudentDrawArea extends JPanel implements Observer {
         setPreferredSize(new Dimension(300, 300));
         addMouseListener(controller);
         addMouseMotionListener(controller);
+        JButton buttonSubmit = new JButton("Submit");
+        buttonSubmit.addActionListener(controller);
         add(new MenuBar(), BorderLayout.NORTH);
         add(new StatusBar(77), BorderLayout.SOUTH);
+        add(buttonSubmit, BorderLayout.EAST);
     }
     /**
      * paintComponent method that allows the different blocks to be drawn on screen by user.

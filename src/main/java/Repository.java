@@ -124,6 +124,14 @@ public class Repository extends Observable {
 
     }
 
+    public void saveStudentSubmission() {
+        try {
+            Save.save(loadedProblem);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     /**
      * A loadList method allowing the user to load a previously saved file.
      */
