@@ -23,6 +23,7 @@ public class Repository extends Observable {
             Collections.emptyList(),
             Collections.emptyList());
     private List<Draw> drawnChart;
+    private final List<Draw> undoDrawings;
 
     private boolean loadSolution = false;
     private String blockToDraw;
@@ -30,12 +31,33 @@ public class Repository extends Observable {
     private Repository() {
         this.blockToDraw = "";
         this.drawnChart = new ArrayList<>();
+        this.undoDrawings = new ArrayList<>();
     }
 
     //TODO: Updates the observers with the new panel info.
     public void updatePanel(String panel) {
         setChanged();
         notifyObservers(panel);
+    }
+
+    public void UndoList() {
+        if(!this.drawnChart.isEmpty()) {
+            Draw temp = this.drawnChart.get(this.drawnChart.size() - 1);
+            undoDrawings.add(temp);
+            this.drawnChart.remove(temp);
+            setChanged();
+            notifyObservers();
+        }
+    }
+
+    public void RedoList() {
+        if(!this.undoDrawings.isEmpty()) {
+            Draw temp = this.undoDrawings.get(this.undoDrawings.size() - 1);
+            drawnChart.add(temp);
+            this.undoDrawings.remove(temp);
+            setChanged();
+            notifyObservers();
+        }
     }
 
     public static Repository getInstance() {
@@ -218,6 +240,7 @@ public class Repository extends Observable {
      * @param block, added block
      */
     public void addBlock(Block block){
+        undoDrawings.clear();
         drawnChart.add(block);
     }
     /**
