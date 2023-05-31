@@ -1,5 +1,10 @@
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -8,8 +13,12 @@ import java.util.Objects;
 public abstract class Block implements Draw
 {
     protected int x, y, x2, y2;
+
     protected Color color;
-    protected String text;
+    protected String blockText = "";
+    private List<String> hintText = new ArrayList<>();
+
+    private int studentHintIndex = 0;
     protected int arrowInLimit;
     protected int arrowOutLimit;
     protected int arrowInCount = 0;
@@ -47,7 +56,7 @@ public abstract class Block implements Draw
                 color=Color.RED; break;
             default: color=Color.WHITE;
         }
-        this.text = null;
+        this.blockText = null;
     }
     /**
      * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
@@ -113,13 +122,84 @@ public abstract class Block implements Draw
     }
     /**
      * Set and get methods for the strings text in the block.
-     * @param text, of the block
+     * @param blockText, of the block
      */
-    public void setText(String text){
-        this.text = text;
+    public void setBlockText(String blockText){
+        this.blockText = blockText;
     }
-    public String getText(){
-        return this.text;
+    public String getBlockText(){
+        return this.blockText;
+    }
+
+    public void resetStudentHintIndex() {
+        this.studentHintIndex = 0;
+    }
+
+    public void studentSideHint() {
+        String currentHint = "No hint for selected block.";
+        if (!this.hintText.isEmpty()) {
+            if (studentHintIndex == this.hintText.size() - 1) {
+                currentHint = String.join("\n", this.hintText);
+            } else {
+                currentHint = String.join("\n", this.hintText.subList(0, studentHintIndex + 1));
+            }
+        }
+        JOptionPane.showMessageDialog(
+                new WorkSpace(),
+                currentHint,
+                "Hints for Clicked Block",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+        if (studentHintIndex < this.hintText.size() - 1) {
+            studentHintIndex++;
+        }
+    }
+
+    public void teacherSideHint() {
+        String currentHint = "No hint for selected block.";
+        if (!this.hintText.isEmpty()) {
+            currentHint = String.join("\n", this.hintText);
+        }
+        int option = JOptionPane.showConfirmDialog(
+                new WorkSpace(),
+                ("Current Hint(s): \n" + currentHint + "\n Change hint(s)?"),
+                "Current Hint(s)",
+                JOptionPane.YES_NO_OPTION
+        );
+        if (option == JOptionPane.YES_OPTION) {
+            JTextArea hintEdit = new JTextArea();
+            hintEdit.setEditable(true);
+            if (!currentHint.equals("No hint for selected block.")) {
+                hintEdit.setText(currentHint);
+            }
+
+            JScrollPane hintScroll = new JScrollPane(hintEdit,
+                    ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+            );
+            hintScroll.setMinimumSize(new Dimension(100, 100));
+            Object[] editOptions = {"Save", "Cancel"};
+
+            option = JOptionPane.showOptionDialog(
+                    null,
+                    hintScroll,
+                    "Edit hints",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    editOptions,
+                    editOptions[1]);
+            if (option == JOptionPane.YES_OPTION) {
+                this.hintText = List.of(hintEdit.getText().split("\n"));
+            }
+        }
+    }
+
+    public void setHintText(List<String> hintText){
+        this.hintText = hintText;
+    }
+    public List<String> getHintText(){
+        return this.hintText;
     }
 
     public int getArrowInLimit() {
@@ -159,6 +239,9 @@ public abstract class Block implements Draw
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount && arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) && Objects.equals(text, block.text);
+        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit
+                && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount &&
+                arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) &&
+                Objects.equals(blockText, block.getBlockText());
     }
 }

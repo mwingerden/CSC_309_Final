@@ -36,8 +36,6 @@ public class TeacherListView extends JPanel {
 
         getTeacherProblemNames();
 
-        //JPanel QA_Hint_Field = new JPanel();
-
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
         HomeMenu menuBar = new HomeMenu();

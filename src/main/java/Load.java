@@ -6,10 +6,7 @@ import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Load class that handles the loading of files and blocks.
@@ -35,7 +32,7 @@ public class Load {
             List<Draw> studentAttempt = parseDrawingArray((JSONArray)
                     ((JSONObject) fileElements.get(2))
                             .get("Student Attempt"));
-            List<String> hints = (List<String>) ((JSONObject) fileElements.get(0)).get("Hints");
+            List<String> hints = (List<String>) ((JSONObject) fileElements.get(3)).get("Hints");
 
             return new Problem(name, description, teacherDrawings, studentAttempt, hints);
 
@@ -101,7 +98,8 @@ public class Load {
                     Integer.parseInt((String) codeBlock.get("Y1")));
         }
         assert drawing != null;
-        drawing.setText((String) codeBlock.get("Text"));
+        drawing.setBlockText((String) codeBlock.get("Text"));
+        getHints(codeBlock.get("Hint"), drawing);
         drawing.setArrowInLimit(Integer.parseInt((String) codeBlock.get("arrowInLimit")));
         drawing.setArrowOutLimit(Integer.parseInt((String) codeBlock.get("arrowOutLimit")));
         drawing.setArrowInCount(Integer.parseInt((String) codeBlock.get("arrowInCount")));
@@ -109,6 +107,19 @@ public class Load {
         blockList.add(drawing);
         return drawing;
     }
+
+    private static void getHints(Object hintsObject, Block drawing) {
+        if (hintsObject.getClass().isArray() || hintsObject instanceof Collection) {
+            List<String> hintList = new ArrayList<>();
+            for (Object object : (List<?>) hintsObject) {
+                if (object instanceof String hint) {
+                    hintList.add(hint);
+                }
+            }
+            drawing.setHintText(hintList);
+        }
+    }
+
     /**
      * loadArrow method adds the arrow between blocks and returns needed arrow for each.
      * @param arrow, loaded arrow
