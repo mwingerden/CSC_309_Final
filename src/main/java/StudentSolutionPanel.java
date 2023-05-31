@@ -18,6 +18,10 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private JButton hintButton;
 
+    private JComboBox progressMenu;
+
+    private JLabel problemTitle;
+
     public StudentSolutionPanel() {
         Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -37,11 +41,15 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         problemInfoPanel.setLayout(problemInfoLayout);
 
         // Problem Title
-        JLabel problemTitle = new JLabel(Repository.getInstance()
+         this.problemTitle = new JLabel(Repository.getInstance()
                 .getLoadedProblem()
                 .getProblemName(), SwingConstants.LEFT);
         problemTitle.setFont(new Font("Serif", Font.BOLD, 24));
         problemTitle.setVerticalAlignment(SwingConstants.TOP);
+
+        //Problem Progress
+        String[] progress = {"Complete","In Progress" ,"Incomplete" };
+        this.progressMenu = new JComboBox(progress);
 
         // Problem Description
         JTextArea problemDescription = new JTextArea(Repository.getInstance()
@@ -61,9 +69,10 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
         this.hintButton = new JButton("Get Hint");
         hintButton.addActionListener(this::updateHints);
+        progressMenu.addActionListener(this::updateProgress);
 
-
-        problemInfoPanel.add(problemTitle);
+        problemInfoPanel.add(this.problemTitle);
+        problemInfoPanel.add(this.progressMenu);
         problemInfoPanel.add(problemDescription);
         problemInfoPanel.add(this.problemHintArea);
         problemInfoPanel.add(hintButton);
@@ -84,6 +93,22 @@ public class StudentSolutionPanel extends JPanel implements Observer {
             }
         }
         this.problemInfoPanel.repaint();
+    }
+
+    private void updateProgress(ActionEvent e)
+    {
+       if(this.progressMenu.getSelectedItem().toString().equals("Incomplete"))
+       {
+           this.problemTitle.setForeground(Color.RED);
+       }
+       else if(this.progressMenu.getSelectedItem().toString().equals("In Progress"))
+       {
+           this.problemTitle.setForeground(Color.YELLOW);
+       }
+       else if(this.progressMenu.getSelectedItem().toString().equals("Complete"))
+       {
+           this.problemTitle.setForeground(Color.GREEN);
+       }
     }
 
     @Override

@@ -4,7 +4,7 @@ import javax.swing.*;
 public class StartUp extends JPanel {
     public StartUp() {
         MainController controller = new MainController();
-        JLabel jLabel1 = new JLabel("Are you ");
+        JLabel jLabel1 = new JLabel("Are you a");
         JButton teacher = new JButton("Teacher");
         teacher.addActionListener(controller);
         JLabel jLabel2 = new JLabel(" or ");

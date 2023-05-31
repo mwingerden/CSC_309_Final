@@ -42,5 +42,13 @@ public class BlockTest
     public void testCheckArrows2()
     {
         Block b1 = new VariableDeclarationBlock(22,22);
+        Block b2 = new InstructionBlock(50,10);
+
+        //check arrows for block 1
+        assertEquals(2, b1.arrowInLimit);
+        assertEquals(1, b1.arrowOutLimit);
+        // check for block 2
+        assertEquals(2, b2.arrowInLimit);
+        assertEquals(1, b2.arrowOutLimit);
     }
 }
