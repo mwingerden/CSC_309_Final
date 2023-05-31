@@ -74,6 +74,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     @Override
     public void mouseDragged(MouseEvent e) {
+        Repository.getInstance().setStatus("Dragging");
         endDragx = e.getX();
         endDragy = e.getY();
         if(!Repository.getInstance().getBlockToDraw().equals("Main.Arrow")){
