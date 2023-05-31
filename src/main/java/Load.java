@@ -6,10 +6,7 @@ import org.json.simple.parser.ParseException;
 import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Load class that handles the loading of files and blocks.
@@ -101,7 +98,8 @@ public class Load {
                     Integer.parseInt((String) codeBlock.get("Y1")));
         }
         assert drawing != null;
-        drawing.setText((String) codeBlock.get("Text"));
+        drawing.setBlockText((String) codeBlock.get("Text"));
+        getHints(codeBlock.get("Hint"), drawing);
         drawing.setArrowInLimit(Integer.parseInt((String) codeBlock.get("arrowInLimit")));
         drawing.setArrowOutLimit(Integer.parseInt((String) codeBlock.get("arrowOutLimit")));
         drawing.setArrowInCount(Integer.parseInt((String) codeBlock.get("arrowInCount")));

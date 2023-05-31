@@ -46,7 +46,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isRightMouseButton(e) && e.isControlDown())) {
             Repository.getInstance().blockText(e, e.getX(), e.getY());
         } else if (e.isShiftDown()) {
-            Repository.getInstance().deleteBlock(e.getX(), e.getY());
+            //Repository.getInstance().deleteBlock(e.getX(), e.getY());
         } else {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 change_status(e);

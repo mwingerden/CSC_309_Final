@@ -239,6 +239,9 @@ public abstract class Block implements Draw
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount && arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) && Objects.equals(text, block.text);
+        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit
+                && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount &&
+                arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) &&
+                Objects.equals(blockText, block.getBlockText());
     }
 }
