@@ -1,10 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class StudentSolutionPanel extends JPanel implements Observer {
 
@@ -53,11 +51,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         this.problemHintArea = new JTextArea("Click button below for hint.");
         this.problemHintArea.setEditable(false);
 
-        // TODO: Replace with pulling hints from file.
-        this.hintList = new ArrayList<>();
-        this.hintList.add("Example Hint 1");
-        this.hintList.add("Another Example Hint");
-        this.hintList.add("And This Is Example Hint 3.");
+        this.hintList = Repository.getInstance().getLoadedProblem().getHints();
 
         this.hintButton = new JButton("Get Hint");
         hintButton.addActionListener(this::updateHints);
@@ -72,15 +66,19 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     }
 
     private void updateHints(ActionEvent e) {
+        if (Objects.isNull(this.hintList)) {
+            return;
+        }
         if (this.problemHintArea.getText().equals("Click button below for hint.")) {
             this.problemHintArea.setText(this.hintList.get(0)+"\n");
             this.hintIndex++;
         } else {
-            this.problemHintArea.append(this.hintList.get(this.hintIndex)+"\n");
-            this.hintIndex++;
-            if (hintIndex == 3) {
+            if (hintIndex == hintList.size()) {
                 this.hintButton.setText("No More Hints Available.");
                 this.hintButton.setEnabled(false);
+            } else {
+                this.problemHintArea.append(this.hintList.get(this.hintIndex) + "\n");
+                this.hintIndex++;
             }
         }
         this.problemInfoPanel.repaint();
@@ -88,7 +86,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (arg != null && ((String) arg).equals("StudentSolutionPanel")) {
+        if (!Objects.isNull(arg) && ((String) arg).equals("StudentSolutionPanel")) {
             this.remove(problemInfoPanel);
             this.hintIndex = 0;
             this.setupProblemInfoPanel();

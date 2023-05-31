@@ -1,5 +1,6 @@
 
 import javax.swing.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -221,7 +222,8 @@ public class Repository extends Observable {
      */
     private void dragging(Block block, Block newBlock) {
         List<Draw> tempList = new ArrayList<>(drawnChart);
-        newBlock.setText(block.getText());
+        newBlock.setBlockText(block.getBlockText());
+        newBlock.setHintText((block.getHintText()));
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
                 if (arrow.getBlock1().equals(block)) {
@@ -236,6 +238,18 @@ public class Repository extends Observable {
         drawnChart.remove(block);
         drawnChart.add(newBlock);
     }
+
+    public void deleteBlock(int x, int y) {
+        for (Draw drawing : drawnChart) {
+            if (drawing instanceof Block block && block.contains(x, y)) {
+                drawnChart.remove(drawing);
+                setChanged();
+                notifyObservers();
+                break;
+            }
+        }
+    }
+
     /**
      * setter that helps decide what block is drawn.
      * @param blockToDraw, what block is needed
@@ -249,18 +263,34 @@ public class Repository extends Observable {
      */
     public void addBlock(Block block){
         undoDrawings.clear();
+        if (!(block instanceof StartBlock) && !(block instanceof EndBlock)){
+            newBlockText(block);
+        }
         drawnChart.add(block);
     }
     /**
-     * A method that clears all the blocks on the work space.
+     * A method that clears all the blocks on the work space. Clears hint index for each solution block if
+     * called by student.
      */
     public void clearBlocks(){
         if (!drawnChart.isEmpty()){
+            if (!this.loadSolution) {
+                clearSolutionBlockHintIndex();
+            }
             drawnChart.clear();
             setChanged();
             notifyObservers("Clear Description");
         }
     }
+
+    private void clearSolutionBlockHintIndex() {
+        for (Draw drawing : this.loadedProblem.getTeacherSolution()) {
+            if (drawing instanceof Block block) {
+                block.resetStudentHintIndex();
+            }
+        }
+    }
+
     /**
      * Setter method used to change the status bar text status.
      * @param status, text to be displayed
@@ -275,10 +305,16 @@ public class Repository extends Observable {
      * @param x, block's x coordinate
      * @param y, block's y coordinate
      */
-    public void addText(int x, int y) {
+    public void blockText(MouseEvent e, int x, int y) {
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x, y)) {
-                if (!(drawing instanceof StartBlock || drawing instanceof EndBlock)) {
+                if (e.isControlDown()) {
+                    if (this.loadSolution) {
+                        block.teacherSideHint();
+                    } else {
+                        findCorrespondingTeacherBlock(block);
+                    }
+                } else if (!(block instanceof StartBlock || block instanceof EndBlock)) {
                     String text = (String) JOptionPane.showInputDialog(
                             new WorkSpace(),
                             "Name:",
@@ -289,15 +325,66 @@ public class Repository extends Observable {
                             ""
                     );
                     if (text != null) {
-                        ((Block) drawing).setText(text);
+                        block.setBlockText(text);
                         setChanged();
                         notifyObservers("Created Text");
                     }
-                    return;
                 }
             }
         }
     }
+
+    private void findCorrespondingTeacherBlock(Block studentBlock) {
+        boolean foundTeacherBlock = false;
+        for (Draw drawing: this.loadedProblem.getTeacherSolution()) {
+            if (drawing instanceof Block teacherBlock) {
+                if ((teacherBlock instanceof StartBlock && studentBlock instanceof StartBlock) ||
+                (teacherBlock instanceof EndBlock && studentBlock instanceof EndBlock)) {
+                    teacherBlock.studentSideHint();
+                    foundTeacherBlock = true;
+                    break;
+                } else if (!(teacherBlock instanceof StartBlock || teacherBlock instanceof EndBlock) &&
+                        (teacherBlock.getBlockText().equals(studentBlock.getBlockText()))) {
+                    teacherBlock.studentSideHint();
+                    foundTeacherBlock = true;
+                    break;
+                }
+            }
+        }
+        if (!foundTeacherBlock) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "ERROR: Could not locate corresponding teacher block. Check the text assigned to the " +
+                            "block you are attempting to get a hint for matches the prompt exactly."
+            );
+        }
+    }
+
+    private void newBlockText(Block newBlock) {
+        String text = (String) JOptionPane.showInputDialog(
+                new WorkSpace(),
+                "Name:",
+                "Enter Name",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                ""
+        );
+        if (text != null) {
+            newBlock.setBlockText(text);
+            setChanged();
+            notifyObservers("Created Text");
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "ERROR: Must input text block represents.",
+                    "No Input Found",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            newBlockText(newBlock);
+        }
+    }
+
     /**
      * addArrow method used by the MainController to add arrows between blocks.
      * @param x1, arrow's first x coordinate
