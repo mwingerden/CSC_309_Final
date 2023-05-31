@@ -24,8 +24,8 @@ public class CallMethodBlock extends Block{
         g.drawRect(x, y, x2-x, y2-y);
         g.drawLine(x+10, y, x+10, y2);
         g.drawLine(x2-10, y, x2-10, y2);
-        if(this.text != null) {
-            g.drawString(this.text, x+20, getCenterY()+10);
+        if(this.blockText != null) {
+            g.drawString(this.blockText, x+20, getCenterY()+10);
         }
     }
     /**

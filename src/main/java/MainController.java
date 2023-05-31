@@ -40,8 +40,10 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isRightMouseButton(e)) {
-            Repository.getInstance().addText(e.getX(), e.getY());
+        if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isRightMouseButton(e) && e.isControlDown())) {
+            Repository.getInstance().blockText(e, e.getX(), e.getY());
+        } else if (e.isShiftDown()) {
+            Repository.getInstance().deleteBlock(e.getX(), e.getY());
         } else {
             if (e.getButton() == MouseEvent.BUTTON1) {
                 change_status(e);
@@ -52,8 +54,6 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mousePressed(MouseEvent e) {
         if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
             Repository.getInstance().setStatus("Main.Arrow is being drawn");
-        } else {
-            Repository.getInstance().setStatus("Dragging");
         }
         startDragx = e.getX();
         startDragy = e.getY();
@@ -64,8 +64,6 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         endDragy = e.getY();
         if (Repository.getInstance().getBlockToDraw().equals("Main.Arrow")) {
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
-        } else {
-            Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
         }
     }
     @Override

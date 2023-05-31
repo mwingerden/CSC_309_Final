@@ -80,7 +80,8 @@ public class Save {
         JSONObject jsonObjectDetails = new JSONObject();
         jsonObjectDetails.put("X1", Integer.toString(codeBlock.getX1()));
         jsonObjectDetails.put("Y1", Integer.toString(codeBlock.getY1()));
-        jsonObjectDetails.put("Text", codeBlock.getText());
+        jsonObjectDetails.put("Text", codeBlock.getBlockText());
+        jsonObjectDetails.put("Hint", codeBlock.getHintText());
         if (codeBlock instanceof CallMethodBlock) {
             jsonObjectDetails.put("Name", "Main.CallMethodBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);

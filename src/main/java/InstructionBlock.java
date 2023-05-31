@@ -13,8 +13,8 @@ public class InstructionBlock extends Block {
         g.fillRect(x, y, x2-x, y2-y);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, x2-x, y2-y);
-        if(this.text != null) {
-            g.drawString(this.text, getCenterX()-10, getCenterY()+10);
+        if(this.blockText != null) {
+            g.drawString(this.blockText, getCenterX()-10, getCenterY()+10);
         }
     }
     /**
