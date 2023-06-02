@@ -12,6 +12,10 @@ public class Problem {
 
     private List<String> hints;
 
+    private String progress;
+
+    private String feedback;
+
     /**
      * Creates Problem object based off of loaded file.
      * @param problemName Name of the problem
@@ -30,6 +34,22 @@ public class Problem {
         this.teacherSolution = teacherSolution;
         this.studentAttempt = studentAttempt;
         this.hints = hints;
+        progress = "";
+        feedback = "";
+    }
+
+    public void setProgress(String s){
+        progress = s;
+    }
+    public String getProgress(){
+        return progress;
+    }
+
+    public  void setFeedback(String s){
+        feedback = s;
+    }
+    public String getFeedback(){
+        return feedback;
     }
 
     public String getProblemName() {

@@ -85,6 +85,10 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         add(problemInfoPanel, BorderLayout.WEST);
     }
 
+    public void setFeedback(){
+
+    }
+
     private void updateHints(ActionEvent e) {
         if (Objects.isNull(this.hintList)) {
             return;
@@ -103,6 +107,19 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         }
         this.problemInfoPanel.repaint();
     }
+
+    public void updateProgresstext(String s){
+        if (s.equals("complete")) {
+            this.progressMenu.setSelectedIndex(0);
+        }
+        else if (s.equals("in progress")){
+            this.progressMenu.setSelectedIndex(1);
+        }
+        else{
+            this.progressMenu.setSelectedIndex(2);
+        }
+    }
+
 
     private void updateProgress(ActionEvent e)
     {
@@ -123,9 +140,13 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (!Objects.isNull(arg) && ((String) arg).equals("StudentSolutionPanel")) {
+
             this.remove(problemInfoPanel);
             this.hintIndex = 0;
             this.setupProblemInfoPanel();
         }
+        Problem p = Repository.getInstance().getLoadedProblem();
+        updateProgresstext(p.getProgress());
+        this.feedback.setText(p.getFeedback());
     }
 }

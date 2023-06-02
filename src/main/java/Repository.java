@@ -1,10 +1,12 @@
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.List;
 
 /**
  * The Repository class holds all the needed information of other classes.
@@ -46,6 +48,10 @@ public class Repository extends Observable {
             Draw temp = this.drawnChart.get(this.drawnChart.size() - 1);
             undoDrawings.add(temp);
             this.drawnChart.remove(temp);
+            if (temp instanceof Arrow){
+                ((Arrow) temp).block1.removeOutArrow((Arrow)temp);
+                ((Arrow) temp).block2.removeInArrow((Arrow)temp);
+            }
             setChanged();
             notifyObservers();
         }
@@ -128,6 +134,51 @@ public class Repository extends Observable {
     public void saveStudentSubmission() {
         try {
             Save.save(loadedProblem);
+            for (Draw d : loadedProblem.getStudentAttempt()){
+                if (d instanceof Block && !(d instanceof EndBlock)){
+                    ((Block) d).setColor(Color.WHITE);
+                }
+            }
+            ProblemChecker pc = new ProblemChecker(loadedProblem);
+            Draw diffDraw = pc.CheckProblem();
+
+            if (diffDraw instanceof EndBlock){
+                //case that the graphs are the same;
+
+                loadedProblem.setProgress("complete");
+                loadedProblem.setFeedback("Correct!");
+
+            }
+
+            if (diffDraw instanceof Block){
+                if (loadedProblem.getTeacherSolution().contains((Block)diffDraw)){
+                    //case, student graph is missing a block
+                    loadedProblem.setProgress("in progress");
+                    loadedProblem.setFeedback("You are Missing a Block or a Block has incorrect information");
+
+                }
+                else if (loadedProblem.getStudentAttempt().contains((Block)diffDraw)){
+                    //case, student contains extra blocks
+                    for (Draw d : loadedProblem.getStudentAttempt()){
+                        if (d instanceof Block && !(d instanceof EndBlock)){
+                            if (d.equals(diffDraw)){
+                                ((Block) d).setColor(Color.RED);
+                                System.out.print(" bruhhh");
+                                System.out.println(d);
+                            }
+
+                        }
+                    }
+
+
+                    loadedProblem.setProgress("in progress");
+                    loadedProblem.setFeedback("You have an extra block or a block has incorrect information");
+                }
+            }
+            else{
+            }
+            setChanged();
+            notifyObservers();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -224,6 +275,8 @@ public class Repository extends Observable {
         List<Draw> tempList = new ArrayList<>(drawnChart);
         newBlock.setBlockText(block.getBlockText());
         newBlock.setHintText((block.getHintText()));
+        newBlock.setArrowInCount(block.getArrowInCount());
+        newBlock.setArrowOutCount(block.getArrowOutCount());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
                 if (arrow.getBlock1().equals(block)) {
@@ -398,6 +451,7 @@ public class Repository extends Observable {
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x1, y1) && !(drawing instanceof EndBlock)){
                 b1 = blockOneArrow(drawing, x1, y1);
+
             }
             if (drawing instanceof Block block && block.contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
@@ -405,7 +459,10 @@ public class Repository extends Observable {
         }
         if(b1 != null && b2 != null && b1 != b2){
             if(b1.checkOutGoing() && b2.checkInGoing()) {
-                drawnChart.add(new Arrow(b1,b2));
+                Arrow a = new Arrow(b1, b2);
+                b1.addOutArrow(a);
+                b2.addInArrow(a);
+                drawnChart.add(a);
             }
         }
         setChanged();

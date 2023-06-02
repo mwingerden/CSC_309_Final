@@ -62,6 +62,14 @@ public abstract class Block implements Draw
         }
         this.blockText = null;
     }
+
+    public void setColor(Color c){
+        color = c;
+    }
+    public Color getColor(){
+        return color;
+    }
+
     /**
      * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
      * @return false
