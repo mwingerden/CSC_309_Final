@@ -176,6 +176,8 @@ public class Repository extends Observable {
                 }
             }
             else{
+                loadedProblem.setProgress("in progress");
+                loadedProblem.setFeedback("Your Blocks are correct, but not your arrows.");
             }
             setChanged();
             notifyObservers();
