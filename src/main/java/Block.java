@@ -23,6 +23,8 @@ public abstract class Block implements Draw
     protected int arrowOutLimit;
     protected int arrowInCount = 0;
     protected int arrowOutCount = 0;
+    protected ArrayList<Arrow> inArrows;
+    protected ArrayList<Arrow> outArrows;
     /**
      * These are the abstract methods that all the blocks will implement.
      * @param g
@@ -48,6 +50,8 @@ public abstract class Block implements Draw
         this.y2=y2;
         this.arrowInLimit = arrowInLimit;
         this.arrowOutLimit = arrowOutLimit;
+        this.inArrows = new ArrayList<>();
+        this.outArrows = new ArrayList<>();
         switch (c) {
             case ("Black"):
                 color = Color.BLACK;
@@ -234,14 +238,38 @@ public abstract class Block implements Draw
         this.arrowOutCount = arrowOutCount;
     }
 
+    public void addInArrow(Arrow a){
+        this.inArrows.add(a);
+    }
+    public void addOutArrow(Arrow a){
+        this.outArrows.add(a);
+    }
+
+    public void removeInArrow(Arrow a){
+        this.inArrows.remove(a);
+        this.arrowInCount-=1;
+    }
+    public void removeOutArrow(Arrow a){
+        this.outArrows.remove(a);
+        this.arrowOutLimit -=1;
+    }
+    public ArrayList<Arrow> getOutArrows(){
+        return this.outArrows;
+
+    }
+    public ArrayList<Arrow> getInArrows(){
+        return this.inArrows;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit
+        return arrowInLimit == block.arrowInLimit
                 && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount &&
                 arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) &&
                 Objects.equals(blockText, block.getBlockText());
+
     }
 }

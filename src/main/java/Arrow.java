@@ -2,6 +2,8 @@
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Objects;
+
 /**
  * This class is responsible for representing and drawing the arrow between two blocks.
  */
@@ -81,4 +83,12 @@ public class Arrow implements Draw {
         codeBlocks.add(block2);
         return codeBlocks;
     }
+
+    public boolean equals(Object o){
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Arrow arrow = (Arrow) o;
+        return  this.block1.equals(arrow.getBlock1()) && block2.equals(arrow.getBlock2());
+    }
+
 }
