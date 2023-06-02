@@ -163,8 +163,6 @@ public class Repository extends Observable {
                         if (d instanceof Block && !(d instanceof EndBlock)){
                             if (d.equals(diffDraw)){
                                 ((Block) d).setColor(Color.RED);
-                                System.out.print(" bruhhh");
-                                System.out.println(d);
                             }
 
                         }
