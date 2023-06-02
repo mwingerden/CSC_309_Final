@@ -20,6 +20,8 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private JLabel problemTitle;
 
+    private JTextArea feedback;
+
     public StudentSolutionPanel() {
         Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -55,9 +57,17 @@ public class StudentSolutionPanel extends JPanel implements Observer {
                 .getProblemDescription());
         problemDescription.setEditable(false);
 
+
+        //feedback
+        this.feedback = new JTextArea("feedback");
+
+
         // Hints
         this.problemHintArea = new JTextArea("Click button below for hint.");
         this.problemHintArea.setEditable(false);
+
+        //feedback
+        this.feedback = new JTextArea("feedback");
 
         this.hintList = Repository.getInstance().getLoadedProblem().getHints();
 
@@ -70,6 +80,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         problemInfoPanel.add(problemDescription);
         problemInfoPanel.add(this.problemHintArea);
         problemInfoPanel.add(hintButton);
+        problemInfoPanel.add(feedback);
 
         add(problemInfoPanel, BorderLayout.WEST);
     }
