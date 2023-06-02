@@ -20,6 +20,8 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private JLabel problemTitle;
 
+    private JTextArea feedback;
+
     public StudentSolutionPanel() {
         Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -55,9 +57,17 @@ public class StudentSolutionPanel extends JPanel implements Observer {
                 .getProblemDescription());
         problemDescription.setEditable(false);
 
+
+        //feedback
+        this.feedback = new JTextArea("feedback");
+
+
         // Hints
         this.problemHintArea = new JTextArea("Click button below for hint.");
         this.problemHintArea.setEditable(false);
+
+        //feedback
+        this.feedback = new JTextArea("feedback");
 
         this.hintList = Repository.getInstance().getLoadedProblem().getHints();
 
@@ -70,8 +80,13 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         problemInfoPanel.add(problemDescription);
         problemInfoPanel.add(this.problemHintArea);
         problemInfoPanel.add(hintButton);
+        problemInfoPanel.add(feedback);
 
         add(problemInfoPanel, BorderLayout.WEST);
+    }
+
+    public void setFeedback(){
+
     }
 
     private void updateHints(ActionEvent e) {
@@ -93,6 +108,19 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         this.problemInfoPanel.repaint();
     }
 
+    public void updateProgresstext(String s){
+        if (s.equals("complete")) {
+            this.progressMenu.setSelectedIndex(0);
+        }
+        else if (s.equals("in progress")){
+            this.progressMenu.setSelectedIndex(1);
+        }
+        else{
+            this.progressMenu.setSelectedIndex(2);
+        }
+    }
+
+
     private void updateProgress(ActionEvent e)
     {
        if(this.progressMenu.getSelectedItem().toString().equals("Incomplete"))
@@ -112,9 +140,13 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (!Objects.isNull(arg) && ((String) arg).equals("StudentSolutionPanel")) {
+
             this.remove(problemInfoPanel);
             this.hintIndex = 0;
             this.setupProblemInfoPanel();
         }
+        Problem p = Repository.getInstance().getLoadedProblem();
+        updateProgresstext(p.getProgress());
+        this.feedback.setText(p.getFeedback());
     }
 }
