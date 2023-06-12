@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
+
 /**
  * The VariableDeclarationBlock class represented by a rectangle with two lines.
  */
@@ -36,5 +38,10 @@ public class VariableDeclarationBlock extends Block{
     public int getCenterY() {
         int length = y2 - y;
         return y+ (length/2);
+    }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(new Rectangle(x, y, 150, 75));
     }
 }

@@ -2,6 +2,7 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isRightMouseButton(e) && e.isControlDown())) {
+        if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isRightMouseButton(e) && e.isShiftDown())) {
             Repository.getInstance().blockText(e, e.getX(), e.getY());
         } else if (e.isShiftDown()) {
             //Repository.getInstance().deleteBlock(e.getX(), e.getY());
@@ -55,7 +56,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     @Override
     public void mousePressed(MouseEvent e) {
-        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow") && e.isShiftDown()) {
             Repository.getInstance().setStatus("Arrow is being drawn");
         }
         startDragx = e.getX();
@@ -65,7 +66,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     public void mouseReleased(MouseEvent e) {
         endDragx = e.getX();
         endDragy = e.getY();
-        if (Repository.getInstance().getBlockToDraw().equals("Arrow")) {
+        if (Repository.getInstance().getBlockToDraw().equals("Arrow") && e.isShiftDown()) {
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
         }
     }
@@ -81,7 +82,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         endDragx = e.getX();
         endDragy = e.getY();
         if(!Repository.getInstance().getBlockToDraw().equals("Arrow")){
-            Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
+            try {
+                Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
             startDragx = endDragx;
             startDragy = endDragy;
         }
@@ -100,7 +105,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
                 Repository.getInstance().setStatus("Saving diagram");
                 Repository.getInstance().setBlockToDraw("None");
                 try {
-                    Repository.getInstance().saveList(Repository.getInstance().getLoadedProblem());
+                    Repository.getInstance().saveList(Repository.getInstance().getLoadedProblem(), false);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }

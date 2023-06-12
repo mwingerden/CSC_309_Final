@@ -63,11 +63,14 @@ public class TeacherListView extends JPanel {
         JPanel southPanel = new JPanel();
         JButton newButton = new JButton("New");
         newButton.addActionListener(this::createNewProblem);
+        JButton renameButton = new JButton("Rename");
+        renameButton.addActionListener(this::renameProblem);
         JButton editButton = new JButton("Edit");
         editButton.addActionListener(this::openProblem);
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(this::deleteProblem);
         southPanel.add(newButton);
+        southPanel.add(renameButton);
         southPanel.add(editButton);
         southPanel.add(deleteButton);
 
@@ -79,7 +82,7 @@ public class TeacherListView extends JPanel {
 
     private void createNewProblem(ActionEvent e) {
         try {
-            String name = Repository.getInstance().saveList(null);
+            String name = Repository.getInstance().saveList(null, false);
             if (Objects.isNull(name)) {
                 return;
             }
@@ -94,7 +97,29 @@ public class TeacherListView extends JPanel {
         }
     }
 
-    private void openProblem(ActionEvent e) {
+    private void renameProblem(ActionEvent e) {
+        if (openProblem(e)) {
+            try {
+                Problem selectedProblem = Repository.getInstance().getLoadedProblem();
+                String oldName = selectedProblem.getProblemName();
+                String newName = Repository.getInstance().saveList(selectedProblem, true);
+                if (Objects.isNull(newName)) {
+                    return;
+                }
+                this.teacherProblemNames.set(this.teacherProblemNames.indexOf(oldName), newName);
+                this.remove(this.problemsPanel);
+                this.setupProblemPanel();
+                this.add(this.problemsPanel, BorderLayout.WEST);
+                this.revalidate();
+                this.repaint();
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private boolean openProblem(ActionEvent e) {
         if (e.getActionCommand().equals("New")) {
             this.loadedWorkspace = Repository.getInstance().getLoadedProblem().getProblemName();
             Repository.getInstance().loadList(true, this.loadedWorkspace);
@@ -106,25 +131,35 @@ public class TeacherListView extends JPanel {
             }
             this.workspace = new TeacherWorkspace();
         } else {
-            for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
-                AbstractButton button = buttons.nextElement();
-                if (button.isSelected()) {
-                    this.loadedWorkspace = button.getText();
-                    Repository.getInstance().loadList(true, this.loadedWorkspace);
-                    if (this.problemNotSelected) {
-                        remove(this.selectProblem);
-                        this.problemNotSelected = false;
-                    } else {
-                        this.remove(this.workspace);
-                    }
-                    this.workspace = new TeacherWorkspace();
-                    break;
+            AbstractButton selectedButton = getSelectedButton();
+            if (Objects.isNull(selectedButton)) {
+                return false;
+            } else {
+                this.loadedWorkspace = selectedButton.getText();
+                Repository.getInstance().loadList(true, this.loadedWorkspace);
+                if (this.problemNotSelected) {
+                    remove(this.selectProblem);
+                    this.problemNotSelected = false;
+                } else {
+                    this.remove(this.workspace);
                 }
+                this.workspace = new TeacherWorkspace();
             }
         }
         this.add(this.workspace,BorderLayout.CENTER);
         this.revalidate();
         this.repaint();
+        return true;
+    }
+
+    private AbstractButton getSelectedButton() {
+        for (Enumeration<AbstractButton> buttons = this.problemButtons.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                return button;
+            }
+        }
+        return null;
     }
 
     private void deleteProblem(ActionEvent e) {

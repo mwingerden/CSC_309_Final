@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 /**
  * The Save class stores the user's saved files
@@ -39,10 +41,11 @@ public class Save {
         problemHints.put("Hints", problemToSave.getHints());
         fileElements.add(problemHints);
 
+
+
         try (FileWriter file = new FileWriter("Drawings/" + problemToSave.getProblemName() + ".json")) {
             file.write(fileElements.toJSONString());
             file.flush();
-            file.close();
         } catch (FileNotFoundException e) {
             File newFile = new File("Drawings/" + problemToSave.getProblemName() + ".json");
             FileWriter file = new FileWriter(newFile);
@@ -51,6 +54,19 @@ public class Save {
             file.close();
         } catch (IOException e){
             e.printStackTrace();
+        }
+
+        if (problemToSave.nameChanged()) {
+            File oldFile = new File("Drawings/" + problemToSave.getProblemName() + ".json");
+            Path oldPath = oldFile.toPath();
+            problemToSave.updateName();
+            // Needed as intermediary step for changing capitalization on windows as windows treats lowercase and
+            // uppercase the same
+            Files.move(oldPath, oldPath.resolveSibling("intermediary.json"));
+            File intermediaryFile = new File("Drawings/intermediary.json");
+            Path intermediaryFilePath = intermediaryFile.toPath();
+            Files.move(intermediaryFilePath,
+                    intermediaryFilePath.resolveSibling(problemToSave.getProblemName() + ".json"));
         }
     }
 

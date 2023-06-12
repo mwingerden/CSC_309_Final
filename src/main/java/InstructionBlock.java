@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
+
 /**
  * InstructionBlock represented by a simple rectangle, user can pick this block from menu.
  */
@@ -31,5 +33,10 @@ public class InstructionBlock extends Block {
     public int getCenterY() {
         int length = y2 - y;
         return y+ (length/2);
+    }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(new Rectangle(x, y, 150, 75));
     }
 }

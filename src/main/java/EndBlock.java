@@ -1,5 +1,8 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+
 /**
  * The EndBlock class representing the final block in the work space.
  */
@@ -36,5 +39,10 @@ public class EndBlock extends Block
     @Override
     public int getCenterY() {
         return y+ 40;
+    }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(new Ellipse2D.Double(x, y, 80, 80));
     }
 }

@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
 
 /**
  * InputOutpuBlock class that represents a parallelogram block that can be selected by the user.
@@ -39,6 +40,14 @@ public class InputOutputBlock extends Block{
         }
         return false;
     }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(
+                new Polygon(new int[]{x, x + 100, x + 50, x - 50},
+                        new int[]{y - 30, y - 30, y + 30, y + 30}, 4));
+    }
+
     /**
      * Getter methods that return the centered x and y coordinates.
      * @return x , y

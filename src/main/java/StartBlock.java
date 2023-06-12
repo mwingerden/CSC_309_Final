@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 
 /**
  * The StartBlock class that is represented by a circle, user selects and sets this block on the work space.
@@ -41,6 +43,12 @@ public class StartBlock extends Block
     public int getCenterY() {
         return y+ 40;
     }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(new Ellipse2D.Double(x, y, 80, 80));
+    }
+
     public void increaseNumOut(){
         this.numsOut +=1;
     }

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.List;
@@ -98,8 +99,8 @@ public class Repository extends Observable {
      * A saveList method that allows the user to save the work space if needed.
      * @throws IOException if unable to save file
      */
-    public String saveList(Problem problemToSave) throws IOException {
-        if (Objects.isNull(problemToSave)) {
+    public String saveList(Problem problemToSave, boolean rename) throws IOException {
+        if (Objects.isNull(problemToSave) || rename) {
             String name = (String) JOptionPane.showInputDialog(
                     new WorkSpace(),
                     "Problem Title:",
@@ -110,25 +111,34 @@ public class Repository extends Observable {
                     ""
             );
             if (name != null) {
-                problemToSave = new Problem(name,
-                        "",
-                        Collections.emptyList(),
-                        Collections.emptyList(),
-                        Collections.emptyList());
+                if (Objects.isNull(problemToSave)) {
+                    problemToSave = new Problem(name,
+                            "",
+                            Collections.emptyList(),
+                            Collections.emptyList(),
+                            Collections.emptyList());
+                } else {
+                    problemToSave.setNewProblemName(name);
+                }
             } else {
-                return null;
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Please enter a non-null name for the problem.",
+                        "No Name Entered",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return saveList(problemToSave, rename);
             }
         } else {
             problemToSave.setDrawing(this.loadSolution, this.drawnChart);
         }
-        this.loadedProblem = problemToSave;
-        setChanged();
-        notifyObservers("Saved");
+        if (!rename) {
+            this.loadedProblem = problemToSave;
+            setChanged();
+            notifyObservers("Saved");
+        }
         Save.save(problemToSave);
         return problemToSave.getProblemName();
-//            setChanged();
-//            notifyObservers("save");
-
     }
 
     public void saveStudentSubmission() {
@@ -228,7 +238,7 @@ public class Repository extends Observable {
      * @param newx, the new x coordinate
      * @param newy, the new y coordinate
      */
-    public void drag(int x, int y, int newx, int newy) {
+    public void drag(int x, int y, int newx, int newy) throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Block blockToDrag = null;
         int dragX;
         int dragY;
@@ -237,13 +247,41 @@ public class Repository extends Observable {
                 blockToDrag = (Block) drawing;
             }
         }
-        if (blockToDrag != null) {
-            dragX = newx;
-            dragY = newy;
-            applyDrag(blockToDrag, dragX, dragY);
+        if (blockToDrag != null && !testDragCollision(blockToDrag, newx, newy)) {
+                dragX = newx;
+                dragY = newy;
+                applyDrag(blockToDrag, dragX, dragY);
         }
         setChanged();
         notifyObservers("Dragging");
+    }
+
+    private boolean testDragCollision(Block blockToDrag, int newX, int newY)
+            throws InvocationTargetException, InstantiationException, IllegalAccessException {
+        List<Object> blockArguments = new ArrayList<>();
+        if (blockToDrag instanceof InstructionBlock ||
+                blockToDrag instanceof VariableDeclarationBlock ||
+                blockToDrag instanceof CallMethodBlock) {
+            blockArguments.add(newX - 75);
+            blockArguments.add((newY - 32));
+        } else if (blockToDrag instanceof ConditionBlock) {
+            blockArguments.add(newX - 50);
+            blockArguments.add(newY - 50);
+        } else if (blockToDrag instanceof InputOutputBlock) {
+            blockArguments.add(newX);
+            blockArguments.add(newY);
+        } else if (blockToDrag instanceof StartBlock) {
+            blockArguments.add(newX - 40);
+            blockArguments.add(newY - 40);
+            blockArguments.add("PINK");
+        } else if (blockToDrag instanceof EndBlock) {
+            blockArguments.add(newX - 40);
+            blockArguments.add(newY - 40);
+            blockArguments.add("BLUE");
+        }
+        Block testNewLocationBlock = (Block) blockToDrag.getClass()
+                .getConstructors()[0].newInstance(blockArguments.toArray());
+        return collides(testNewLocationBlock, blockToDrag);
     }
 
     private void applyDrag(Block blockToDrag, int dragX, int dragY) {
@@ -313,11 +351,32 @@ public class Repository extends Observable {
      * @param block, added block
      */
     public void addBlock(Block block){
-        undoDrawings.clear();
-        if (!(block instanceof StartBlock) && !(block instanceof EndBlock)){
-            newBlockText(block);
+        if (!collides(block)) {
+            undoDrawings.clear();
+            if (!(block instanceof StartBlock) && !(block instanceof EndBlock)){
+                newBlockText(block);
+            }
+            drawnChart.add(block);
         }
-        drawnChart.add(block);
+    }
+
+    private boolean collides(Block newBlock) {
+        for (Draw drawing : this.drawnChart) {
+            if (drawing instanceof Block drawnBlock && !drawnBlock.equals(newBlock) && drawnBlock.collides(newBlock)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean collides(Block dragBlock, Block originalBlock) {
+        for (Draw drawing : this.drawnChart) {
+            if (drawing instanceof Block drawnBlock && !drawnBlock.equals(originalBlock) &&
+                    drawnBlock.collides(dragBlock)) {
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * A method that clears all the blocks on the work space. Clears hint index for each solution block if
@@ -359,27 +418,14 @@ public class Repository extends Observable {
     public void blockText(MouseEvent e, int x, int y) {
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x, y)) {
-                if (e.isControlDown()) {
+                if (e.isShiftDown()) {
                     if (this.loadSolution) {
                         block.teacherSideHint();
                     } else {
                         findCorrespondingTeacherBlock(block);
                     }
                 } else if (!(block instanceof StartBlock || block instanceof EndBlock)) {
-                    String text = (String) JOptionPane.showInputDialog(
-                            new WorkSpace(),
-                            "Name:",
-                            "Enter Name",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            null,
-                            ""
-                    );
-                    if (text != null) {
-                        block.setBlockText(text);
-                        setChanged();
-                        notifyObservers("Created Text");
-                    }
+                    newBlockText(block);
                 }
             }
         }
@@ -423,8 +469,18 @@ public class Repository extends Observable {
         );
         if (text != null) {
             newBlock.setBlockText(text);
-            setChanged();
-            notifyObservers("Created Text");
+            if (blockAlreadyNamedInput(newBlock)) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Another block already exists with that same name.",
+                        "ERROR",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                newBlockText(newBlock);
+            } else {
+                setChanged();
+                notifyObservers("Created Text");
+            }
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -434,6 +490,17 @@ public class Repository extends Observable {
             );
             newBlockText(newBlock);
         }
+    }
+
+    private boolean blockAlreadyNamedInput(Block newNamedBlock) {
+        for (Draw drawing : drawnChart) {
+            if (drawing instanceof Block block
+                    && block.getBlockText().equals(newNamedBlock.getBlockText())
+                    && block.getClass().equals(newNamedBlock.getClass())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
