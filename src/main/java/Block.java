@@ -1,6 +1,7 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Area;
 import java.util.Objects;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public abstract class Block implements Draw
      * @param arrowInLimit, limit of arrows going into block
      * @param arrowOutLimit, limit of arrow going out the block
      */
-    public Block(int x, int y, int x2, int y2, String c,int arrowInLimit, int arrowOutLimit)
+    protected Block(int x, int y, int x2, int y2, String c, int arrowInLimit, int arrowOutLimit)
     {
         this.x=x;
         this.y=y;
@@ -102,8 +103,21 @@ public abstract class Block implements Draw
      * @return
      */
     boolean contains(int xcoord, int ycoord){
-        return (xcoord>x && xcoord<x2 && ycoord> y && ycoord<y2);
+        return (xcoord >= x && xcoord <= x2 && ycoord >= y && ycoord <= y2);
     }
+
+    boolean collides (Block otherBlock) {
+        Area thisShapeArea = this.getShapeArea();
+        Area otherShapeArea = otherBlock.getShapeArea();
+        Area collisionOne = new Area(thisShapeArea);
+        Area collisionTwo = new Area(otherShapeArea);
+        collisionOne.subtract(otherShapeArea);
+        collisionTwo.subtract(thisShapeArea);
+        return (!collisionOne.equals(thisShapeArea) || !collisionTwo.equals(otherShapeArea));
+    }
+
+    public abstract Area getShapeArea();
+
     /**
      * * Getter methods for each of the different coordinates.
      * @return the desired coordinate

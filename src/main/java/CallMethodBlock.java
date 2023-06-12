@@ -1,5 +1,7 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
+
 /**
  * The CallMethodBlock class that extends block abstract class.
  */
@@ -10,8 +12,10 @@ public class CallMethodBlock extends Block{
      * @param y, block's y coordinate
      */
     public CallMethodBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED),2,1);
+        super(x, y, x+150, y+75,
+                String.valueOf(Color.RED), 2,1);
     }
+
     /**
      * The draw method handles drawing the block, uses two lines and rectangles to represent CallMethodBlock.
      * @param g, Graphics abstract class
@@ -42,5 +46,10 @@ public class CallMethodBlock extends Block{
     public int getCenterY() {
         int length = y2 - y;
         return y+ (length/2);
+    }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(new Rectangle(x, y, 150, 75));
     }
 }

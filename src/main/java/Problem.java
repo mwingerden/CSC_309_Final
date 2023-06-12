@@ -3,7 +3,9 @@ import java.util.Objects;
 
 public class Problem {
 
-    private final String problemName;
+    private String problemName;
+
+    private String changedName = "";
 
     private String problemDescription;
 
@@ -73,10 +75,24 @@ public class Problem {
         return hints;
     }
 
+    public boolean nameChanged() {
+        return (!changedName.equals(""));
+    }
+
+    public void updateName() {
+        if (!changedName.equals("")) {
+            this.problemName = this.changedName;
+            this.changedName = "";
+        }
+    }
+
     public void setProblemDescription(String problemDescription) {
         this.problemDescription = problemDescription;
     }
 
+    public void setNewProblemName(String newProblemName) {
+        this.changedName = newProblemName;
+    }
     public void setDrawing(boolean solution, List<Draw> drawing) {
         if (solution) {
             this.teacherSolution = drawing;

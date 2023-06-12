@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.awt.geom.Area;
 
 /**
  * The ConditionBlock class represented by a diamond shape when drawn by the user.
@@ -48,6 +49,13 @@ public class ConditionBlock extends Block{
         }
         return false;
     }
+
+    @Override
+    public Area getShapeArea() {
+        return new Area(
+                new Polygon(new int[]{x, x + 50, x + 100, x + 50}, new int[]{y + 50, y, y + 50, y + 100}, 4));
+    }
+
     /**
      * Getter method returning an x coordinate.
      * @return x, center x of block
