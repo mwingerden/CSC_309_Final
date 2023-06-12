@@ -83,7 +83,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         Repository.getInstance().setStatus("Dragging");
         endDragx = e.getX();
         endDragy = e.getY();
-        if(!Repository.getInstance().getBlockToDraw().equals("Arrow")){
+        if(!(Repository.getInstance().getBlockToDraw().equals("Arrow") && e.isShiftDown())){
             try {
                 Repository.getInstance().drag(startDragx, startDragy, endDragx, endDragy);
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException ex) {

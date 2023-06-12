@@ -507,9 +507,8 @@ public class Repository extends Observable {
                 notifyObservers("Created Text");
                 return true;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     private boolean blockAlreadyNamedInput(Block newNamedBlock) {

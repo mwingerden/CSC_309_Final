@@ -17,6 +17,7 @@ public class EndBlock extends Block
     public EndBlock(int x, int y, String c)
     {
         super(x, y, x+80, y+80, c,2,0);
+        super.setBlockText("End");
     }
     /**
      * A draw method to represent a black colored EndBlock
@@ -44,5 +45,10 @@ public class EndBlock extends Block
     @Override
     public Area getShapeArea() {
         return new Area(new Ellipse2D.Double(x, y, 80, 80));
+    }
+
+    @Override
+    public String getBlockText(){
+        return "End";
     }
 }
