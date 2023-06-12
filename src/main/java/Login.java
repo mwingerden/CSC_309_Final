@@ -11,7 +11,7 @@ public class Login extends JDialog {
 
     public Login(JPanel parent) {
 //        super(parent, "Login", true);
-
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         MainController mainController = new MainController();
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints cs = new GridBagConstraints();

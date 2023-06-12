@@ -40,9 +40,6 @@ public class Repository extends Observable {
     }
 
     public void updatePanel(String panel) {
-        if(panel.equals("TeacherListView")) {
-            login.setVisible(true);
-        }
         setChanged();
         notifyObservers(panel);
     }
@@ -51,12 +48,16 @@ public class Repository extends Observable {
         this.login = new Login(parent);
     }
 
+    public void showLoginPanel() {
+        login.setVisible(true);
+    }
+
     public void authenticateLogin() {
         if(!login.isSucceeded()) {
             updatePanel("StartUp");
             login.dispose();
-        }
-        else {
+        } else {
+            updatePanel("TeacherListView");
             login.dispose();
         }
     }
