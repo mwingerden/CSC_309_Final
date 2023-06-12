@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Objects;
 
 public class Problem {
 
@@ -86,5 +87,16 @@ public class Problem {
 
     public void setHints(List<String> hints) {
         this.hints = hints;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Problem problem)) return false;
+        return this.problemName.equals(problem.problemName) &&
+                this.problemDescription.equals(problem.problemDescription) &&
+                this.teacherSolution.equals(problem.teacherSolution) &&
+                this.studentAttempt.equals(problem.studentAttempt) &&
+                this.hints.equals(problem.hints);
     }
 }
