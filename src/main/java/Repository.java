@@ -31,16 +31,38 @@ public class Repository extends Observable {
     private boolean loadSolution = false;
     private String blockToDraw;
     private String status;
+    private Login login = null;
     private Repository() {
         this.blockToDraw = "";
         this.drawnChart = new ArrayList<>();
         this.undoDrawings = new ArrayList<>();
     }
 
-    //TODO: Updates the observers with the new panel info.
     public void updatePanel(String panel) {
+        if(panel.equals("TeacherListView")) {
+            login.setVisible(true);
+        }
         setChanged();
         notifyObservers(panel);
+    }
+
+    public void setUpLogin(JPanel parent) {
+        this.login = new Login(parent);
+    }
+
+    public void authenticateLogin() {
+        if(!login.isSucceeded()) {
+            updatePanel("StartUp");
+            login.dispose();
+        }
+        else {
+            login.dispose();
+        }
+    }
+
+    public void closeLogin() {
+        login.dispose();
+        updatePanel("StartUp");
     }
 
     public void UndoList() {
@@ -84,7 +106,7 @@ public class Repository extends Observable {
             } else if (drawing instanceof Arrow arrow) {
                 arrows.add(arrow);
             }
-       }
+        }
         newDrawings.addAll(arrows);
         newDrawings.addAll(codeBlocks);
         return newDrawings;
@@ -390,7 +412,7 @@ public class Repository extends Observable {
         for (Draw drawing: this.loadedProblem.getTeacherSolution()) {
             if (drawing instanceof Block teacherBlock) {
                 if ((teacherBlock instanceof StartBlock && studentBlock instanceof StartBlock) ||
-                (teacherBlock instanceof EndBlock && studentBlock instanceof EndBlock)) {
+                        (teacherBlock instanceof EndBlock && studentBlock instanceof EndBlock)) {
                     teacherBlock.studentSideHint();
                     foundTeacherBlock = true;
                     break;
