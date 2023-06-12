@@ -315,9 +315,12 @@ public class Repository extends Observable {
     public void addBlock(Block block){
         undoDrawings.clear();
         if (!(block instanceof StartBlock) && !(block instanceof EndBlock)){
-            newBlockText(block);
+            if (newBlockText(block)) {
+                drawnChart.add(block);
+            }
+        } else {
+            drawnChart.add(block);
         }
-        drawnChart.add(block);
     }
     /**
      * A method that clears all the blocks on the work space. Clears hint index for each solution block if
@@ -375,7 +378,7 @@ public class Repository extends Observable {
                             null,
                             ""
                     );
-                    if (text != null) {
+                    if (text != null && !text.isBlank()) {
                         block.setBlockText(text);
                         setChanged();
                         notifyObservers("Created Text");
@@ -411,7 +414,7 @@ public class Repository extends Observable {
         }
     }
 
-    private void newBlockText(Block newBlock) {
+    private boolean newBlockText(Block newBlock) {
         String text = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
                 "Name:",
@@ -421,19 +424,13 @@ public class Repository extends Observable {
                 null,
                 ""
         );
-        if (text != null) {
+        if (text != null && !text.isBlank()) {
             newBlock.setBlockText(text);
             setChanged();
             notifyObservers("Created Text");
-        } else {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "ERROR: Must input text block represents.",
-                    "No Input Found",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            newBlockText(newBlock);
+            return true;
         }
+        return false;
     }
 
     /**
