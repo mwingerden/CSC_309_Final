@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The abstract Block class represents the different blocks that the user can pick from the menu.
@@ -198,12 +198,11 @@ public abstract class Block implements Draw
             if (!currentHint.equals("No hint for selected block.")) {
                 hintEdit.setText(currentHint);
             }
-
             JScrollPane hintScroll = new JScrollPane(hintEdit,
                     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
             );
-            hintScroll.setMinimumSize(new Dimension(100, 100));
+            hintScroll.setPreferredSize(new Dimension(400, 200));
             Object[] editOptions = {"Save", "Cancel"};
 
             option = JOptionPane.showOptionDialog(
@@ -216,8 +215,38 @@ public abstract class Block implements Draw
                     editOptions,
                     editOptions[1]);
             if (option == JOptionPane.YES_OPTION) {
-                this.hintText = List.of(hintEdit.getText().split("\n"));
+                this.hintText = new ArrayList<>(List.of(hintEdit.getText().split("\n")));
             }
+        }
+    }
+
+    public void autoGenHints() {
+        Optional<String> oldIncoming = this.hintText.stream()
+                .filter(hintString ->
+                        hintString.matches("There (are \\d+|is 1) incoming arrow(s)? connected to this block."))
+                .findFirst();
+        String newIncoming = String.format("There are %d incoming arrows connected to this block.", this.arrowInCount);
+        if (arrowInCount == 1) {
+            newIncoming = "There is 1 incoming arrow connected to this block.";
+        }
+        if (oldIncoming.isEmpty()) {
+            this.hintText.add(newIncoming);
+        } else {
+            this.hintText.set(this.hintText.indexOf(oldIncoming.get()), newIncoming);
+        }
+
+        Optional<String> oldOutgoing = this.hintText.stream()
+                .filter(hintString ->
+                        hintString.matches("There (are \\d+|is 1) outgoing arrow(s)? connected to this block."))
+                .findFirst();
+        String newOutgoing = String.format("There are %d outgoing arrows connected to this block.", this.arrowOutCount);
+        if (arrowOutCount == 1) {
+            newOutgoing = "There is 1 outgoing arrow connected to this block.";
+        }
+        if (oldOutgoing.isEmpty()) {
+            this.hintText.add(newOutgoing);
+        } else {
+            this.hintText.set(this.hintText.indexOf(oldOutgoing.get()), newOutgoing);
         }
     }
 

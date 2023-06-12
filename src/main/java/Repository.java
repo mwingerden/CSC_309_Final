@@ -376,9 +376,12 @@ public class Repository extends Observable {
         if (!collides(block)) {
             undoDrawings.clear();
             if (!(block instanceof StartBlock) && !(block instanceof EndBlock)){
-                newBlockText(block);
+                if (newBlockText(block)) {
+                    drawnChart.add(block);
+                }
+            } else {
+                drawnChart.add(block);
             }
-            drawnChart.add(block);
         }
     }
 
@@ -479,7 +482,7 @@ public class Repository extends Observable {
         }
     }
 
-    private void newBlockText(Block newBlock) {
+    private boolean newBlockText(Block newBlock) {
         String text = (String) JOptionPane.showInputDialog(
                 new WorkSpace(),
                 "Name:",
@@ -489,7 +492,7 @@ public class Repository extends Observable {
                 null,
                 ""
         );
-        if (text != null) {
+        if (text != null && !text.isBlank()) {
             newBlock.setBlockText(text);
             if (blockAlreadyNamedInput(newBlock)) {
                 JOptionPane.showMessageDialog(
@@ -502,15 +505,10 @@ public class Repository extends Observable {
             } else {
                 setChanged();
                 notifyObservers("Created Text");
+                return true;
             }
         } else {
-            JOptionPane.showMessageDialog(
-                    null,
-                    "ERROR: Must input text block represents.",
-                    "No Input Found",
-                    JOptionPane.ERROR_MESSAGE
-            );
-            newBlockText(newBlock);
+            return false;
         }
     }
 

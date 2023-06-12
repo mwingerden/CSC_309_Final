@@ -1,5 +1,8 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class Problem {
 
@@ -75,6 +78,58 @@ public class Problem {
         return hints;
     }
 
+    public void autoGenHints() {
+        this.hints.removeIf(String::isBlank);
+        int[] countOfBlocks = {0, 0, 0, 0, 0};
+        for (Draw drawing : Repository.getInstance().getDrawings()) {
+            if (drawing instanceof Block block) {
+                block.autoGenHints();
+            }
+            if (drawing instanceof CallMethodBlock) {
+                countOfBlocks[0]++;
+            } else if (drawing instanceof ConditionBlock) {
+                countOfBlocks[1]++;
+            } else if (drawing instanceof InputOutputBlock) {
+                countOfBlocks[2]++;
+            } else if (drawing instanceof InstructionBlock) {
+                countOfBlocks[3]++;
+            } else if (drawing instanceof VariableDeclarationBlock) {
+                countOfBlocks[4]++;
+            }
+        }
+        List<String> types = new ArrayList<>(List.of("Call Method",
+                "Condition",
+                "Input/Output",
+                "Instruction",
+                "Variable Declaration"));
+        for (int typeIndex = 0; typeIndex < 5; typeIndex++) {
+            int countForSelectedType = countOfBlocks[typeIndex];
+            String presentHint = String.format("There is 1 or more %s blocks in this flowchart.",
+                    types.get(typeIndex));
+            this.hints.removeIf(hintString -> hintString.matches(presentHint) && countForSelectedType == 0);
+            if (countForSelectedType > 0 && this.hints.stream().noneMatch(hint -> hint.matches(presentHint))) {
+                this.hints.add(presentHint);
+            }
+
+            String regexMatch = String.format("There (are \\d+|is 1) %s block(s)? in this flowchart.",
+                    types.get(typeIndex));
+            Optional<String> oldHint = this.hints.stream()
+                    .filter(hintString ->
+                            hintString.matches(regexMatch))
+                    .findFirst();
+            String newHint = String.format("There are %d %s blocks in this flowchart.",
+                    countForSelectedType, types.get(typeIndex));
+            if (countForSelectedType == 1) {
+                newHint = String.format("There is 1 %s block in this flowchart.", types.get(typeIndex));
+            }
+            if (oldHint.isEmpty()) {
+                this.hints.add(newHint);
+            } else {
+                this.hints.set(this.hints.indexOf(oldHint.get()), newHint);
+            }
+        }
+    }
+
     public boolean nameChanged() {
         return (!changedName.equals(""));
     }
@@ -102,6 +157,7 @@ public class Problem {
     }
 
     public void setHints(List<String> hints) {
+        hints.removeIf(String::isBlank);
         this.hints = hints;
     }
 

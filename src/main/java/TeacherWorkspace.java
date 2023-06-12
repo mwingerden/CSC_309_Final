@@ -3,9 +3,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
@@ -21,6 +19,7 @@ import java.util.List;
 public class TeacherWorkspace extends JPanel implements Observer {
     private Repository repository;
 
+    private JPanel workspacePanel = new JPanel();
     private final JTextArea hintText = new JTextArea();
 
     private final JTextArea descriptionText = new JTextArea();
@@ -28,13 +27,13 @@ public class TeacherWorkspace extends JPanel implements Observer {
     private final DocumentListener hintEdit = new DocumentListener() {
         @Override
         public void insertUpdate(DocumentEvent e) {
-            List<String> updatedHintList = List.of(hintText.getText().split("\n"));
+            List<String> updatedHintList = new ArrayList<>(List.of(hintText.getText().split("\n")));
             repository.getLoadedProblem().setHints(updatedHintList);
         }
 
         @Override
         public void removeUpdate(DocumentEvent e) {
-            List<String> updatedHintList = List.of(hintText.getText().split("\n"));
+            List<String> updatedHintList = new ArrayList<>(List.of(hintText.getText().split("\n")));
             repository.getLoadedProblem().setHints(updatedHintList);
         }
 
@@ -61,6 +60,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
         }
     };
 
+
     /**
      * The TeacherWorkspace method sets up the layout of the panel.
      */
@@ -76,7 +76,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
 
         BorderLayout layout = new BorderLayout();
         setLayout(layout);
-        JPanel workspacePanel = new JPanel();
+        this.workspacePanel = new JPanel();
         workspacePanel.setPreferredSize(new Dimension(300, 150));
         workspacePanel.setLayout(new BorderLayout());
         workspacePanel.setBackground(Color.DARK_GRAY);
@@ -85,17 +85,32 @@ public class TeacherWorkspace extends JPanel implements Observer {
 
         add(workspaceMenuBar, BorderLayout.NORTH);
 
+        currentProblemAndGenHintsButton();
+        problemAndHintsPanel();
+        add(workspacePanel, BorderLayout.SOUTH);
+    }
+
+    private void currentProblemAndGenHintsButton() {
+        JPanel nameAndAutoHintButtonPanel = new JPanel(new BorderLayout());
+        nameAndAutoHintButtonPanel.setBackground(Color.DARK_GRAY);
         String problemEditing = "Currently Editing: "+repository.getLoadedProblem().getProblemName();
         JLabel problemTitle = new JLabel(problemEditing);
         problemTitle.setForeground(Color.WHITE);
-        workspacePanel.add(problemTitle, BorderLayout.NORTH);
+        nameAndAutoHintButtonPanel.add(problemTitle, BorderLayout.WEST);
 
+        JButton autoGenHints = new JButton("Auto\nGenerate\nHints");
+        autoGenHints.addActionListener(this::autoGenHints);
+        nameAndAutoHintButtonPanel.add(autoGenHints, BorderLayout.EAST);
+
+        workspacePanel.add(nameAndAutoHintButtonPanel, BorderLayout.NORTH);
+    }
+
+    private void problemAndHintsPanel() {
         JPanel problemAndHints = new JPanel(new GridLayout(1, 2));
         problemAndHints.add(descriptionArea());
         problemAndHints.add(hintTextArea());
 
         workspacePanel.add(problemAndHints, BorderLayout.CENTER);
-        add(workspacePanel, BorderLayout.SOUTH);
     }
 
     private JScrollPane descriptionArea() {
@@ -117,18 +132,31 @@ public class TeacherWorkspace extends JPanel implements Observer {
     private JScrollPane hintTextArea() {
         JPanel hintPanel = new JPanel();
         hintPanel.setBackground(Color.white);
-        if (!Objects.isNull(repository.getLoadedProblem().getHints())) {
-            String hintString = String.join("\n", repository.getLoadedProblem().getHints());
-            hintText.setText(hintString);
-        } else {
-            hintText.setText("Enter hints separated by enter here.");
-        }
+        setHintText();
         hintText.getDocument().addDocumentListener(hintEdit);
         hintText.setEditable(true);
         hintPanel.add(hintText);
         return new JScrollPane(hintText,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    }
+
+    private void setHintText() {
+        if (!Objects.isNull(repository.getLoadedProblem().getHints())) {
+            String hintString = String.join("\n", repository.getLoadedProblem().getHints());
+            hintText.setText(hintString);
+        } else {
+            hintText.setText("Enter hints separated by enter here.");
+        }
+    }
+
+    private void autoGenHints(ActionEvent e) {
+        Problem loadedProblem = Repository.getInstance().getLoadedProblem();
+        loadedProblem.autoGenHints();
+        this.workspacePanel.remove(1);
+        problemAndHintsPanel();
+        revalidate();
+
     }
 
     /**
