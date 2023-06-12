@@ -53,6 +53,40 @@ public class Save {
             e.printStackTrace();
         }
     }
+    @SuppressWarnings("unchecked")
+    public static void saveTest(Problem problemToSave) throws IOException {
+
+        JSONArray fileElements = new JSONArray();
+
+        JSONObject problemDescription = new JSONObject();
+        problemDescription.put("Problem Description", problemToSave.getProblemDescription());
+        fileElements.add(problemDescription);
+
+        JSONObject teacherDrawing = new JSONObject();
+        teacherDrawing.put("Teacher Solution", saveDrawingList(problemToSave.getTeacherSolution()));
+        fileElements.add(teacherDrawing);
+
+        JSONObject studentDrawing = new JSONObject();
+        studentDrawing.put("Student Attempt", saveDrawingList(problemToSave.getStudentAttempt()));
+        fileElements.add(studentDrawing);
+
+        JSONObject problemHints = new JSONObject();
+        problemHints.put("Hints", problemToSave.getHints());
+        fileElements.add(problemHints);
+
+        try (FileWriter file = new FileWriter("TestDrawings/" + problemToSave.getProblemName() + ".json")) {
+            file.write(fileElements.toJSONString());
+            file.flush();
+        } catch (FileNotFoundException e) {
+            File newFile = new File("TestDrawings/" + problemToSave.getProblemName() + ".json");
+            FileWriter file = new FileWriter(newFile);
+            file.write(fileElements.toJSONString());
+            file.flush();
+            file.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
     @SuppressWarnings("unchecked")
     private static JSONArray saveDrawingList(List<Draw> drawings) {

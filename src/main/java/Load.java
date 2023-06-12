@@ -47,6 +47,34 @@ public class Load {
     }
 
     @SuppressWarnings("unchecked")
+    public static Problem loadTest(String name) {
+        JSONParser jsonParser = new JSONParser();
+        try (FileReader reader = new FileReader("TestDrawings/" + name + ".json")) {
+            Object obj = jsonParser.parse(reader);
+            JSONArray fileElements = (JSONArray) obj;
+
+            String description = ((JSONObject) fileElements.get(0)).get("Problem Description").toString();
+            List<Draw> teacherDrawings = parseDrawingArray((JSONArray)
+                    ((JSONObject) fileElements.get(1))
+                            .get("Teacher Solution"));
+            List<Draw> studentAttempt = parseDrawingArray((JSONArray)
+                    ((JSONObject) fileElements.get(2))
+                            .get("Student Attempt"));
+            List<String> hints = (List<String>) ((JSONObject) fileElements.get(3)).get("Hints");
+
+            return new Problem(name, description, teacherDrawings, studentAttempt, hints);
+
+        } catch (IOException | ParseException e) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "There is no problem by the name of " + name + ".",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     private static List<Draw> parseDrawingArray(JSONArray drawingElements) {
         if (Objects.isNull(drawingElements)) {
             return Collections.emptyList();
