@@ -76,6 +76,7 @@ public class StudentWorkspace extends JPanel implements Observer {
             );
             String errorsFound = String.join("\n",cToFChecker.getErrors());
             Repository.getInstance().getLoadedProblem().setFeedback(errorsFound);
+            Repository.getInstance().getLoadedProblem().setProgress("in progress");
             Repository.getInstance().setStatus("Incorrect Diagram");
         }
     }
