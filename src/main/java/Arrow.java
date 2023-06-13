@@ -19,6 +19,8 @@ public class Arrow implements Draw {
     public Arrow(Block shape1, Block shape2) {
         this.block1 = shape1;
         this.block2 = shape2;
+        block1.setArrowOutCount(block1.getArrowOutCount()+1);
+        block2.setArrowInCount(block2.getArrowInCount()+1);
         this.phi = Math.toRadians(40);
         this.barb = 20;
     }

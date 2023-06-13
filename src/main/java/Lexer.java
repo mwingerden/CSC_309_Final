@@ -70,11 +70,18 @@ public class Lexer {
             }
             try {
                 int in = Integer.parseInt(current_word);
-                lexed.add(new Token("integer", current_word));
+                if ((lexed.get(lexed.size()-1).getType().equals("integer"))){
+                    Token lastInt = lexed.get(lexed.size()-1);
+                    lexed.remove(lexed.size()-1);
+                    lexed.add(new Token("integer", lastInt.getWord() + current_word));
+                }
+                else {
+                    lexed.add(new Token("integer", current_word));
+                }
+
                 current_word = "";
             }
             catch(NumberFormatException e) {
-                e.printStackTrace();
             }
         }
         return lexed;

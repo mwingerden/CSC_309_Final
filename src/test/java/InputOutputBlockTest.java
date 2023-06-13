@@ -27,18 +27,6 @@ public class InputOutputBlockTest {
         assertEquals(iob2.getCenterY(), 200);
     }
 
-    @Test
-    public void testarrowsinouts(){
-        assertTrue(iob1.checkInGoing());
-        //ingoing ++ now = 1
-        assertTrue(iob1.checkOutGoing());
-        //outgoing ++ now = 1
-        assertFalse(iob1.checkOutGoing());
-
-        assertTrue(iob1.checkInGoing());
-
-        assertFalse(iob1.checkInGoing());
-    }
 
     @Test
     public void testContains(){

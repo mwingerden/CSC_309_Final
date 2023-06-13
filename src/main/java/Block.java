@@ -50,31 +50,6 @@ public abstract class Block implements Draw
         this.text = null;
     }
     /**
-     * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
-     * @return false
-     */
-    public boolean checkOutGoing(){
-        if(arrowOutCount < arrowOutLimit)
-        {
-            arrowOutCount++;
-            return true;
-        }
-        return false;
-    }
-    /**
-     * checkInGoing method checks if arrow count incoming is less than the blocks incoming arrow limit.
-     * @return false
-     */
-    public boolean checkInGoing()
-    {
-        if(arrowInCount < arrowInLimit)
-        {
-            arrowInCount++;
-            return true;
-        }
-        return false;
-    }
-    /**
      * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2).
      * @param xcoord, x coordinate to check
      * @param ycoord, y coordinate to check
@@ -154,11 +129,22 @@ public abstract class Block implements Draw
         this.arrowOutCount = arrowOutCount;
     }
 
+    public boolean checkInArrowMax(){
+        return arrowInCount < arrowInLimit;
+    }
+
+    public boolean checkOutArrowMax(){
+        return arrowOutCount < arrowOutLimit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Block block = (Block) o;
-        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount && arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) && Objects.equals(text, block.text);
+        return x == block.x && y == block.y && x2 == block.x2 && y2 == block.y2 && arrowInLimit == block.arrowInLimit
+                && arrowOutLimit == block.arrowOutLimit && arrowInCount == block.arrowInCount &&
+                arrowOutCount == block.arrowOutCount && Objects.equals(color, block.color) &&
+                Objects.equals(text, block.text);
     }
 }

@@ -45,6 +45,12 @@ public class Repository extends Observable {
             Draw temp = this.drawnChart.get(this.drawnChart.size() - 1);
             undoDrawings.add(temp);
             this.drawnChart.remove(temp);
+            if(temp instanceof Arrow){
+                Block b1 = ((Arrow) temp).getBlock1();
+                Block b2 = ((Arrow) temp).getBlock2();
+                b1.setArrowOutCount(b1.getArrowOutCount()-1);
+                b2.setArrowInCount(b2.getArrowInCount()-1);
+            }
             setChanged();
             notifyObservers();
         }
@@ -310,32 +316,22 @@ public class Repository extends Observable {
         Block b2 = null;
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x1, y1) && !(drawing instanceof EndBlock)){
-                b1 = blockOneArrow(drawing, x1, y1);
+                b1 = (Block) drawing;
+
             }
             if (drawing instanceof Block block && block.contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
+
             }
         }
         if(b1 != null && b2 != null && b1 != b2){
-            if(b1.checkOutGoing() && b2.checkInGoing()) {
+            if(b1.checkOutArrowMax() && b2.checkInArrowMax()) {
                 drawnChart.add(new Arrow(b1,b2));
+
             }
         }
         setChanged();
         notifyObservers();
-    }
-
-    private Block blockOneArrow(Draw drawing, int x1, int y1) {
-        if (drawing instanceof StartBlock startBlock){
-            if (startBlock.maxNumsOut()){
-                return null;
-            }else{
-                startBlock.increaseNumOut();
-                return (Block) drawing;
-            }
-        }else {
-            return (Block) drawing;
-        }
     }
 
     /**

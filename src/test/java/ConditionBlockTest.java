@@ -24,18 +24,6 @@ public class ConditionBlockTest {
         assertEquals(cb2.getCenterY(), 250);
     }
 
-    @Test
-    public void testarrowsinouts(){
-        assertTrue(cb1.checkInGoing());
-        //ingoing ++ now = 1
-        assertTrue(cb1.checkOutGoing());
-        //outgoing ++ now = 1
-        assertTrue(cb1.checkOutGoing());
-        assertTrue(cb1.checkInGoing());
-
-        assertFalse(cb1.checkInGoing());
-        assertFalse(cb1.checkOutGoing());
-    }
 
     @Test
     public void testContains(){

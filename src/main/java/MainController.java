@@ -26,13 +26,14 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             Repository.getInstance().setBlockToDraw(e.getActionCommand());
         }
         switch (e.getActionCommand()) {
-            //TODO: The button press or other such actions are most likely be placed here.
+            //TODO: The button press or other such actions are most likely be placed here.c
             case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
             case "Student" -> Repository.getInstance().updatePanel("StudentListView");
             case "Home" -> Repository.getInstance().updatePanel("StartUp");
             case "Undo" -> Repository.getInstance().UndoList();
             case "Redo" -> Repository.getInstance().RedoList();
             case "Submit" -> Repository.getInstance().saveStudentSubmission();
+            case "Clear" -> Repository.getInstance().clearBlocks();
             default -> menuItemClicked(e.getActionCommand());
         }
     }

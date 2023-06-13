@@ -7,11 +7,9 @@ import java.awt.*;
 public class StartBlock extends Block
 
 {
-    int numsOut;
     public StartBlock(int x, int y, String c)
     {
         super(x, y, x+80, y+80, c, 0, 1);
-        numsOut = 0;
     }
     /**
      * The draw method, represents the start block with a circle.
@@ -40,11 +38,5 @@ public class StartBlock extends Block
     @Override
     public int getCenterY() {
         return y+ 40;
-    }
-    public void increaseNumOut(){
-        this.numsOut +=1;
-    }
-    public boolean maxNumsOut(){
-        return this.numsOut == 1;
     }
 }

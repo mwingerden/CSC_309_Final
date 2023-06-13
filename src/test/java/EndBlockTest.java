@@ -25,18 +25,6 @@ public class EndBlockTest {
     }
 
     @Test
-    public void testarrowsinouts(){
-        assertTrue(eb1.checkInGoing());
-        //ingoing ++ now = 1
-        assertFalse(eb1.checkOutGoing());
-
-        assertTrue(eb1.checkInGoing());
-
-        assertFalse(eb1.checkInGoing());
-
-    }
-
-    @Test
     public void testContains(){
         assertTrue(eb1.contains(50, 50));
         assertTrue(eb1.contains(100,100));

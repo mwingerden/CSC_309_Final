@@ -28,17 +28,6 @@ public class CallMethodBlockTest {
     }
 
     @Test
-    public void testarrowsinouts(){
-        assertTrue(cmb1.checkInGoing());
-        //ingoing ++ now = 1
-        assertTrue(cmb1.checkOutGoing());
-        //outgoing ++ now = 1
-        assertFalse(cmb1.checkOutGoing());
-        assertTrue(cmb1.checkInGoing());
-        assertFalse(cmb1.checkInGoing());
-    }
-
-    @Test
     public void testContains(){
         assertTrue(cmb1.contains(50, 50));
         assertFalse(cmb1.contains(200,200));

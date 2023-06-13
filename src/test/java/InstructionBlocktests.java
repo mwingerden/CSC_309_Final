@@ -28,17 +28,6 @@ public class InstructionBlocktests {
     }
 
     @Test
-    public void testarrowsinouts(){
-        assertTrue(ib1.checkInGoing());
-        //ingoing ++ now = 1
-        assertTrue(ib1.checkOutGoing());
-        //outgoing ++ now = 1
-        assertFalse(ib1.checkOutGoing());
-        assertTrue(ib1.checkInGoing());
-        assertFalse(ib1.checkInGoing());
-    }
-
-    @Test
     public void testContains(){
         assertTrue(ib1.contains(50, 50));
         assertFalse(ib1.contains(200,200));
