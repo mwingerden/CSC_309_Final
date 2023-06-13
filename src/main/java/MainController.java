@@ -29,13 +29,10 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         switch (e.getActionCommand()) {
             //TODO: The button press or other such actions are most likely be placed here.
             case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
-            case "Student", "Return to Problem List" -> Repository.getInstance().updatePanel("StudentListView");
+            case "Student" -> Repository.getInstance().updatePanel("StudentListView");
             case "Home" -> Repository.getInstance().updatePanel("StartUp");
             case "Undo" -> Repository.getInstance().UndoList();
             case "Redo" -> Repository.getInstance().RedoList();
-            case "Submit" ->
-            {Repository.getInstance().saveStudentSubmission();
-            Repository.getInstance().setStatus("Submitting problem");}
             case "Login" -> Repository.getInstance().authenticateLogin();
             case "Cancel" -> Repository.getInstance().closeLogin();
             default -> menuItemClicked(e.getActionCommand());
@@ -100,7 +97,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     private void menuItemClicked(String e) {
         switch (e) {
-            case "New" -> {
+            case "Clear" -> {
                 Repository.getInstance().clearBlocks();
                 Repository.getInstance().setStatus("New diagram");
                 Repository.getInstance().setBlockToDraw("None");

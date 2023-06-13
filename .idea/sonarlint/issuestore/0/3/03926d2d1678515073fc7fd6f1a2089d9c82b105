@@ -1,0 +1,25 @@
+
+
+java:S1120"yMake this line start after 20 spaces instead of 42 in order to indent the code consistently. (Indentation level is at 4.)(«°„Û
+”
+java:S1120 "yMake this line start after 20 spaces instead of 42 in order to indent the code consistently. (Indentation level is at 4.)(´Òöûÿÿÿÿ
+
+java:S1120!"yMake this line start after 20 spaces instead of 47 in order to indent the code consistently. (Indentation level is at 4.)(åÓ‡
+
+java:S1120""yMake this line start after 20 spaces instead of 34 in order to indent the code consistently. (Indentation level is at 4.)(‚¨¡¶
+k
+java:S1192"UDefine a constant instead of duplicating this literal "StudentSolutionPanel" 3 times.(§õÇ
+f
+java:S1192"PDefine a constant instead of duplicating this literal "TeacherListView" 3 times.(îíãß
+k
+java:S1192"PDefine a constant instead of duplicating this literal "StudentListView" 3 times.(î‘ÌÚıÿÿÿÿ
+^
+java:S1192"HDefine a constant instead of duplicating this literal "StartUp" 3 times.(ÉÍº»
+G
+java:S1948",Make "repository" transient or serializable.(²º¦¦øÿÿÿÿ
+K
+java:S1874"0Remove this use of "Observer"; it is deprecated.(¶„ø”úÿÿÿÿ
+M
+java:S1874"2Remove this use of "Observable"; it is deprecated.(‹›Àüÿÿÿÿ
+7	java:S131""Add a default case to this switch.(¸Ø
+V	java:S125&"<This block of commented-out lines of code should be removed.(ëÌÉÓúÿÿÿÿ

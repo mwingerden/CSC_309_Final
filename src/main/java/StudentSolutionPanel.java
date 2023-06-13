@@ -35,7 +35,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         add(menuBar, BorderLayout.PAGE_START);
 
         this.setupProblemInfoPanel();
-        add(new StudentWorkspace(),BorderLayout.CENTER);
+        add(new StudentWorkspace(this),BorderLayout.CENTER);
     }
 
     private void setupProblemInfoPanel() {
@@ -107,8 +107,8 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         add(problemInfoPanel, BorderLayout.WEST);
     }
 
-    public void setFeedback(){
-
+    public void setFeedback(String feedback){
+        this.feedback.setText(feedback);
     }
     private void updateHints(ActionEvent e) {
         if (Objects.isNull(this.hintList)) {
@@ -173,5 +173,6 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         Problem p = Repository.getInstance().getLoadedProblem();
         updateProgresstext(p.getProgress());
         this.feedback.setText(p.getFeedback());
+        repaint();
     }
 }
