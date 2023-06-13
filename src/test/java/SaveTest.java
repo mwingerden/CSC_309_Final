@@ -15,7 +15,7 @@ public class SaveTest {
         List<Draw> student = new ArrayList<>();
         List<String> hints = new ArrayList<>();
 
-        Block block1 = new StartBlock(10, 10, "start");
+        Block block1 = new StartBlock(10, 10, "Start");
         Block block2 = new CallMethodBlock(10, 10);
         Block block3 = new EndBlock(10, 10, "End");
 
