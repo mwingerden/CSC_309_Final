@@ -31,7 +31,7 @@ public class StudentDrawArea extends JPanel implements Observer {
         JButton buttonSubmit = new JButton("Submit");
         buttonSubmit.addActionListener(controller);
         add(new MenuBar(), BorderLayout.NORTH);
-        add(new StatusBar(77), BorderLayout.SOUTH);
+        add(new StatusBar(), BorderLayout.SOUTH);
         add(buttonSubmit, BorderLayout.EAST);
     }
     /**

@@ -29,11 +29,13 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         switch (e.getActionCommand()) {
             //TODO: The button press or other such actions are most likely be placed here.
             case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
-            case "Student" -> Repository.getInstance().updatePanel("StudentListView");
+            case "Student", "Return to Problem List" -> Repository.getInstance().updatePanel("StudentListView");
             case "Home" -> Repository.getInstance().updatePanel("StartUp");
             case "Undo" -> Repository.getInstance().UndoList();
             case "Redo" -> Repository.getInstance().RedoList();
-            case "Submit" -> Repository.getInstance().saveStudentSubmission();
+            case "Submit" ->
+            {Repository.getInstance().saveStudentSubmission();
+            Repository.getInstance().setStatus("Submitting problem");}
             case "Login" -> Repository.getInstance().authenticateLogin();
             case "Cancel" -> Repository.getInstance().closeLogin();
             default -> menuItemClicked(e.getActionCommand());

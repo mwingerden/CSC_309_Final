@@ -22,6 +22,10 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private JTextArea feedback;
 
+    private JButton problemListView;
+
+    private JProgressBar problemBar;
+
     public StudentSolutionPanel() {
         Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -51,6 +55,17 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         String[] progress = {"Complete","In Progress" ,"Incomplete" };
         this.progressMenu = new JComboBox(progress);
 
+
+        //going back to problem list
+        this.problemListView = new JButton("Return to Problem List");
+
+        //problem progress bar
+        this.problemBar = new JProgressBar();
+        this.problemBar.setValue(0);
+        this.problemBar.setStringPainted(true);
+
+
+
         // Problem Description
         JTextArea problemDescription = new JTextArea(Repository.getInstance()
                 .getLoadedProblem()
@@ -61,6 +76,9 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         //feedback
         this.feedback = new JTextArea("feedback");
 
+
+        //status bar
+        StatusBar status = new StatusBar();
 
         // Hints
         this.problemHintArea = new JTextArea("Click button below for hint.");
@@ -74,13 +92,17 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         this.hintButton = new JButton("Get Hint");
         hintButton.addActionListener(this::updateHints);
         progressMenu.addActionListener(this::updateProgress);
+        problemListView.addActionListener(new MainController());
 
         problemInfoPanel.add(this.problemTitle);
         problemInfoPanel.add(this.progressMenu);
+        problemInfoPanel.add(this.problemBar);
+        problemInfoPanel.add(this.problemListView);
         problemInfoPanel.add(problemDescription);
         problemInfoPanel.add(this.problemHintArea);
         problemInfoPanel.add(hintButton);
         problemInfoPanel.add(feedback);
+        problemInfoPanel.add(status);
 
         add(problemInfoPanel, BorderLayout.WEST);
     }
@@ -88,7 +110,6 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     public void setFeedback(){
 
     }
-
     private void updateHints(ActionEvent e) {
         if (Objects.isNull(this.hintList)) {
             return;
@@ -126,14 +147,19 @@ public class StudentSolutionPanel extends JPanel implements Observer {
        if(this.progressMenu.getSelectedItem().toString().equals("Incomplete"))
        {
            this.problemTitle.setForeground(Color.RED);
+           this.problemBar.setValue(0);
+           this.problemBar.setForeground(Color.RED);
        }
        else if(this.progressMenu.getSelectedItem().toString().equals("In Progress"))
        {
            this.problemTitle.setForeground(Color.YELLOW);
+           this.problemBar.setValue(50);
        }
        else if(this.progressMenu.getSelectedItem().toString().equals("Complete"))
        {
            this.problemTitle.setForeground(Color.GREEN);
+           this.problemBar.setValue(100);
+           this.problemBar.setForeground(Color.GREEN);
        }
     }
 

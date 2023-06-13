@@ -2,6 +2,7 @@
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * com.tests.BlockTest class tests the methods from the block class and other block types.
@@ -36,7 +37,7 @@ public class BlockTest
     }
 
     /**
-     * A method that checks arrows for the remaining block classes.
+     *  methods that checks arrows for the remaining block classes.
      */
     @Test
     public void testCheckArrows2()
@@ -50,5 +51,24 @@ public class BlockTest
         // check for block 2
         assertEquals(2, b2.arrowInLimit);
         assertEquals(1, b2.arrowOutLimit);
+    }
+
+    @Test
+    public void testCheckArrows3()
+    {
+        Block b1 = new ConditionBlock(74,35);
+        Block b2 = new CallMethodBlock(45,88);
+
+        //check arrows for block 1
+        assertEquals(2, b1.arrowInLimit);
+        assertEquals(2, b1.arrowOutLimit);
+        // check for block 2
+        assertEquals(2, b2.arrowInLimit);
+        assertEquals(1, b2.arrowOutLimit);
+
+        assertTrue(b1.checkOutGoing());
+        assertTrue(b1.checkInGoing());
+        assertTrue(b2.checkInGoing());
+        assertTrue(b2.checkOutGoing());
     }
 }
