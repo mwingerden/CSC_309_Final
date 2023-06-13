@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Problem {
@@ -78,10 +75,9 @@ public class Problem {
         return hints;
     }
 
-    public void autoGenHints() {
-        this.hints.removeIf(String::isBlank);
+    public List<Integer> getBlockTypeCount(List<Draw> drawingToCount) {
         int[] countOfBlocks = {0, 0, 0, 0, 0};
-        for (Draw drawing : Repository.getInstance().getDrawings()) {
+        for (Draw drawing : drawingToCount) {
             if (drawing instanceof Block block) {
                 block.autoGenHints();
             }
@@ -97,13 +93,24 @@ public class Problem {
                 countOfBlocks[4]++;
             }
         }
+        return Arrays.stream(countOfBlocks).boxed().toList();
+    }
+
+    public void autoGenHints() {
+        this.hints.removeIf(String::isBlank);
+        for (Draw drawing : Repository.getInstance().getDrawings()) {
+            if (drawing instanceof Block block) {
+                block.autoGenHints();
+            }
+        }
+        List<Integer> blockCounts = getBlockTypeCount(Repository.getInstance().getDrawings());
         List<String> types = new ArrayList<>(List.of("Call Method",
                 "Condition",
                 "Input/Output",
                 "Instruction",
                 "Variable Declaration"));
         for (int typeIndex = 0; typeIndex < 5; typeIndex++) {
-            int countForSelectedType = countOfBlocks[typeIndex];
+            int countForSelectedType = blockCounts.get(typeIndex);
             String presentHint = String.format("There is 1 or more %s blocks in this flowchart.",
                     types.get(typeIndex));
             this.hints.removeIf(hintString -> hintString.matches(presentHint) && countForSelectedType == 0);

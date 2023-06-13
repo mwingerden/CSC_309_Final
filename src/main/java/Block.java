@@ -312,6 +312,8 @@ public abstract class Block implements Draw
         return this.inArrows;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

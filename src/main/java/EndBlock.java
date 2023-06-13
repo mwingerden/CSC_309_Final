@@ -17,7 +17,7 @@ public class EndBlock extends Block
     public EndBlock(int x, int y, String c)
     {
         super(x, y, x+80, y+80, c,2,0);
-        super.setBlockText("End");
+        this.setBlockText("End");
     }
     /**
      * A draw method to represent a black colored EndBlock

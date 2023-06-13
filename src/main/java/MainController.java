@@ -98,7 +98,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
     private void menuItemClicked(String e) {
         switch (e) {
-            case "New" -> {
+            case "Clear" -> {
                 Repository.getInstance().clearBlocks();
                 Repository.getInstance().setStatus("New diagram");
                 Repository.getInstance().setBlockToDraw("None");
