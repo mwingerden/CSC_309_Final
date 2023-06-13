@@ -7,14 +7,13 @@ import java.util.Observer;
  * StatusBar class that shows the user what action is being performed at the bottom of the window.
  */
 public class StatusBar extends JPanel implements Observer {
-    JTextField statusBar;
+    JLabel statusBar;
     /**
      * Constructor method sets up the status bar attributes.
-     * @param x, coordinate where bar will go
+     *
      */
-    public StatusBar(int x){
-        statusBar = new JTextField("Status", x);
-        statusBar.setEditable(false);
+    public StatusBar(){
+        statusBar = new JLabel("Status");
         statusBar.setHorizontalAlignment(JTextField.LEFT);
         add(statusBar);
         Repository repository = Repository.getInstance();

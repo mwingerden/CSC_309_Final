@@ -38,7 +38,6 @@ public class StudentWorkspace extends JPanel implements Observer {
         workspacePanel.setBackground(Color.PINK);
 
         WorkspaceMenuBar workspaceMenuBar = new WorkspaceMenuBar();
-
         add(workspaceMenuBar, BorderLayout.NORTH);
     }
 
