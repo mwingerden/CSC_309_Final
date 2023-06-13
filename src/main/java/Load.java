@@ -80,7 +80,17 @@ public class Load {
             return Collections.emptyList();
         }
         List<Draw> blocks = new ArrayList<>();
-        drawingElements.forEach(drawObject -> blocks.add(getDrawObject((JSONObject) drawObject)));
+        drawingElements.stream()
+                .filter(block -> !(Objects.isNull(((JSONObject)block).get("CodeBlock"))))
+                .forEach(block ->
+                        blocks.add(loadCodeBlock((JSONObject) ((JSONObject)block).get("CodeBlock"))));
+        blockList.clear();
+        blockList.addAll(blocks);
+        drawingElements.stream()
+                .filter(block -> (Objects.isNull(((JSONObject)block).get("CodeBlock"))
+                        && !Objects.isNull(((JSONObject)block).get("Arrow"))))
+                .forEach(arrow ->
+                        blocks.add(loadArrow((JSONArray) ((JSONObject)arrow).get("Arrow"))));
         return blocks;
     }
 
@@ -132,7 +142,6 @@ public class Load {
         drawing.setArrowOutLimit(Integer.parseInt((String) codeBlock.get("arrowOutLimit")));
         drawing.setArrowInCount(Integer.parseInt((String) codeBlock.get("arrowInCount")));
         drawing.setArrowOutCount(Integer.parseInt((String) codeBlock.get("arrowOutCount")));
-        blockList.add(drawing);
         return drawing;
     }
 
@@ -159,11 +168,9 @@ public class Load {
         for (Object o : arrow) {
             Block temp = (Block)loadCodeBlock((JSONObject) ((JSONObject) o).get("CodeBlock"));
             for(Draw drawing : blockList) {
-                if(drawing instanceof Block) {
-                    if(temp.equals(drawing)) {
-                        blocks.add((Block) drawing);
-                        break;
-                    }
+                if(drawing instanceof Block block && temp.equals(block)) {
+                    blocks.add((Block) drawing);
+                    break;
                 }
             }
         }
