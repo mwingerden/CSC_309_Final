@@ -26,6 +26,7 @@ public class Repository extends Observable {
             Collections.emptyList(),
             Collections.emptyList(),
             Collections.emptyList());
+
     private List<Draw> drawnChart;
     private final List<Draw> undoDrawings;
 
@@ -64,6 +65,10 @@ public class Repository extends Observable {
     public void closeLogin() {
         login.dispose();
         updatePanel("StartUp");
+    }
+
+    public void setDrawnChart(List<Draw> drawnChart) {
+        this.drawnChart = drawnChart;
     }
 
     public void UndoList() {
@@ -161,57 +166,6 @@ public class Repository extends Observable {
         }
         Save.save(problemToSave);
         return problemToSave.getProblemName();
-    }
-
-    public void saveStudentSubmission() {
-        try {
-            Save.save(loadedProblem);
-            for (Draw d : loadedProblem.getStudentAttempt()){
-                if (d instanceof Block && !(d instanceof EndBlock)){
-                    ((Block) d).setColor(Color.WHITE);
-                }
-            }
-            ProblemChecker pc = new ProblemChecker(loadedProblem);
-            Draw diffDraw = pc.CheckProblem();
-
-            if (diffDraw instanceof EndBlock){
-                //case that the graphs are the same;
-
-                loadedProblem.setProgress("complete");
-                loadedProblem.setFeedback("Correct!");
-
-            }
-
-            if (diffDraw instanceof Block){
-                if (loadedProblem.getTeacherSolution().contains((Block)diffDraw)){
-                    //case, student graph is missing a block
-                    loadedProblem.setProgress("in progress");
-                    loadedProblem.setFeedback("You are Missing a Block or a Block has incorrect information");
-
-                }
-                else if (loadedProblem.getStudentAttempt().contains((Block)diffDraw)){
-                    //case, student contains extra blocks
-                    for (Draw d : loadedProblem.getStudentAttempt()){
-                        if (d instanceof Block && !(d instanceof EndBlock)){
-                            if (d.equals(diffDraw)){
-                                ((Block) d).setColor(Color.RED);
-                            }
-
-                        }
-                    }
-
-
-                    loadedProblem.setProgress("in progress");
-                    loadedProblem.setFeedback("You have an extra block or a block has incorrect information");
-                }
-            }
-            else{
-            }
-            setChanged();
-            notifyObservers();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     /**
@@ -493,8 +447,7 @@ public class Repository extends Observable {
                 ""
         );
         if (text != null && !text.isBlank()) {
-            newBlock.setBlockText(text);
-            if (blockAlreadyNamedInput(newBlock)) {
+            if (blockAlreadyNamedInput(newBlock, text)) {
                 JOptionPane.showMessageDialog(
                         null,
                         "Another block already exists with that same name.",
@@ -503,6 +456,7 @@ public class Repository extends Observable {
                 );
                 newBlockText(newBlock);
             } else {
+                newBlock.setBlockText(text);
                 setChanged();
                 notifyObservers("Created Text");
                 return true;
@@ -511,10 +465,10 @@ public class Repository extends Observable {
         return false;
     }
 
-    private boolean blockAlreadyNamedInput(Block newNamedBlock) {
+    private boolean blockAlreadyNamedInput(Block newNamedBlock, String proposedName) {
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block
-                    && block.getBlockText().equals(newNamedBlock.getBlockText())
+                    && block.getBlockText().equals(proposedName)
                     && block.getClass().equals(newNamedBlock.getClass())) {
                 return true;
             }

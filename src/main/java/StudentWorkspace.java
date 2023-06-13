@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -57,8 +58,15 @@ public class StudentWorkspace extends JPanel implements Observer {
                     "Problem Solved",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            studentSolutionPanel.setFeedback("Solved Correctly.");
-            studentSolutionPanel.updateProgresstext("complete");
+            Repository.getInstance().getLoadedProblem().setFeedback("Solved Correctly.");
+            Repository.getInstance().getLoadedProblem().setProgress("complete");
+            Repository.getInstance().setStatus("Saving diagram");
+            Repository.getInstance().setBlockToDraw("None");
+            try {
+                Repository.getInstance().saveList(Repository.getInstance().getLoadedProblem(), false);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -68,7 +76,8 @@ public class StudentWorkspace extends JPanel implements Observer {
                     JOptionPane.INFORMATION_MESSAGE
             );
             String errorsFound = String.join("\n",cToFChecker.getErrors());
-            studentSolutionPanel.setFeedback(errorsFound);
+            Repository.getInstance().getLoadedProblem().setFeedback(errorsFound);
+            Repository.getInstance().setStatus("Incorrect Diagram");
         }
     }
 
@@ -90,6 +99,7 @@ public class StudentWorkspace extends JPanel implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
+        revalidate();
         repaint();
     }
 }

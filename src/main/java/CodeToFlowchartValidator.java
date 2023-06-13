@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class CodeToFlowchartValidator {
 
@@ -21,12 +23,14 @@ public class CodeToFlowchartValidator {
     public boolean checkAgainstSolution() {
         if (studentDrawing.stream().filter(Block.class::isInstance).toList().size() ==
                 teacherSolution.stream().filter(Block.class::isInstance).toList().size() && solved()) {
+            Repository.getInstance().setDrawnChart(studentDrawing);
             return true;
         } else {
             getDifferingCounts();
             if (this.errors.isEmpty()) {
                 getDifferingFactors();
             }
+            Repository.getInstance().setDrawnChart(studentDrawing);
             return false;
         }
     }
@@ -35,6 +39,9 @@ public class CodeToFlowchartValidator {
         for (Draw drawing : studentDrawing) {
             if (!teacherSolution.contains(drawing)) {
                 return false;
+            }
+            if (drawing instanceof Block block && !(block instanceof EndBlock)) {
+                block.setColor(Color.white);
             }
         }
         return true;
@@ -76,10 +83,12 @@ public class CodeToFlowchartValidator {
                 if (matchedName.isEmpty()) {
                     this.errors.add(String.format("Check that the %s block named \"%s\" is named correctly.",
                             block.getClass(), block.getBlockText()));
+                    block.setColor(Color.ORANGE);
                 } else if (matchedName.get().arrowInCount != block.arrowInCount ||
                             matchedName.get().arrowOutCount != block.arrowOutCount) {
                     this.errors.add(String.format("Check that the %s block named \"%s\" has the correct " +
                                 "amount of arrows.", block.getClass(), block.getBlockText()));
+                    block.setColor(Color.ORANGE);
                 }
             } else if (drawing instanceof Arrow arrow && !teacherSolution.contains(arrow)) {
                 Block arrowBlock1 = arrow.getBlock1();
