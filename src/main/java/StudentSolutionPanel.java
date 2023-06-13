@@ -153,6 +153,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
        else if(this.progressMenu.getSelectedItem().toString().equals("In Progress"))
        {
            this.problemTitle.setForeground(Color.YELLOW);
+           this.problemBar.setValue(50);
        }
        else if(this.progressMenu.getSelectedItem().toString().equals("Complete"))
        {
