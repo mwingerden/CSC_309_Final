@@ -166,7 +166,6 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (!Objects.isNull(arg) && ((String) arg).equals("StudentSolutionPanel")) {
-
             this.remove(problemInfoPanel);
             this.hintIndex = 0;
             this.setupProblemInfoPanel();

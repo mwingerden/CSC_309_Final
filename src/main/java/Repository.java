@@ -43,6 +43,9 @@ public class Repository extends Observable {
         if(panel.equals("TeacherListView")) {
             login.setVisible(true);
         }
+        if(panel.equals("StudentSolutionPanel")) {
+            this.loadSolution = false;
+        }
         setChanged();
         notifyObservers(panel);
     }
