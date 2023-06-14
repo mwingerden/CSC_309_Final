@@ -57,7 +57,10 @@ public class Lexer {
                         lexed.add(new Token("identifier", current_word));
                     }
                 }
-                lexed.add(new Token("delimiter", "" + input.charAt(i)));
+                if(!(""+ input.charAt(i)).equals(" ") && !(""+ input.charAt(i)).equals("\n")){
+                    lexed.add(new Token("delimiter", "" + input.charAt(i)));
+                }
+
                 current_word = "";
             }
             else if (keywords.contains(current_word)) {

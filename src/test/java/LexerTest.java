@@ -22,26 +22,24 @@ public class LexerTest {
 
     @Test
     public void LexerTest1(){
-        Lexer l = new Lexer("public main(){int i = 10;}");
+        //testing lexer, testing spaces and newlines are ignored
+        Lexer l = new Lexer("public main(   )  \n {int i    = 10;}");
         ArrayList<Token> answer = new ArrayList<>();
         answer.add(new Token("keyword", "public"));
-        answer.add(new Token("delimiter", " "));
         answer.add(new Token("identifier", "main"));
         answer.add(new Token("delimiter", "("));
         answer.add(new Token("delimiter", ")"));
         answer.add(new Token("delimiter", "{"));
         answer.add(new Token("keyword", "int"));
-        answer.add(new Token("delimiter", " "));
         answer.add(new Token("identifier", "i"));
-        answer.add(new Token("delimiter", " "));
         answer.add(new Token("operator", "="));
-        answer.add(new Token("delimiter", " "));
         answer.add(new Token("integer", "10"));
         answer.add(new Token("delimiter", ";"));
         answer.add(new Token("delimiter", "}"));
         ArrayList<Token> output = l.constructLexer();
 
         for (int i = 0; i<output.size();i++){
+            output.get(i).printToken();
             assertTrue(output.get(i).equals(answer.get(i)));
         }
         assertEquals(output.size(), answer.size());
