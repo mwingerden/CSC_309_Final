@@ -3,17 +3,16 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 /**
- * The CallMethodBlock class that extends block abstract class.
+ * The CallMethodBlock class that extends the block abstract class.
  */
-public class CallMethodBlock extends Block{
+public class CallMethodBlock extends Block {
     /**
      * Constructor method for CallMethodBlock giving the required parameters.
-     * @param x, block's x coordinate
-     * @param y, block's y coordinate
+     * @param x, block's top left x coordinate
+     * @param y, block's top left y coordinate
      */
     public CallMethodBlock(int x, int y) {
-        super(x, y, x+150, y+75,
-                String.valueOf(Color.RED), 2,1);
+        super(x, y, x+150, y+75, Color.WHITE, 2,1);
     }
 
     /**
@@ -32,16 +31,21 @@ public class CallMethodBlock extends Block{
             g.drawString(this.blockText, x+20, getCenterY()+10);
         }
     }
+
     /**
-     * The getter methods used to return the center x or y.
+     * Get the center x coordinate.
      * @return x, center x of block
-     * @return y, center y of block
      */
     @Override
     public int getCenterX(){
         int width = x2-x;
         return x + (width/2);
     }
+
+    /**
+     * Get the center y coordinate.
+     * @return y, center y of block
+     */
     @Override
     public int getCenterY() {
         int length = y2 - y;

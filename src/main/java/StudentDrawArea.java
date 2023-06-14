@@ -30,7 +30,7 @@ public class StudentDrawArea extends JPanel implements Observer {
         addMouseMotionListener(controller);
         JButton buttonSubmit = new JButton("Submit");
         buttonSubmit.addActionListener(controller);
-        add(new MenuBar(), BorderLayout.NORTH);
+        add(new WorkspaceMenuBar(), BorderLayout.NORTH);
         add(new StatusBar(), BorderLayout.SOUTH);
         add(buttonSubmit, BorderLayout.EAST);
     }

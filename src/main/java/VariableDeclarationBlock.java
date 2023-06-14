@@ -7,7 +7,7 @@ import java.awt.geom.Area;
  */
 public class VariableDeclarationBlock extends Block{
     public VariableDeclarationBlock(int x, int y) {
-        super(x, y, x+150, y+75, String.valueOf(Color.RED),2,1);
+        super(x, y, x+150, y+75, Color.WHITE,2,1);
     }
     /**
      * draw method used to create the VariableDeclarationBlock rectangle.

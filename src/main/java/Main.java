@@ -10,6 +10,11 @@ import javax.swing.*;
  * @author  Mary Lemmer
  */
 public class Main extends JFrame{
+
+    /**
+     * Program start point.
+     * @param args not used for this program.
+     */
     public static void main(String[] args) {
         Main main = new Main();
         main.setSize(1200, 800);
@@ -25,13 +30,5 @@ public class Main extends JFrame{
         setLayout(new CardLayout());
 
         add(new PanelLayout(), BorderLayout.CENTER);
-//        Main.MenuBar menuBar = new Main.MenuBar();
-//        Main.StatusBar statusBar = new Main.StatusBar(77);
-//        Main.WorkSpace workSpace = new Main.WorkSpace();
-//        BorderLayout layout = new BorderLayout();
-//        setLayout(layout);
-//        add(menuBar, BorderLayout.NORTH);
-//        add(workSpace, BorderLayout.CENTER);
-//        add(statusBar, BorderLayout.SOUTH);
     }
 }

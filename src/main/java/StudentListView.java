@@ -63,8 +63,7 @@ public class StudentListView extends JPanel implements Observer {
 
         for(File f: files ) {
 
-            if(f.getName().endsWith(".json"))
-            {
+            if(f.getName().endsWith(".json")) {
                 String fileName = f.getName();
                 fileName = fileName.substring(0, fileName.lastIndexOf("."));
                 JRadioButton temp = new JRadioButton(fileName);

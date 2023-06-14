@@ -11,8 +11,8 @@ public class EndBlockTest {
 
     @BeforeEach
     void setup(){
-        eb1 = new EndBlock(40, 40, "wtf");
-        eb2 = new EndBlock( 200,200 , "wtf");
+        eb1 = new EndBlock(40, 40);
+        eb2 = new EndBlock( 200,200);
     }
 
     @Test

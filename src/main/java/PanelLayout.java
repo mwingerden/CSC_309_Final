@@ -1,12 +1,17 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Creates all the main panels used by the program.
+ */
 public class PanelLayout extends JPanel implements Observer {
     Repository repository;
 
+    /**
+     * Creates all the main panels used by the program.
+     */
     public PanelLayout() {
         repository = Repository.getInstance();
         repository.addObserver(this);
@@ -22,6 +27,9 @@ public class PanelLayout extends JPanel implements Observer {
         add(new StudentSolutionPanel(), "StudentSolutionPanel");
     }
 
+    /**
+     * Swaps between the StudentListView, TeacherListView, StudentSolutionPanel, and Startup panel.
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (arg != null) {
@@ -34,15 +42,5 @@ public class PanelLayout extends JPanel implements Observer {
                 case "StartUp" -> cl.show(this, "StartUp");
             }
         }
-
-//        if (panel.equalsIgnoreCase("new") || panel.equalsIgnoreCase("edit")) {
-//            cl.show(this, "TeacherDrawArea");
-//        }
-//        else if (panel.equalsIgnoreCase("solve")) {
-//            cl.show(this, "StudentDrawArea");
-//        }
-//        else {
-//            cl.show(this, panel);
-//        }
     }
 }

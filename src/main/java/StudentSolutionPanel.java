@@ -35,17 +35,18 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         add(menuBar, BorderLayout.PAGE_START);
 
         this.setupProblemInfoPanel();
-        add(new StudentWorkspace(this),BorderLayout.CENTER);
+        add(new StudentWorkspace(),BorderLayout.CENTER);
     }
 
     private void setupProblemInfoPanel() {
         this.problemInfoPanel = new JPanel();
-        this.problemInfoPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        this.problemInfoPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         BoxLayout problemInfoLayout = new BoxLayout(problemInfoPanel, BoxLayout.PAGE_AXIS);
         problemInfoPanel.setLayout(problemInfoLayout);
+        problemInfoPanel.setSize(new Dimension(500, 800));
 
         // Problem Title
-         this.problemTitle = new JLabel(Repository.getInstance()
+        this.problemTitle = new JLabel(Repository.getInstance()
                 .getLoadedProblem()
                 .getProblemName(), SwingConstants.LEFT);
         problemTitle.setFont(new Font("Serif", Font.BOLD, 24));
@@ -54,10 +55,16 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         //Problem Progress
         String[] progress = {"Complete","In Progress" ,"Incomplete" };
         this.progressMenu = new JComboBox(progress);
+        this.progressMenu.setSize(new Dimension(500, 100));
+        this.progressMenu.setMaximumSize(new Dimension(500, 100));
+        this.progressMenu.setMinimumSize(new Dimension(500, 100));
 
 
         //going back to problem list
-        this.problemListView = new JButton("Return to Problem List");
+        this.problemListView = new JButton("Go to Problem List");
+        this.problemListView.setSize(new Dimension(500, 100));
+        this.problemListView.setMaximumSize(new Dimension(500, 100));
+        this.problemListView.setMinimumSize(new Dimension(500, 100));
 
         //problem progress bar
         this.problemBar = new JProgressBar();
@@ -71,10 +78,11 @@ public class StudentSolutionPanel extends JPanel implements Observer {
                 .getLoadedProblem()
                 .getProblemDescription());
         problemDescription.setEditable(false);
-
-
-        //feedback
-        this.feedback = new JTextArea("feedback");
+        JScrollPane problemDescScroll = new JScrollPane(problemDescription,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        problemDescScroll.setSize(new Dimension(500, 300));
+        problemDescScroll.setMinimumSize(new Dimension(500, 300));
 
 
         //status bar
@@ -83,9 +91,19 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         // Hints
         this.problemHintArea = new JTextArea("Click button below for hint.");
         this.problemHintArea.setEditable(false);
+        JScrollPane problemHintScroll = new JScrollPane(this.problemHintArea,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        problemHintScroll.setSize(new Dimension(500, 300));
+        problemDescScroll.setMinimumSize(new Dimension(500, 300));
 
         //feedback
         this.feedback = new JTextArea("feedback");
+        this.feedback.setEditable(false);
+        JScrollPane feedbackScroll = new JScrollPane(this.feedback,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        feedbackScroll.setSize(new Dimension(500, 300));
 
         this.hintList = Repository.getInstance().getLoadedProblem().getHints();
 
@@ -98,18 +116,15 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         problemInfoPanel.add(this.progressMenu);
         problemInfoPanel.add(this.problemBar);
         problemInfoPanel.add(this.problemListView);
-        problemInfoPanel.add(problemDescription);
-        problemInfoPanel.add(this.problemHintArea);
+        problemInfoPanel.add(problemDescScroll);
+        problemInfoPanel.add(problemHintScroll);
         problemInfoPanel.add(hintButton);
-        problemInfoPanel.add(feedback);
+        problemInfoPanel.add(feedbackScroll);
         problemInfoPanel.add(status);
 
         add(problemInfoPanel, BorderLayout.WEST);
     }
 
-    public void setFeedback(String feedback){
-        this.feedback.setText(feedback);
-    }
     private void updateHints(ActionEvent e) {
         if (Objects.isNull(this.hintList)) {
             return;
@@ -144,23 +159,18 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private void updateProgress(ActionEvent e)
     {
-       if(this.progressMenu.getSelectedItem().toString().equals("Incomplete"))
-       {
-           this.problemTitle.setForeground(Color.RED);
-           this.problemBar.setValue(0);
-           this.problemBar.setForeground(Color.RED);
-       }
-       else if(this.progressMenu.getSelectedItem().toString().equals("In Progress"))
-       {
-           this.problemTitle.setForeground(Color.YELLOW);
-           this.problemBar.setValue(50);
-       }
-       else if(this.progressMenu.getSelectedItem().toString().equals("Complete"))
-       {
-           this.problemTitle.setForeground(Color.GREEN);
-           this.problemBar.setValue(100);
-           this.problemBar.setForeground(Color.GREEN);
-       }
+        if(this.progressMenu.getSelectedItem().toString().equals("Incomplete")) {
+            this.problemTitle.setForeground(Color.RED);
+            this.problemBar.setValue(0);
+            this.problemBar.setForeground(Color.RED);
+        } else if(this.progressMenu.getSelectedItem().toString().equals("In Progress")) {
+            this.problemTitle.setForeground(Color.YELLOW);
+            this.problemBar.setValue(50);
+        } else if(this.progressMenu.getSelectedItem().toString().equals("Complete")) {
+            this.problemTitle.setForeground(Color.GREEN);
+            this.problemBar.setValue(100);
+            this.problemBar.setForeground(Color.GREEN);
+        }
     }
 
     @Override

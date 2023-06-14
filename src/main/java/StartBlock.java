@@ -10,9 +10,9 @@ public class StartBlock extends Block
 
 {
     int numsOut;
-    public StartBlock(int x, int y, String c)
+    public StartBlock(int x, int y)
     {
-        super(x, y, x+80, y+80, c, 0, 1);
+        super(x, y, x+80, y+80, Color.white, 0, 1);
         this.setBlockText("Start");
         numsOut = 0;
     }
@@ -23,7 +23,7 @@ public class StartBlock extends Block
     @Override
     public void draw(Graphics g)
     {
-        g.setColor(Color.white);
+        g.setColor(this.color);
         g.fillOval(x,y,x2-x, y2-y);
         g.setColor(Color.black);
         g.drawOval(x, y, x2-x, y2-y);

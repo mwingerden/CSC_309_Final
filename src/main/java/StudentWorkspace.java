@@ -19,15 +19,12 @@ import java.util.Observer;
 public class StudentWorkspace extends JPanel implements Observer {
     private final Repository repository;
 
-    private final StudentSolutionPanel studentSolutionPanel;
-
     /**
      * The TeacherWorkspace method sets up the layout of the panel.
      */
-    public StudentWorkspace(StudentSolutionPanel studentSolutionPanel) {
+    public StudentWorkspace() {
         repository = Repository.getInstance();
         repository.addObserver(this);
-        this.studentSolutionPanel = studentSolutionPanel;
         MainController controller = new MainController();
         setBackground(Color.PINK);
         setPreferredSize(new Dimension(300, 300));

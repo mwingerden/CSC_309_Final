@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -74,21 +73,21 @@ public class Repository extends Observable {
         this.drawnChart = drawnChart;
     }
 
-    public void UndoList() {
+    public void undoList() {
         if(!this.drawnChart.isEmpty()) {
             Draw temp = this.drawnChart.get(this.drawnChart.size() - 1);
             undoDrawings.add(temp);
             this.drawnChart.remove(temp);
-            if (temp instanceof Arrow){
-                ((Arrow) temp).block1.removeOutArrow((Arrow)temp);
-                ((Arrow) temp).block2.removeInArrow((Arrow)temp);
+            if (temp instanceof Arrow tempArrow){
+                (tempArrow).sourceShape.removeOutArrow(tempArrow);
+                (tempArrow).destinationShape.removeInArrow(tempArrow);
             }
             setChanged();
             notifyObservers();
         }
     }
 
-    public void RedoList() {
+    public void redoList() {
         if(!this.undoDrawings.isEmpty()) {
             Draw temp = this.undoDrawings.get(this.undoDrawings.size() - 1);
             drawnChart.add(temp);
@@ -132,7 +131,7 @@ public class Repository extends Observable {
     public String saveList(Problem problemToSave, boolean rename) throws IOException {
         if (Objects.isNull(problemToSave) || rename) {
             String name = (String) JOptionPane.showInputDialog(
-                    new WorkSpace(),
+                    null,
                     "Problem Title:",
                     "Problem Title",
                     JOptionPane.PLAIN_MESSAGE,
@@ -217,7 +216,8 @@ public class Repository extends Observable {
      * @param newx, the new x coordinate
      * @param newy, the new y coordinate
      */
-    public void drag(int x, int y, int newx, int newy) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void drag(int x, int y, int newx, int newy)
+            throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Block blockToDrag = null;
         int dragX;
         int dragY;
@@ -227,9 +227,9 @@ public class Repository extends Observable {
             }
         }
         if (blockToDrag != null && !testDragCollision(blockToDrag, newx, newy)) {
-                dragX = newx;
-                dragY = newy;
-                applyDrag(blockToDrag, dragX, dragY);
+            dragX = newx;
+            dragY = newy;
+            applyDrag(blockToDrag, dragX, dragY);
         }
         setChanged();
         notifyObservers("Dragging");
@@ -252,11 +252,9 @@ public class Repository extends Observable {
         } else if (blockToDrag instanceof StartBlock) {
             blockArguments.add(newX - 40);
             blockArguments.add(newY - 40);
-            blockArguments.add("PINK");
         } else if (blockToDrag instanceof EndBlock) {
             blockArguments.add(newX - 40);
             blockArguments.add(newY - 40);
-            blockArguments.add("BLUE");
         }
         Block testNewLocationBlock = (Block) blockToDrag.getClass()
                 .getConstructors()[0].newInstance(blockArguments.toArray());
@@ -275,9 +273,9 @@ public class Repository extends Observable {
         } else if (blockToDrag instanceof InputOutputBlock) {
             dragging(blockToDrag, new InputOutputBlock(dragX - 30, dragY));
         } else if (blockToDrag instanceof StartBlock) {
-            dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40, "PINK"));
+            dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40));
         } else if (blockToDrag instanceof EndBlock) {
-            dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40, "BLUE"));
+            dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40));
         }
     }
 
@@ -292,30 +290,20 @@ public class Repository extends Observable {
         newBlock.setHintText((block.getHintText()));
         newBlock.setArrowInCount(block.getArrowInCount());
         newBlock.setArrowOutCount(block.getArrowOutCount());
+        newBlock.setColor(block.getColor());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
-                if (arrow.getBlock1().equals(block)) {
-                    drawnChart.add(new Arrow(newBlock, arrow.getBlock2()));
+                if (arrow.getSourceShape().equals(block)) {
+                    drawnChart.add(new Arrow(newBlock, arrow.getDestinationShape()));
                     drawnChart.remove(arrow);
-                } else if (arrow.getBlock2().equals(block)) {
-                    drawnChart.add(new Arrow(arrow.getBlock1(), newBlock));
+                } else if (arrow.getDestinationShape().equals(block)) {
+                    drawnChart.add(new Arrow(arrow.getSourceShape(), newBlock));
                     drawnChart.remove(arrow);
                 }
             }
         }
         drawnChart.remove(block);
         drawnChart.add(newBlock);
-    }
-
-    public void deleteBlock(int x, int y) {
-        for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block block && block.contains(x, y)) {
-                drawnChart.remove(drawing);
-                setChanged();
-                notifyObservers();
-                break;
-            }
-        }
     }
 
     /**
@@ -407,7 +395,11 @@ public class Repository extends Observable {
                         findCorrespondingTeacherBlock(block);
                     }
                 } else if (!(block instanceof StartBlock || block instanceof EndBlock)) {
-                    newBlockText(block);
+                    if (newBlockText(block)) {
+                        block.setColor(Color.WHITE);
+                    }
+                    setChanged();
+                    notifyObservers("Changed block text");
                 }
             }
         }
@@ -441,7 +433,7 @@ public class Repository extends Observable {
 
     private boolean newBlockText(Block newBlock) {
         String text = (String) JOptionPane.showInputDialog(
-                new WorkSpace(),
+                null,
                 "Name:",
                 "Enter Name",
                 JOptionPane.PLAIN_MESSAGE,
@@ -491,26 +483,26 @@ public class Repository extends Observable {
         Block b2 = null;
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x1, y1) && !(drawing instanceof EndBlock)){
-                b1 = blockOneArrow(drawing, x1, y1);
+                b1 = blockOneArrow(drawing);
 
             }
             if (drawing instanceof Block block && block.contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
             }
         }
-        if(b1 != null && b2 != null && b1 != b2){
-            if(b1.checkOutGoing() && b2.checkInGoing()) {
-                Arrow a = new Arrow(b1, b2);
-                b1.addOutArrow(a);
-                b2.addInArrow(a);
-                drawnChart.add(a);
-            }
+        if(!(Objects.isNull(b1)) && !(Objects.isNull(b2)) && !b1.equals(b2)
+                && (b1.checkOutGoing() && b2.checkInGoing())) {
+            Arrow a = new Arrow(b1, b2);
+            b1.addOutArrow(a);
+            b2.addInArrow(a);
+            drawnChart.add(a);
+
         }
         setChanged();
         notifyObservers();
     }
 
-    private Block blockOneArrow(Draw drawing, int x1, int y1) {
+    private Block blockOneArrow(Draw drawing) {
         if (drawing instanceof StartBlock startBlock){
             if (startBlock.maxNumsOut()){
                 return null;

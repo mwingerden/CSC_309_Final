@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -27,12 +26,12 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             Repository.getInstance().setBlockToDraw(e.getActionCommand());
         }
         switch (e.getActionCommand()) {
-            //TODO: The button press or other such actions are most likely be placed here.
             case "Teacher" -> Repository.getInstance().updatePanel("TeacherListView");
             case "Student" -> Repository.getInstance().updatePanel("StudentListView");
             case "Home" -> Repository.getInstance().updatePanel("StartUp");
-            case "Undo" -> Repository.getInstance().UndoList();
-            case "Redo" -> Repository.getInstance().RedoList();
+            case "Go to Problem List" -> Repository.getInstance().updatePanel("StudentListView");
+            case "Undo" -> Repository.getInstance().undoList();
+            case "Redo" -> Repository.getInstance().redoList();
             case "Login" -> Repository.getInstance().authenticateLogin();
             case "Cancel" -> Repository.getInstance().closeLogin();
             default -> menuItemClicked(e.getActionCommand());
@@ -40,21 +39,27 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
     }
 
     /**
-     * The mouse methods receive the actions by the user and creates blocks and arrows needed.
+     * Processes left and right mouse clicks. Right click results in the block text of the clicked block to be changed.
+     * Right click and shift down results in the hints of the clicked block to be changed. Left click creates the
+     * currently selected block.
      * @param e the event to be processed
      */
     @Override
     public void mouseClicked(MouseEvent e) {
         if (SwingUtilities.isRightMouseButton(e) || (SwingUtilities.isRightMouseButton(e) && e.isShiftDown())) {
             Repository.getInstance().blockText(e, e.getX(), e.getY());
-        } else if (e.isShiftDown()) {
-            //Repository.getInstance().deleteBlock(e.getX(), e.getY());
         } else {
             if (e.getButton() == MouseEvent.BUTTON1) {
-                change_status(e);
+                changeStatus(e);
             }
         }
     }
+
+    /**
+     * Processes when the mouse is pressed. If the user has selected to draw arrows and holds shift down it will set the
+     * starting point for the arrow and set the program status to an arrow being drawn.
+     * @param e the event to be processed
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         if (Repository.getInstance().getBlockToDraw().equals("Arrow") && e.isShiftDown()) {
@@ -63,6 +68,13 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
         startDragx = e.getX();
         startDragy = e.getY();
     }
+
+    /**
+     * Processes when the mouse is released. If the user has selected to draw arrows and holds shift down it will draw
+     * an arrow between the two blocks that correspond to the location where the moused was pressed and where it was
+     * released.
+     * @param e the event to be processed
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         endDragx = e.getX();
@@ -71,12 +83,21 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             Repository.getInstance().addArrow(startDragx,startDragy,endDragx,endDragy);
         }
     }
+
     @Override
     public void mouseEntered(MouseEvent e) {
+        // no actions associated
     }
     @Override
     public void mouseExited(MouseEvent e) {
+        // no actions associated
     }
+
+    /**
+     * Sets the status to dragging and attempts to drag a block as long as shift is not down and arrow is not selected.
+     * Prints the stack trace if there is an error when dragging.
+     * @param e the event to be processed
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
         Repository.getInstance().setStatus("Dragging");
@@ -92,9 +113,12 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             startDragy = endDragy;
         }
     }
+
     @Override
     public void mouseMoved(MouseEvent e) {
+        // no actions associated
     }
+
     private void menuItemClicked(String e) {
         switch (e) {
             case "Clear" -> {
@@ -113,7 +137,7 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             }
         }
     }
-    private void change_status(MouseEvent e){
+    private void changeStatus(MouseEvent e){
         switch (Repository.getInstance().getBlockToDraw()) {
             case "If/Else" -> {
                 Repository.getInstance().setStatus("Condition block was drawn");
@@ -125,11 +149,11 @@ public class MainController implements MouseMotionListener, ActionListener, Mous
             }
             case "Start" -> {
                 Repository.getInstance().setStatus("Starting block was drawn");
-                Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40, "PINK"));
+                Repository.getInstance().addBlock(new StartBlock(e.getX() - 40, e.getY() - 40));
             }
             case "End" -> {
                 Repository.getInstance().setStatus("Ending block was drawn");
-                Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40, "BLUE"));
+                Repository.getInstance().addBlock(new EndBlock(e.getX() - 40, e.getY() - 40));
             }
             case "I/O" -> {
                 Repository.getInstance().setStatus("Input/Output block was drawn");

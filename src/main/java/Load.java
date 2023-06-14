@@ -7,16 +7,22 @@ import javax.swing.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 /**
  * Load class that handles the loading of files and blocks.
  */
 public class Load {
     private static final List<Draw> blockList = new ArrayList<>();
+
+    private Load() {
+        throw new IllegalStateException("Utility Class");
+    }
+
     /**
-     * load method will try to load a file of a certain name.
-     * @param name, file name
-     * @return drawingsList
+     * load method will try to load a file of a certain name in the Drawings folder.
+     * @param name, file name of a file in the Drawings folder.
+     * @return Problem object containing all the information read from the file.
      */
     @SuppressWarnings("unchecked")
     public static Problem load(String name) {
@@ -46,6 +52,12 @@ public class Load {
         }
     }
 
+    /**
+     * load method for drawings that are used for testing. It will try to load a file of a certain name in the
+     * TestDrawings folder
+     * @param name, file name of a file in the TestDrawings folder.
+     * @return Problem object containing all the information read from the file.
+     */
     @SuppressWarnings("unchecked")
     public static Problem loadTest(String name) {
         JSONParser jsonParser = new JSONParser();
@@ -94,18 +106,6 @@ public class Load {
         return blocks;
     }
 
-    private static Draw getDrawObject(JSONObject block) {
-        JSONObject drawingObject = (JSONObject) block.get("CodeBlock");
-        if (drawingObject != null) {
-            return loadCodeBlock(drawingObject);
-        }
-        JSONArray drawingObjects = (JSONArray) block.get("Arrow");
-        if (drawingObjects != null) {
-            return loadArrow(drawingObjects);
-        }
-        return null;
-    }
-
     /**
      * loadCodeBlock method returns the different blocks and loads them into a list.
      * @param codeBlock, type of block
@@ -121,7 +121,7 @@ public class Load {
                     Integer.parseInt((String) codeBlock.get("Y1")));
         } else if (codeBlock.get("Name").equals("EndBlock")) {
             drawing = new EndBlock(Integer.parseInt((String) codeBlock.get("X1")),
-                    Integer.parseInt((String) codeBlock.get("Y1")), "PINK");
+                    Integer.parseInt((String) codeBlock.get("Y1")));
         } else if (codeBlock.get("Name").equals("InputOutputBlock")) {
             drawing = new InputOutputBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
@@ -130,7 +130,7 @@ public class Load {
                     Integer.parseInt((String) codeBlock.get("Y1")));
         } else if (codeBlock.get("Name").equals("StartBlock")) {
             drawing = new StartBlock(Integer.parseInt((String) codeBlock.get("X1")),
-                    Integer.parseInt((String) codeBlock.get("Y1")),"BLUE");
+                    Integer.parseInt((String) codeBlock.get("Y1")));
         } else if (codeBlock.get("Name").equals("VariableDeclarationBlock")) {
             drawing = new VariableDeclarationBlock(Integer.parseInt((String) codeBlock.get("X1")),
                     Integer.parseInt((String) codeBlock.get("Y1")));
