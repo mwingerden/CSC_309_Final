@@ -2,11 +2,11 @@
 import javax.swing.*;
 
 /**
- * The MenuBar class where the user will use menu items to interact with the application.
+ * The WorkspaceMenuBar class where the user will use menu items to interact with the application.
  */
 public class WorkspaceMenuBar extends JMenuBar {
     /**
-     * MenuBar constructor sets up all the needed menus for the user.
+     * WorkspaceMenuBar constructor sets up all the needed menus for the user.
      */
     public WorkspaceMenuBar() {
         MainController mainController = new MainController();

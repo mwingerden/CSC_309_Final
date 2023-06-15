@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
@@ -32,15 +33,17 @@ public class Load {
             JSONArray fileElements = (JSONArray) obj;
 
             String description = ((JSONObject) fileElements.get(0)).get("Problem Description").toString();
+            String progress = ((JSONObject) fileElements.get(1)).get("Problem Progress").toString();
+            String feedback = ((JSONObject) fileElements.get(2)).get("Problem Feedback").toString();
             List<Draw> teacherDrawings = parseDrawingArray((JSONArray)
-                            ((JSONObject) fileElements.get(1))
+                            ((JSONObject) fileElements.get(3))
                             .get("Teacher Solution"));
             List<Draw> studentAttempt = parseDrawingArray((JSONArray)
-                    ((JSONObject) fileElements.get(2))
+                    ((JSONObject) fileElements.get(4))
                             .get("Student Attempt"));
-            List<String> hints = (List<String>) ((JSONObject) fileElements.get(3)).get("Hints");
+            List<String> hints = (List<String>) ((JSONObject) fileElements.get(5)).get("Hints");
 
-            return new Problem(name, description, teacherDrawings, studentAttempt, hints);
+            return new Problem(name, description, progress, feedback, teacherDrawings, studentAttempt, hints);
 
         } catch (IOException | ParseException e) {
             JOptionPane.showMessageDialog(
@@ -66,15 +69,17 @@ public class Load {
             JSONArray fileElements = (JSONArray) obj;
 
             String description = ((JSONObject) fileElements.get(0)).get("Problem Description").toString();
+            String progress = ((JSONObject) fileElements.get(1)).get("Problem Progress").toString();
+            String feedback = ((JSONObject) fileElements.get(2)).get("Problem Feedback").toString();
             List<Draw> teacherDrawings = parseDrawingArray((JSONArray)
-                    ((JSONObject) fileElements.get(1))
+                    ((JSONObject) fileElements.get(3))
                             .get("Teacher Solution"));
             List<Draw> studentAttempt = parseDrawingArray((JSONArray)
-                    ((JSONObject) fileElements.get(2))
+                    ((JSONObject) fileElements.get(4))
                             .get("Student Attempt"));
-            List<String> hints = (List<String>) ((JSONObject) fileElements.get(3)).get("Hints");
+            List<String> hints = (List<String>) ((JSONObject) fileElements.get(5)).get("Hints");
 
-            return new Problem(name, description, teacherDrawings, studentAttempt, hints);
+            return new Problem(name, description, progress, feedback, teacherDrawings, studentAttempt, hints);
 
         } catch (IOException | ParseException e) {
             JOptionPane.showMessageDialog(
@@ -138,6 +143,12 @@ public class Load {
         assert drawing != null;
         drawing.setBlockText((String) codeBlock.get("Text"));
         getHints(codeBlock.get("Hint"), drawing);
+        String colorString = (String) codeBlock.get("Color");
+        switch (colorString) {
+            case "orange" -> drawing.setColor(Color.ORANGE);
+            case "black" -> drawing.setColor(Color.BLACK);
+            default -> drawing.setColor(Color.WHITE);
+        }
         drawing.setArrowInLimit(Integer.parseInt((String) codeBlock.get("arrowInLimit")));
         drawing.setArrowOutLimit(Integer.parseInt((String) codeBlock.get("arrowOutLimit")));
         drawing.setArrowInCount(Integer.parseInt((String) codeBlock.get("arrowInCount")));

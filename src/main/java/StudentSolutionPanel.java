@@ -4,6 +4,10 @@ import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.List;
 
+/**
+ * The panel that allows the student to attempt a problem. The left side contains the progress, hints, feedback, and the
+ * description of what a flowchart should look like.
+ */
 public class StudentSolutionPanel extends JPanel implements Observer {
 
     private List<String> hintList;
@@ -26,6 +30,10 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private JProgressBar problemBar;
 
+    /**
+     * Constructs the panel that allows the student to attempt a problem. The left side contains the progress, hints,
+     *  feedback, and the description of what a flowchart should look like.
+     */
     public StudentSolutionPanel() {
         Repository.getInstance().addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -40,31 +48,26 @@ public class StudentSolutionPanel extends JPanel implements Observer {
 
     private void setupProblemInfoPanel() {
         this.problemInfoPanel = new JPanel();
-        this.problemInfoPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         BoxLayout problemInfoLayout = new BoxLayout(problemInfoPanel, BoxLayout.PAGE_AXIS);
         problemInfoPanel.setLayout(problemInfoLayout);
-        problemInfoPanel.setSize(new Dimension(500, 800));
+        problemInfoPanel.setSize(new Dimension(300, 800));
 
         // Problem Title
         this.problemTitle = new JLabel(Repository.getInstance()
                 .getLoadedProblem()
-                .getProblemName(), SwingConstants.LEFT);
+                .getProblemName());
         problemTitle.setFont(new Font("Serif", Font.BOLD, 24));
-        problemTitle.setVerticalAlignment(SwingConstants.TOP);
+        this.problemTitle.setPreferredSize(new Dimension(300, 20));
 
         //Problem Progress
         String[] progress = {"Complete","In Progress" ,"Incomplete" };
-        this.progressMenu = new JComboBox(progress);
-        this.progressMenu.setSize(new Dimension(500, 100));
-        this.progressMenu.setMaximumSize(new Dimension(500, 100));
-        this.progressMenu.setMinimumSize(new Dimension(500, 100));
+        this.progressMenu = new JComboBox<>(progress);
+        this.progressMenu.setPreferredSize(new Dimension(300, 20));
 
 
         //going back to problem list
         this.problemListView = new JButton("Go to Problem List");
-        this.problemListView.setSize(new Dimension(500, 100));
-        this.problemListView.setMaximumSize(new Dimension(500, 100));
-        this.problemListView.setMinimumSize(new Dimension(500, 100));
+        this.problemListView.setPreferredSize(new Dimension(300, 20));
 
         //problem progress bar
         this.problemBar = new JProgressBar();
@@ -81,12 +84,13 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         JScrollPane problemDescScroll = new JScrollPane(problemDescription,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        problemDescScroll.setSize(new Dimension(500, 300));
-        problemDescScroll.setMinimumSize(new Dimension(500, 300));
+        problemDescScroll.setPreferredSize(new Dimension(300, 300));
 
 
         //status bar
         StatusBar status = new StatusBar();
+        status.setPreferredSize(new Dimension(300, 50));
+        status.setMaximumSize(new Dimension(300, 100));
 
         // Hints
         this.problemHintArea = new JTextArea("Click button below for hint.");
@@ -94,8 +98,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         JScrollPane problemHintScroll = new JScrollPane(this.problemHintArea,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        problemHintScroll.setSize(new Dimension(500, 300));
-        problemDescScroll.setMinimumSize(new Dimension(500, 300));
+        problemHintScroll.setPreferredSize(new Dimension(300, 300));
 
         //feedback
         this.feedback = new JTextArea("feedback");
@@ -103,7 +106,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         JScrollPane feedbackScroll = new JScrollPane(this.feedback,
                 ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
                 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        feedbackScroll.setSize(new Dimension(500, 300));
+        feedbackScroll.setPreferredSize(new Dimension(300, 300));
 
         this.hintList = Repository.getInstance().getLoadedProblem().getHints();
 
@@ -126,7 +129,7 @@ public class StudentSolutionPanel extends JPanel implements Observer {
     }
 
     private void updateHints(ActionEvent e) {
-        if (Objects.isNull(this.hintList)) {
+        if (Objects.isNull(this.hintList) || this.hintList.isEmpty()) {
             return;
         }
         if (this.problemHintArea.getText().equals("Click button below for hint.")) {
@@ -144,21 +147,22 @@ public class StudentSolutionPanel extends JPanel implements Observer {
         this.problemInfoPanel.repaint();
     }
 
+    /**
+     * Update the progress label shown in the panel.
+     * @param s string containing "complete", "in progress", or "incomplete".
+     */
     public void updateProgresstext(String s){
         if (s.equals("complete")) {
             this.progressMenu.setSelectedIndex(0);
-        }
-        else if (s.equals("in progress")){
+        } else if (s.equals("in progress")){
             this.progressMenu.setSelectedIndex(1);
-        }
-        else{
+        } else {
             this.progressMenu.setSelectedIndex(2);
         }
     }
 
 
-    private void updateProgress(ActionEvent e)
-    {
+    private void updateProgress(ActionEvent e) {
         if(this.progressMenu.getSelectedItem().toString().equals("Incomplete")) {
             this.problemTitle.setForeground(Color.RED);
             this.problemBar.setValue(0);

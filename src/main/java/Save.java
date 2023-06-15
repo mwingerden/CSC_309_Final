@@ -2,6 +2,7 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -9,10 +10,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
 /**
  * The Save class stores the user's saved files
  */
 public class Save {
+
+    private Save() {
+        throw new IllegalStateException("Utility Class");
+    }
 
     /**
      * Saves all elements of a problem to a file in the Drawings directory.
@@ -28,6 +34,14 @@ public class Save {
         JSONObject problemDescription = new JSONObject();
         problemDescription.put("Problem Description", problemToSave.getProblemDescription());
         fileElements.add(problemDescription);
+
+        JSONObject problemProgress = new JSONObject();
+        problemProgress.put("Problem Progress", problemToSave.getProgress());
+        fileElements.add(problemProgress);
+
+        JSONObject problemFeedback = new JSONObject();
+        problemFeedback.put("Problem Feedback", problemToSave.getFeedback());
+        fileElements.add(problemFeedback);
 
         JSONObject teacherDrawing = new JSONObject();
         teacherDrawing.put("Teacher Solution", saveDrawingList(problemToSave.getTeacherSolution()));
@@ -69,6 +83,13 @@ public class Save {
                     intermediaryFilePath.resolveSibling(problemToSave.getProblemName() + ".json"));
         }
     }
+
+    /**
+     * Saves all elements of a problem to a file in the TestDrawings directory.
+     *
+     * @param problemToSave Problem object containing needed elements for a problem file.
+     * @throws IOException if an issue occurs creating or opening file
+     */
     @SuppressWarnings("unchecked")
     public static void saveTest(Problem problemToSave) throws IOException {
 
@@ -77,6 +98,14 @@ public class Save {
         JSONObject problemDescription = new JSONObject();
         problemDescription.put("Problem Description", problemToSave.getProblemDescription());
         fileElements.add(problemDescription);
+
+        JSONObject problemProgress = new JSONObject();
+        problemProgress.put("Problem Progress", problemToSave.getProgress());
+        fileElements.add(problemProgress);
+
+        JSONObject problemFeedback = new JSONObject();
+        problemFeedback.put("Problem Feedback", problemToSave.getFeedback());
+        fileElements.add(problemFeedback);
 
         JSONObject teacherDrawing = new JSONObject();
         teacherDrawing.put("Teacher Solution", saveDrawingList(problemToSave.getTeacherSolution()));
@@ -136,6 +165,14 @@ public class Save {
         jsonObjectDetails.put("arrowOutCount", Integer.toString(codeBlock.getArrowOutCount()));
         jsonObjectDetails.put("Text", codeBlock.getBlockText());
         jsonObjectDetails.put("Hint", codeBlock.getHintText());
+        Color color = codeBlock.getColor();
+        if (color.equals(Color.ORANGE)) {
+            jsonObjectDetails.put("Color", "orange");
+        } else if (color.equals(Color.black)) {
+            jsonObjectDetails.put("Color", "black");
+        } else {
+            jsonObjectDetails.put("Color", "white");
+        }
         if (codeBlock instanceof CallMethodBlock) {
             jsonObjectDetails.put("Name", "CallMethodBlock");
             jsonObject.put("CodeBlock", jsonObjectDetails);

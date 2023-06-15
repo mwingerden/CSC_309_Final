@@ -6,6 +6,12 @@ import java.awt.geom.Area;
  * The VariableDeclarationBlock class represented by a rectangle with two lines.
  */
 public class VariableDeclarationBlock extends Block{
+
+    /**
+     * Constructor method for VariableDeclarationBlock giving the required parameters.
+     * @param x, block's top left x coordinate
+     * @param y, block's top left y coordinate
+     */
     public VariableDeclarationBlock(int x, int y) {
         super(x, y, x+150, y+75, Color.WHITE,2,1);
     }
@@ -26,14 +32,18 @@ public class VariableDeclarationBlock extends Block{
         }
     }
     /**
-     * The getter methods returning the centered x and y coordinates of the VariableDeclarationBlock.
-     * @ return, center x or y
+     * Get the center x coordinate.
+     * @return x, center x of block
      */
     @Override
     public int getCenterX(){
         int width = x2-x;
         return x + (width/2);
     }
+    /**
+     * Get the center y coordinate.
+     * @return y, center y of block
+     */
     @Override
     public int getCenterY() {
         int length = y2 - y;

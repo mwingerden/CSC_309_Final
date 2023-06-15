@@ -6,23 +6,23 @@ import java.awt.geom.Ellipse2D;
 /**
  * The StartBlock class that is represented by a circle, user selects and sets this block on the work space.
  */
-public class StartBlock extends Block
+public class StartBlock extends Block {
 
-{
-    int numsOut;
-    public StartBlock(int x, int y)
-    {
+    /**
+     * Constructor for a startBlock object at the x and y coordinates passed.
+     * @param x, block's top left x coordinate
+     * @param y, block's top left y coordinate
+     */
+    public StartBlock(int x, int y) {
         super(x, y, x+80, y+80, Color.white, 0, 1);
         this.setBlockText("Start");
-        numsOut = 0;
     }
     /**
      * The draw method, represents the start block with a circle.
      * @param g
      */
     @Override
-    public void draw(Graphics g)
-    {
+    public void draw(Graphics g) {
         g.setColor(this.color);
         g.fillOval(x,y,x2-x, y2-y);
         g.setColor(Color.black);
@@ -50,10 +50,11 @@ public class StartBlock extends Block
         return new Area(new Ellipse2D.Double(x, y, 80, 80));
     }
 
-    public void increaseNumOut(){
-        this.numsOut +=1;
-    }
+    /**
+     * Checks if there is an arrow leaving this block or not.
+     * @return true if the number of outgoing arrows is 1 and false otherwise.
+     */
     public boolean maxNumsOut(){
-        return this.numsOut == 1;
+        return this.arrowOutCount == this.arrowOutLimit;
     }
 }

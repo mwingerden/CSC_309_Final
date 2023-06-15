@@ -1,7 +1,14 @@
 
 import javax.swing.*;
 
+/**
+ * The first panel viewed when the program is loaded. Asks if teacher or student.
+ */
 public class StartUp extends JPanel {
+
+    /**
+     * Constructor for the first panel viewed when the program is loaded. Asks if teacher or student.
+     */
     public StartUp() {
         MainController controller = new MainController();
         JLabel jLabel1 = new JLabel("Are you a");

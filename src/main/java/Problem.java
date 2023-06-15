@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Contains all the information from the drawing files and what is currently on screen.
@@ -32,6 +31,8 @@ public class Problem {
      */
     public Problem(String problemName,
             String problemDescription,
+            String problemProgress,
+            String problemFeedback,
             List<Draw> teacherSolution,
             List<Draw> studentAttempt,
             List<String> hints) {
@@ -40,8 +41,8 @@ public class Problem {
         this.teacherSolution = teacherSolution;
         this.studentAttempt = studentAttempt;
         this.hints = hints;
-        progress = "";
-        feedback = "";
+        progress = problemProgress;
+        feedback = problemFeedback;
     }
 
     /**

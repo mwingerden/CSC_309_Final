@@ -8,12 +8,19 @@ import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * Panel that lists out all the problems a student can attempt.
+ */
 public class StudentListView extends JPanel implements Observer {
     Repository repository = Repository.getInstance();
 
     ButtonGroup problemButtons = new ButtonGroup();
     JPanel problems;
     JPanel panelCenter;
+
+    /**
+     * Constructor method for the panel that shows the student all the problems they can attempt.
+     */
     public StudentListView() {
         repository.addObserver(this);
         BorderLayout majorityLayout = new BorderLayout();
@@ -84,6 +91,7 @@ public class StudentListView extends JPanel implements Observer {
         return problems;
 
     }
+
     @Override
     public void update(Observable o, Object arg) {
         panelCenter.remove(problems);

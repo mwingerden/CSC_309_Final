@@ -30,6 +30,9 @@ public class TeacherListView extends JPanel {
 
     private String loadedWorkspace = "";
 
+    /**
+     * Sets up the teacher view.
+     */
     public TeacherListView() {
 
         setBackground(Color.LIGHT_GRAY);
