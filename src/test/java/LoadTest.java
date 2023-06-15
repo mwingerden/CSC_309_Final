@@ -28,7 +28,8 @@ public class LoadTest {
         hints.add("ewfwefgw");
         hints.add("etthedthefhdhgwf");
 
-        Problem solution = new Problem("TestSave1", "testing save", teacher, student, hints);
+        Problem solution = new Problem("TestSave1", "testing save",
+                "incomplete", "no feedback", teacher, student, hints);
         Problem testProblem = Load.loadTest("TestSave1");
 
         assertEquals(solution, testProblem);

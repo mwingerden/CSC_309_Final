@@ -60,9 +60,9 @@ public class ParserTest {
         Arrow arrow3 = (Arrow) p.get_arrows().get(2);
         assertEquals(p.get_arrows().size(), 3);
 
-        assertTrue(arrow1.block1 instanceof StartBlock && arrow1.block2 instanceof VariableDeclarationBlock);
-        assertTrue(arrow2.block1 instanceof VariableDeclarationBlock && arrow2.block2 instanceof InstructionBlock);
-        assertTrue(arrow3.block1 instanceof InstructionBlock && arrow3.block2 instanceof EndBlock);
+        assertTrue(arrow1.sourceShape instanceof StartBlock && arrow1.destinationShape instanceof VariableDeclarationBlock);
+        assertTrue(arrow2.sourceShape instanceof VariableDeclarationBlock && arrow2.destinationShape instanceof InstructionBlock);
+        assertTrue(arrow3.sourceShape instanceof InstructionBlock && arrow3.destinationShape instanceof EndBlock);
     }
 
     @Test
@@ -91,13 +91,13 @@ public class ParserTest {
         Arrow arrow7 = (Arrow) p.get_arrows().get(6);
         assertEquals(p.get_arrows().size(), 7);
 
-        assertTrue(arrow1.block1 instanceof StartBlock && arrow1.block2 instanceof VariableDeclarationBlock);
-        assertTrue(arrow2.block1 instanceof VariableDeclarationBlock && arrow2.block2 instanceof InstructionBlock);
-        assertTrue(arrow3.block1 instanceof InstructionBlock && arrow3.block2 instanceof ConditionBlock);
-        assertTrue(arrow4.block1 instanceof ConditionBlock && arrow4.block2 instanceof InputOutputBlock);
-        assertTrue(arrow5.block1 instanceof InputOutputBlock && arrow5.block2 instanceof InstructionBlock);
-        assertTrue(arrow6.block1 instanceof InstructionBlock && arrow6.block2 instanceof ConditionBlock);
-        assertTrue(arrow7.block1 instanceof ConditionBlock && arrow7.block2 instanceof EndBlock);
+        assertTrue(arrow1.sourceShape instanceof StartBlock && arrow1.destinationShape instanceof VariableDeclarationBlock);
+        assertTrue(arrow2.sourceShape instanceof VariableDeclarationBlock && arrow2.destinationShape instanceof InstructionBlock);
+        assertTrue(arrow3.sourceShape instanceof InstructionBlock && arrow3.destinationShape instanceof ConditionBlock);
+        assertTrue(arrow4.sourceShape instanceof ConditionBlock && arrow4.destinationShape instanceof InputOutputBlock);
+        assertTrue(arrow5.sourceShape instanceof InputOutputBlock && arrow5.destinationShape instanceof InstructionBlock);
+        assertTrue(arrow6.sourceShape instanceof InstructionBlock && arrow6.destinationShape instanceof ConditionBlock);
+        assertTrue(arrow7.sourceShape instanceof ConditionBlock && arrow7.destinationShape instanceof EndBlock);
     }
 
 
@@ -116,10 +116,10 @@ public class ParserTest {
         Arrow arrow3 = (Arrow) p.get_arrows().get(2);
         Arrow arrow4 = (Arrow) p.get_arrows().get(3);
 
-        assertTrue(arrow1.block1 instanceof StartBlock && arrow1.block2 instanceof ConditionBlock);
-        assertTrue(arrow2.block1 instanceof ConditionBlock && arrow2.block2 instanceof InputOutputBlock);
-        assertTrue(arrow3.block1 instanceof InputOutputBlock && arrow3.block2 instanceof EndBlock);
-        assertTrue(arrow4.block1 instanceof ConditionBlock && arrow4.block2 instanceof EndBlock);
+        assertTrue(arrow1.sourceShape instanceof StartBlock && arrow1.destinationShape instanceof ConditionBlock);
+        assertTrue(arrow2.sourceShape instanceof ConditionBlock && arrow2.destinationShape instanceof InputOutputBlock);
+        assertTrue(arrow3.sourceShape instanceof InputOutputBlock && arrow3.destinationShape instanceof EndBlock);
+        assertTrue(arrow4.sourceShape instanceof ConditionBlock && arrow4.destinationShape instanceof EndBlock);
         assertEquals(p.get_arrows().size(),4);
     }
     @Test
@@ -140,11 +140,11 @@ public class ParserTest {
         Arrow arrow5 = (Arrow) p.get_arrows().get(4);
         assertEquals(p.get_arrows().size(), 5);
 
-        assertTrue(arrow1.block1 instanceof StartBlock && arrow1.block2 instanceof ConditionBlock);
-        assertTrue(arrow2.block1 instanceof ConditionBlock && arrow2.block2 instanceof InputOutputBlock);
-        assertTrue(arrow3.block1 instanceof InputOutputBlock && arrow3.block2 instanceof InputOutputBlock);
-        assertTrue(arrow4.block1 instanceof ConditionBlock && arrow4.block2 instanceof InputOutputBlock);
-        assertTrue(arrow5.block1 instanceof  InputOutputBlock && arrow5.block2 instanceof EndBlock);
+        assertTrue(arrow1.sourceShape instanceof StartBlock && arrow1.destinationShape instanceof ConditionBlock);
+        assertTrue(arrow2.sourceShape instanceof ConditionBlock && arrow2.destinationShape instanceof InputOutputBlock);
+        assertTrue(arrow3.sourceShape instanceof InputOutputBlock && arrow3.destinationShape instanceof InputOutputBlock);
+        assertTrue(arrow4.sourceShape instanceof ConditionBlock && arrow4.destinationShape instanceof InputOutputBlock);
+        assertTrue(arrow5.sourceShape instanceof  InputOutputBlock && arrow5.destinationShape instanceof EndBlock);
     }
 
 

@@ -52,12 +52,12 @@ public class Parser {
                         currentToken++;
                         if (check("delimiter", "{")) {
                             currentToken++;
-                            outputBlocks.add(new StartBlock(0 ,0 , "irrelevant_color"));
+                            outputBlocks.add(new StartBlock(0 ,0));
                             parseBody();
                             if (check("delimiter", "}")) {
                                 currentToken++;
                                 System.out.println("Inputted a method!");
-                                EndBlock eb = new EndBlock(0, 0, "Why string in this parameter?");
+                                EndBlock eb = new EndBlock(0, 0);
                                 outputArrows.add(new Arrow((Block)outputBlocks.get(outputBlocks.size()-1), eb));
                                 if (merge_condition == true ){
                                     outputArrows.add( new Arrow(last_condition, eb));

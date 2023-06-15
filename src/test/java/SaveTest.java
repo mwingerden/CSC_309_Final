@@ -31,7 +31,7 @@ public class SaveTest {
         hints.add("ewfwefgw");
         hints.add("etthedthefhdhgwf");
 
-        Save.saveTest(new Problem("Testing", "testing save", teacher, student, hints));
+        Save.saveTest(new Problem("Testing", "testing save", "incomplete", "no feedback", teacher, student, hints));
 
         Assertions.assertTrue(filesCompare());
     }
