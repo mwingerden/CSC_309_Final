@@ -12,9 +12,9 @@ public class LoadTest {
         List<Draw> student = new ArrayList<>();
         List<String> hints = new ArrayList<>();
 
-        Block block1 = new StartBlock(10, 10, "Start");
+        Block block1 = new StartBlock(10, 10);
         Block block2 = new CallMethodBlock(10, 10);
-        Block block3 = new EndBlock(10, 10, "End");
+        Block block3 = new EndBlock(10, 10);
 
         teacher.add(block1);
         teacher.add(block2);

@@ -6,37 +6,39 @@ import java.awt.geom.Ellipse2D;
 /**
  * The EndBlock class representing the final block in the work space.
  */
-public class EndBlock extends Block
-{
+public class EndBlock extends Block {
     /**
      * EndBlock constructor receiving needed parameters.
-     * @param x
-     * @param y
-     * @param c
+     * @param x, block's top left x coordinate
+     * @param y, block's top left y coordinate
      */
-    public EndBlock(int x, int y, String c)
-    {
-        super(x, y, x+80, y+80, c,2,0);
+    public EndBlock(int x, int y) {
+        super(x, y, x+80, y+80, Color.BLACK,2,0);
         this.setBlockText("End");
     }
+
     /**
      * A draw method to represent a black colored EndBlock
-     * @param g
+     * @param g graphics object to draw to
      */
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(this.color);
         g.fillOval(x,y,x2-x, y2-y);
     }
+
     /**
-     * The getter methods that return the centered x and y coordinates.
-     * @return x
-     * @return y
+     * Getter method returning an x coordinate.
+     * @return x, center x of block
      */
     @Override
     public int getCenterX(){
         return x + 40;
     }
+    /**
+     * Getter method returning a y coordinate.
+     * @return y, center y of block
+     */
     @Override
     public int getCenterY() {
         return y+ 40;

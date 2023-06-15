@@ -2,6 +2,9 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Class used to validate that a student's drawing is the same as the teacher's solution.
+ */
 public class CodeToFlowchartValidator {
 
     private final Problem loadedProblem;
@@ -10,16 +13,31 @@ public class CodeToFlowchartValidator {
 
     private List<String> errors = new ArrayList<>();
 
+    /**
+     * Constructor method that takes in the student's current drawing list and the problem that it is to be compared to.
+     * @param studentDrawing List of Draw objects that the student has made
+     * @param loadedProblem The problem that the student drawing is supposed to be compared to.
+     */
     public CodeToFlowchartValidator(List<Draw> studentDrawing, Problem loadedProblem) {
         this.loadedProblem = loadedProblem;
         this.studentDrawing = studentDrawing;
         this.teacherSolution = loadedProblem.getTeacherSolution();
     }
 
+    /**
+     * Get the list of errors found with the student's solution.
+     * @return list of strings containing the errors found in the student solution.
+     */
     public List<String> getErrors() {
         return this.errors;
     }
 
+    /**
+     * Method that checks the student solution against the teacher's solution. If there are the correct amount of blocks
+     * and arrows present but there is an issue with the arrow count or name of a block it will turn that block orange.
+     * @return true, if and only if, every draw object present in the student drawing is equal to another draw object in
+     * the teacher solution.
+     */
     public boolean checkAgainstSolution() {
         if (studentDrawing.stream().filter(Block.class::isInstance).toList().size() ==
                 teacherSolution.stream().filter(Block.class::isInstance).toList().size() && solved()) {
@@ -91,8 +109,8 @@ public class CodeToFlowchartValidator {
                     block.setColor(Color.ORANGE);
                 }
             } else if (drawing instanceof Arrow arrow && !teacherSolution.contains(arrow)) {
-                Block arrowBlock1 = arrow.getBlock1();
-                Block arrowBlock2 = arrow.getBlock2();
+                Block arrowBlock1 = arrow.getSourceShape();
+                Block arrowBlock2 = arrow.getDestinationShape();
                 this.errors.add(String.format("Check arrow going between %s block named %s and %s block named %s.",
                         arrowBlock1.getClass(), arrowBlock1.getBlockText(),
                         arrowBlock2.getClass(), arrowBlock2.getBlockText()));

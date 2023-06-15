@@ -8,12 +8,13 @@ import java.awt.geom.Area;
 public class ConditionBlock extends Block{
     /**
      * ConditionBlock constructor taking in the necessary parameters.
-     * @param x, block's x coordinate
-     * @param y, block's y coordinate
+     * @param x, block's top left x coordinate
+     * @param y, block's top left y coordinate
      */
     public ConditionBlock(int x, int y) {
-        super(x, y, x + 100, y + 50, String.valueOf(Color.RED),2,2);
+        super(x, y, x + 100, y + 50, Color.WHITE,2,2);
     }
+
     /**
      * Draw method uses abstract class graphics 2D to draw the diamond block.
      * @param g, Graphics
@@ -31,16 +32,17 @@ public class ConditionBlock extends Block{
             g.drawString(this.blockText, x + 10, getCenterY());
         }
     }
+
     /**
      * Contains method compares if x and y coordinates are aligned.
-     * @param xcoord, x coordinate to align
-     * @param ycoord, y coordinate to align
+     * @param xCoord, x coordinate to align
+     * @param yCoord, y coordinate to align
      * @return false
      */
     @Override
-    public boolean contains(int xcoord, int ycoord){
-        int xcoord_aligned = xcoord - x;
-        int ycoord_aligned = ycoord - y;
+    public boolean contains(int xCoord, int yCoord){
+        int xcoord_aligned = xCoord - x;
+        int ycoord_aligned = yCoord - y;
         if (xcoord_aligned>0 && xcoord_aligned<=50){
             return (ycoord_aligned >= (50 - xcoord_aligned) && ycoord_aligned <= (50+xcoord_aligned));
         }
@@ -64,6 +66,7 @@ public class ConditionBlock extends Block{
     public int getCenterX(){
         return x + 50;
     }
+
     /**
      * Getter method returning a y coordinate.
      * @return y, center y of block

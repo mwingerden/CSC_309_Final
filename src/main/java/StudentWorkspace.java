@@ -2,32 +2,22 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
- * TeacherWorkspace class where all the blocks will be displayed on by the user's inputs.
- *
- * @author  Nathon Ho
- * @author  Matthew Wingerden
- * @author  Pablo Nguyen
- * @author  Juan Custodio
- * @author  Mary Lemmer
+ * StudentWorkspace class where all the blocks will be displayed on by the user's inputs.
  */
 public class StudentWorkspace extends JPanel implements Observer {
     private final Repository repository;
 
-    private final StudentSolutionPanel studentSolutionPanel;
-
     /**
-     * The TeacherWorkspace method sets up the layout of the panel.
+     * The StudentWorkspace method sets up the layout of the panel.
      */
-    public StudentWorkspace(StudentSolutionPanel studentSolutionPanel) {
+    public StudentWorkspace() {
         repository = Repository.getInstance();
         repository.addObserver(this);
-        this.studentSolutionPanel = studentSolutionPanel;
         MainController controller = new MainController();
         setBackground(Color.PINK);
         setPreferredSize(new Dimension(300, 300));
@@ -85,6 +75,7 @@ public class StudentWorkspace extends JPanel implements Observer {
      * paintComponent method that allows the different blocks to be drawn on screen by user.
      * @param g the <code>Graphics</code> object to protect
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (Draw drawing : repository.getDrawings()) {

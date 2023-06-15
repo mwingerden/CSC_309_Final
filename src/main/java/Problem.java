@@ -1,6 +1,8 @@
 import java.util.*;
-import java.util.regex.Pattern;
 
+/**
+ * Contains all the information from the drawing files and what is currently on screen.
+ */
 public class Problem {
 
     private String problemName;
@@ -29,6 +31,8 @@ public class Problem {
      */
     public Problem(String problemName,
             String problemDescription,
+            String problemProgress,
+            String problemFeedback,
             List<Draw> teacherSolution,
             List<Draw> studentAttempt,
             List<String> hints) {
@@ -37,40 +41,78 @@ public class Problem {
         this.teacherSolution = teacherSolution;
         this.studentAttempt = studentAttempt;
         this.hints = hints;
-        progress = "";
-        feedback = "";
+        progress = problemProgress;
+        feedback = problemFeedback;
     }
 
+    /**
+     * Set the progress level of the problem
+     * @param s progress level name
+     */
     public void setProgress(String s){
         progress = s;
     }
+
+    /**
+     * Get the progress level of the problem
+     * @return progress level name
+     */
     public String getProgress(){
         return progress;
     }
 
-    public  void setFeedback(String s){
+    /**
+     * Set the feedback of the problem
+     * @param s progress level name
+     */
+    public void setFeedback(String s){
         feedback = s;
     }
+
+    /**
+     * Get the feedback of the problem
+     * @return string of the feedback relating to this problem
+     */
     public String getFeedback(){
         return feedback;
     }
 
+    /**
+     * Get the problem name (the associated name of the file)
+     * @return String of the problem name
+     */
     public String getProblemName() {
         return this.problemName;
     }
 
+    /**
+     * Get the problem description, also known as the code that the student needs to translate
+     * @return String of the problem name
+     */
     public String getProblemDescription() {
         return problemDescription;
     }
 
+    /**
+     * Get the list of drawing objects that the student has created
+     * @return list of drawing objects that the student has created
+     */
     public List<Draw> getStudentAttempt() {
         return studentAttempt;
     }
 
+    /**
+     * Get the list of drawing objects that the teacher has created
+     * @return list of drawing objects that the teacher has created
+     */
     public List<Draw> getTeacherSolution() {
         return teacherSolution;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getHints() {
         return hints;
     }

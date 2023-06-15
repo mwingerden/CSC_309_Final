@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -23,6 +22,8 @@ public class Repository extends Observable {
 
     private Problem loadedProblem = new Problem("",
             "",
+            "",
+            "",
             Collections.emptyList(),
             Collections.emptyList(),
             Collections.emptyList());
@@ -40,6 +41,10 @@ public class Repository extends Observable {
         this.undoDrawings = new ArrayList<>();
     }
 
+    /**
+     * Update which panel is shown
+     * @param panel panel name
+     */
     public void updatePanel(String panel) {
         if(panel.equals("TeacherListView")) {
             login.setVisible(true);
@@ -51,44 +56,63 @@ public class Repository extends Observable {
         notifyObservers(panel);
     }
 
+    /**
+     * Make login dialog
+     * @param parent panel that the login should be relative to
+     */
     public void setUpLogin(JPanel parent) {
         this.login = new Login(parent);
     }
 
+    /**
+     * Confirm that the entered login credentials are equal to the correct credentials.
+     */
     public void authenticateLogin() {
         if(!login.isSucceeded()) {
             updatePanel("StartUp");
             login.dispose();
-        }
-        else {
+        } else {
             login.dispose();
         }
     }
 
+    /**
+     * Close the login dialog and return to the startup panel.
+     */
     public void closeLogin() {
         login.dispose();
         updatePanel("StartUp");
     }
 
+    /**
+     * Set the currently drawn objects to the passed in list of draw objects.
+     * @param drawnChart list of draw objects to update the currently drawn objects list to.
+     */
     public void setDrawnChart(List<Draw> drawnChart) {
         this.drawnChart = drawnChart;
     }
 
-    public void UndoList() {
+    /**
+     * Undo last drawing.
+     */
+    public void undoList() {
         if(!this.drawnChart.isEmpty()) {
             Draw temp = this.drawnChart.get(this.drawnChart.size() - 1);
             undoDrawings.add(temp);
             this.drawnChart.remove(temp);
-            if (temp instanceof Arrow){
-                ((Arrow) temp).block1.removeOutArrow((Arrow)temp);
-                ((Arrow) temp).block2.removeInArrow((Arrow)temp);
+            if (temp instanceof Arrow tempArrow){
+                (tempArrow).sourceShape.removeOutArrow(tempArrow);
+                (tempArrow).destinationShape.removeInArrow(tempArrow);
             }
             setChanged();
             notifyObservers();
         }
     }
 
-    public void RedoList() {
+    /**
+     * Redo last drawing.
+     */
+    public void redoList() {
         if(!this.undoDrawings.isEmpty()) {
             Draw temp = this.undoDrawings.get(this.undoDrawings.size() - 1);
             drawnChart.add(temp);
@@ -98,9 +122,14 @@ public class Repository extends Observable {
         }
     }
 
+    /**
+     * Get the repository being used.
+     * @return the active Repository object.
+     */
     public static Repository getInstance() {
         return instance;
     }
+
     /**
      * getDrawings method adds all blocks and arrows to a list of drawings and returns said new list.
      * @return newDrawings
@@ -121,6 +150,10 @@ public class Repository extends Observable {
         return newDrawings;
     }
 
+    /**
+     * Get the currently loaded problem.
+     * @return Problem object of the currently loaded problem.
+     */
     public Problem getLoadedProblem() {
         return this.loadedProblem;
     }
@@ -132,7 +165,7 @@ public class Repository extends Observable {
     public String saveList(Problem problemToSave, boolean rename) throws IOException {
         if (Objects.isNull(problemToSave) || rename) {
             String name = (String) JOptionPane.showInputDialog(
-                    new WorkSpace(),
+                    null,
                     "Problem Title:",
                     "Problem Title",
                     JOptionPane.PLAIN_MESSAGE,
@@ -143,6 +176,8 @@ public class Repository extends Observable {
             if (name != null) {
                 if (Objects.isNull(problemToSave)) {
                     problemToSave = new Problem(name,
+                            "",
+                            "",
                             "",
                             Collections.emptyList(),
                             Collections.emptyList(),
@@ -194,6 +229,10 @@ public class Repository extends Observable {
         }
     }
 
+    /**
+     * Delete a problem file in the Drawings folder.
+     * @param problemName Name of the problem file to delete.
+     */
     public void delete(String problemName) {
         try {
             File deleteProblem = new File("Drawings/" + problemName + ".json");
@@ -217,7 +256,8 @@ public class Repository extends Observable {
      * @param newx, the new x coordinate
      * @param newy, the new y coordinate
      */
-    public void drag(int x, int y, int newx, int newy) throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void drag(int x, int y, int newx, int newy)
+            throws InvocationTargetException, InstantiationException, IllegalAccessException {
         Block blockToDrag = null;
         int dragX;
         int dragY;
@@ -227,9 +267,9 @@ public class Repository extends Observable {
             }
         }
         if (blockToDrag != null && !testDragCollision(blockToDrag, newx, newy)) {
-                dragX = newx;
-                dragY = newy;
-                applyDrag(blockToDrag, dragX, dragY);
+            dragX = newx;
+            dragY = newy;
+            applyDrag(blockToDrag, dragX, dragY);
         }
         setChanged();
         notifyObservers("Dragging");
@@ -249,14 +289,9 @@ public class Repository extends Observable {
         } else if (blockToDrag instanceof InputOutputBlock) {
             blockArguments.add(newX);
             blockArguments.add(newY);
-        } else if (blockToDrag instanceof StartBlock) {
+        } else if (blockToDrag instanceof StartBlock || blockToDrag instanceof EndBlock) {
             blockArguments.add(newX - 40);
             blockArguments.add(newY - 40);
-            blockArguments.add("PINK");
-        } else if (blockToDrag instanceof EndBlock) {
-            blockArguments.add(newX - 40);
-            blockArguments.add(newY - 40);
-            blockArguments.add("BLUE");
         }
         Block testNewLocationBlock = (Block) blockToDrag.getClass()
                 .getConstructors()[0].newInstance(blockArguments.toArray());
@@ -275,9 +310,9 @@ public class Repository extends Observable {
         } else if (blockToDrag instanceof InputOutputBlock) {
             dragging(blockToDrag, new InputOutputBlock(dragX - 30, dragY));
         } else if (blockToDrag instanceof StartBlock) {
-            dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40, "PINK"));
+            dragging(blockToDrag, new StartBlock(dragX - 40, dragY - 40));
         } else if (blockToDrag instanceof EndBlock) {
-            dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40, "BLUE"));
+            dragging(blockToDrag, new EndBlock( dragX - 40, dragY - 40));
         }
     }
 
@@ -292,30 +327,20 @@ public class Repository extends Observable {
         newBlock.setHintText((block.getHintText()));
         newBlock.setArrowInCount(block.getArrowInCount());
         newBlock.setArrowOutCount(block.getArrowOutCount());
+        newBlock.setColor(block.getColor());
         for (Draw temp1 : tempList) {
             if (temp1 instanceof Arrow arrow) {
-                if (arrow.getBlock1().equals(block)) {
-                    drawnChart.add(new Arrow(newBlock, arrow.getBlock2()));
+                if (arrow.getSourceShape().equals(block)) {
+                    drawnChart.add(new Arrow(newBlock, arrow.getDestinationShape()));
                     drawnChart.remove(arrow);
-                } else if (arrow.getBlock2().equals(block)) {
-                    drawnChart.add(new Arrow(arrow.getBlock1(), newBlock));
+                } else if (arrow.getDestinationShape().equals(block)) {
+                    drawnChart.add(new Arrow(arrow.getSourceShape(), newBlock));
                     drawnChart.remove(arrow);
                 }
             }
         }
         drawnChart.remove(block);
         drawnChart.add(newBlock);
-    }
-
-    public void deleteBlock(int x, int y) {
-        for (Draw drawing : drawnChart) {
-            if (drawing instanceof Block block && block.contains(x, y)) {
-                drawnChart.remove(drawing);
-                setChanged();
-                notifyObservers();
-                break;
-            }
-        }
     }
 
     /**
@@ -325,6 +350,7 @@ public class Repository extends Observable {
     public void setBlockToDraw(String blockToDraw) {
         this.blockToDraw = blockToDraw;
     }
+
     /**
      * addBlock method adds the block to the drawings list.
      * @param block, added block
@@ -407,7 +433,11 @@ public class Repository extends Observable {
                         findCorrespondingTeacherBlock(block);
                     }
                 } else if (!(block instanceof StartBlock || block instanceof EndBlock)) {
-                    newBlockText(block);
+                    if (newBlockText(block)) {
+                        block.setColor(Color.WHITE);
+                    }
+                    setChanged();
+                    notifyObservers("Changed block text");
                 }
             }
         }
@@ -416,18 +446,14 @@ public class Repository extends Observable {
     private void findCorrespondingTeacherBlock(Block studentBlock) {
         boolean foundTeacherBlock = false;
         for (Draw drawing: this.loadedProblem.getTeacherSolution()) {
-            if (drawing instanceof Block teacherBlock) {
-                if ((teacherBlock instanceof StartBlock && studentBlock instanceof StartBlock) ||
-                        (teacherBlock instanceof EndBlock && studentBlock instanceof EndBlock)) {
-                    teacherBlock.studentSideHint();
-                    foundTeacherBlock = true;
-                    break;
-                } else if (!(teacherBlock instanceof StartBlock || teacherBlock instanceof EndBlock) &&
-                        (teacherBlock.getBlockText().equals(studentBlock.getBlockText()))) {
-                    teacherBlock.studentSideHint();
-                    foundTeacherBlock = true;
-                    break;
-                }
+            if (drawing instanceof Block teacherBlock
+                    && (((teacherBlock instanceof StartBlock && studentBlock instanceof StartBlock) ||
+                        (teacherBlock instanceof EndBlock && studentBlock instanceof EndBlock))
+                    || (!(teacherBlock instanceof StartBlock || teacherBlock instanceof EndBlock) &&
+                        teacherBlock.getBlockText().equals(studentBlock.getBlockText())))) {
+                teacherBlock.studentSideHint();
+                foundTeacherBlock = true;
+                break;
             }
         }
         if (!foundTeacherBlock) {
@@ -441,7 +467,7 @@ public class Repository extends Observable {
 
     private boolean newBlockText(Block newBlock) {
         String text = (String) JOptionPane.showInputDialog(
-                new WorkSpace(),
+                null,
                 "Name:",
                 "Enter Name",
                 JOptionPane.PLAIN_MESSAGE,
@@ -491,45 +517,33 @@ public class Repository extends Observable {
         Block b2 = null;
         for (Draw drawing : drawnChart) {
             if (drawing instanceof Block block && block.contains(x1, y1) && !(drawing instanceof EndBlock)){
-                b1 = blockOneArrow(drawing, x1, y1);
+                b1 = blockOneArrow(drawing);
 
             }
             if (drawing instanceof Block block && block.contains(x2, y2) && !(drawing instanceof StartBlock)) {
                 b2 = (Block) drawing;
             }
         }
-        if(b1 != null && b2 != null && b1 != b2){
-            if(b1.checkOutGoing() && b2.checkInGoing()) {
-                Arrow a = new Arrow(b1, b2);
-                b1.addOutArrow(a);
-                b2.addInArrow(a);
-                drawnChart.add(a);
-            }
+        if(!(Objects.isNull(b1)) && !(Objects.isNull(b2)) && !b1.equals(b2)
+                && (b1.checkOutGoing() && b2.checkInGoing())) {
+            Arrow a = new Arrow(b1, b2);
+            b1.addOutArrow(a);
+            b2.addInArrow(a);
+            drawnChart.add(a);
+
         }
         setChanged();
         notifyObservers();
     }
 
-    private Block blockOneArrow(Draw drawing, int x1, int y1) {
-        if (drawing instanceof StartBlock startBlock){
-            if (startBlock.maxNumsOut()){
-                return null;
-            }else{
-                startBlock.increaseNumOut();
-                return (Block) drawing;
-            }
-        }else {
+    private Block blockOneArrow(Draw drawing) {
+        if (drawing instanceof StartBlock startBlock && startBlock.maxNumsOut()){
+            return null;
+        } else {
             return (Block) drawing;
         }
     }
 
-    /**
-     * Getter method that returns what the status displays.
-     * @return status
-     */
-    public String getStatus(){
-        return status;
-    }
     /**
      * A getter method that returns a block, used to decide which block is needed to draw.
      * @return blockToDraw

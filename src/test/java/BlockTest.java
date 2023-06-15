@@ -16,8 +16,8 @@ public class BlockTest
     @Test
     public void testCheckArrows()
     {
-        Block b1 = new StartBlock(10,10, "PINK");
-        Block b2 = new EndBlock(20,30,"BLUE");
+        Block b1 = new StartBlock(10,10);
+        Block b2 = new EndBlock(20,30);
 
 
         //test arrows limits for start and end blocks

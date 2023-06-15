@@ -8,16 +8,11 @@ import java.util.*;
 import java.util.List;
 
 /**
- * TeacherWorkspace class where all the blocks will be displayed on by the user's inputs.
- *
- * @author  Nathon Ho
- * @author  Matthew Wingerden
- * @author  Pablo Nguyen
- * @author  Juan Custodio
- * @author  Mary Lemmer
+ * TeacherWorkspace class where all the blocks will be displayed on by the teacher's inputs and where a teacher can
+ * input important information like the code version of the flowchart and general hints.
  */
 public class TeacherWorkspace extends JPanel implements Observer {
-    private Repository repository;
+    private final Repository repository;
 
     private JPanel workspacePanel = new JPanel();
     private final JTextArea hintText = new JTextArea();
@@ -163,6 +158,7 @@ public class TeacherWorkspace extends JPanel implements Observer {
      * paintComponent method that allows the different blocks to be drawn on screen by user.
      * @param g the <code>Graphics</code> object to protect
      */
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (Draw drawing : repository.getDrawings()) {

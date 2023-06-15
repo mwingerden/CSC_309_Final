@@ -11,9 +11,12 @@ import java.util.Optional;
 /**
  * The abstract Block class represents the different blocks that the user can pick from the menu.
  */
-public abstract class Block implements Draw
-{
-    protected int x, y, x2, y2;
+public abstract class Block implements Draw {
+    protected int x;
+
+    protected int y;
+    protected int x2;
+    protected int y2;
 
     protected Color color;
     protected String blockText = "";
@@ -26,25 +29,30 @@ public abstract class Block implements Draw
     protected int arrowOutCount = 0;
     protected ArrayList<Arrow> inArrows;
     protected ArrayList<Arrow> outArrows;
+
     /**
-     * These are the abstract methods that all the blocks will implement.
-     * @param g
+     * Get the x value of the center point of a block.
+     * @return int representing the x value of the center point of a block.
      */
-    public abstract void draw(Graphics g);
     public abstract int getCenterX();
+
+    /**
+     * Get the y value of the center point of a block.
+     * @return int representing the y value of the center point of a block.
+     */
     public abstract int getCenterY();
+
     /**
      * The block constructor taking all the needed parameters for each block that will be drawn.
-     * @param x, first x coordinate
-     * @param y, first y coordinate
-     * @param x2, second x coordinate
-     * @param y2, second y coordinate
-     * @param c, color of block
+     * @param x, shape's top left x coordinate
+     * @param y, shape's top left y coordinate
+     * @param x2, shape's top left x coordinate + desired width of the shape
+     * @param y2, shape's top left y coordinate + desired width of the shape
+     * @param color, color of block
      * @param arrowInLimit, limit of arrows going into block
      * @param arrowOutLimit, limit of arrow going out the block
      */
-    protected Block(int x, int y, int x2, int y2, String c, int arrowInLimit, int arrowOutLimit)
-    {
+    protected Block(int x, int y, int x2, int y2, Color color, int arrowInLimit, int arrowOutLimit) {
         this.x=x;
         this.y=y;
         this.x2=x2;
@@ -53,60 +61,66 @@ public abstract class Block implements Draw
         this.arrowOutLimit = arrowOutLimit;
         this.inArrows = new ArrayList<>();
         this.outArrows = new ArrayList<>();
-        switch (c) {
-            case ("Black"):
-                color = Color.BLACK;
-                break;
-            case("Red"):
-                color=Color.RED; break;
-            default: color=Color.WHITE;
-        }
+        this.color = color;
         this.blockText = null;
     }
 
-    public void setColor(Color c){
-        color = c;
+    /**
+     * Set the block color.
+     * @param color color to be set.
+     */
+    public void setColor(Color color){
+        this.color = color;
     }
+
+    /**
+     * Get the block color.
+     * @return block color
+     */
     public Color getColor(){
         return color;
     }
 
     /**
-     * checkoutGoing method checks if arrow count out is less than the blocks out arrow limit.
-     * @return false
+     * Checks if the outgoing arrow count is less than the limit and increments the outgoing arrow count if so.
+     * @return true if the arrow count has not reached the limit and false otherwise.
      */
     public boolean checkOutGoing(){
-        if(arrowOutCount < arrowOutLimit)
-        {
+        if(arrowOutCount < arrowOutLimit) {
             arrowOutCount++;
             return true;
         }
         return false;
     }
+
     /**
-     * checkInGoing method checks if arrow count incoming is less than the blocks incoming arrow limit.
-     * @return false
+     * Checks if the incoming arrow count is less than the limit and increments the incoming arrow count if so.
+     * @return true if the arrow count has not reached the limit and false otherwise.
      */
-    public boolean checkInGoing()
-    {
-        if(arrowInCount < arrowInLimit)
-        {
+    public boolean checkInGoing() {
+        if(arrowInCount < arrowInLimit) {
             arrowInCount++;
             return true;
         }
         return false;
     }
+
     /**
-     * A contains method that checks if a given x and y is inside coordinates(x1,x2,y1,y2).
-     * @param xcoord, x coordinate to check
-     * @param ycoord, y coordinate to check
-     * @return
+     * Checks if a given x and y is inside the block coordinates (x1,x2,y1,y2).
+     * @param xCoord, x coordinate to check
+     * @param yCoord, y coordinate to check
+     * @return true if contained inside the block coordinates and false otherwise.
      */
-    boolean contains(int xcoord, int ycoord){
-        return (xcoord >= x && xcoord <= x2 && ycoord >= y && ycoord <= y2);
+    public boolean contains(int xCoord, int yCoord){
+        return (xCoord >= x && xCoord <= x2 && yCoord >= y && yCoord <= y2);
     }
 
-    boolean collides (Block otherBlock) {
+    /**
+     * Checks if the passed in block will overlap with the block the method is called on.
+     * @param otherBlock block that needs to be checked for overlap.
+     * @return true if the blocks overlap and false if they do not.
+     */
+    public boolean collides(Block otherBlock) {
         Area thisShapeArea = this.getShapeArea();
         Area otherShapeArea = otherBlock.getShapeArea();
         Area collisionOne = new Area(thisShapeArea);
@@ -116,51 +130,100 @@ public abstract class Block implements Draw
         return (!collisionOne.equals(thisShapeArea) || !collisionTwo.equals(otherShapeArea));
     }
 
+    /**
+     * Get the area of the block.
+     * @return Area object of the block.
+     */
     public abstract Area getShapeArea();
 
     /**
-     * * Getter methods for each of the different coordinates.
-     * @return the desired coordinate
+     * Get the shape's top left x coordinate
+     * @return int representing the shape's top left x coordinate
      */
-    int getX1(){
+    public int getX1(){
         return this.x;
     }
-    int getY1(){
+
+    /**
+     * Get the shape's top left y coordinate
+     * @return int representing the shape's top left y coordinate
+     */
+    public int getY1(){
         return this.y;
     }
-    int getX2(){
+
+    /**
+     * Get the shape's top left x coordinate + width of the shape
+     * @return int representing the shape's top left x coordinate + width of the shape
+     */
+    public int getX2(){
         return this.x2;
     }
-    int getY2(){
+
+    /**
+     * Get the shape's top left y coordinate + width of the shape
+     * @return int representing the shape's top left y coordinate + width of the shape
+     */
+    public int getY2(){
         return this.y2;
     }
-    void setX1(int x){
+
+    /**
+     * Set the shape's top left x coordinate
+     */
+    public void setX1(int x){
         this.x = x;
     }
-    void setY1(int y){
+
+    /**
+     * Set the shape's top left y coordinate
+     */
+    public void setY1(int y){
         this.y = y;
     }
-    void setX2(int x){
+
+    /**
+     * Set the shape's top left x coordinate + width of the shape
+     */
+    public void setX2(int x){
         this.x2 = x;
     }
-    void setY2(int y){
+
+    /**
+     * Set the shape's top left y coordinate + width of the shape
+     */
+    public void setY2(int y){
         this.y2 = y;
     }
+
     /**
-     * Set and get methods for the strings text in the block.
-     * @param blockText, of the block
+     * Set the display text of the block.
+     * @param blockText, display text of the block
      */
     public void setBlockText(String blockText){
         this.blockText = blockText;
     }
+
+    /**
+     * Get the display text of the block.
+     * @return display text of the block
+     */
     public String getBlockText(){
         return this.blockText;
     }
 
+    /**
+     * Reset the hint index of the displayed hints so that when the student asks for a block specific hint it shows the
+     * first hint again.
+     */
     public void resetStudentHintIndex() {
         this.studentHintIndex = 0;
     }
 
+    /**
+     * Meant for the student side display. Shows a JOptionPane with the hints of the selected block up to the selected
+     * index of the hint list associated with the block.
+     */
     public void studentSideHint() {
         String currentHint = "No hint for selected block.";
         if (!this.hintText.isEmpty()) {
@@ -171,7 +234,7 @@ public abstract class Block implements Draw
             }
         }
         JOptionPane.showMessageDialog(
-                new WorkSpace(),
+                null,
                 currentHint,
                 "Hints for Clicked Block",
                 JOptionPane.INFORMATION_MESSAGE
@@ -181,13 +244,18 @@ public abstract class Block implements Draw
         }
     }
 
+    /**
+     * Meant for the teacher side display. Shows a JOptionPane with all the current hints in the block and asks if the
+     * teacher would like to change them. If yes, shows another JOptionPane where the teacher may edit the hints.
+     * This method expects that all hints are separated with \n.
+     */
     public void teacherSideHint() {
         String currentHint = "No hint for selected block.";
         if (!this.hintText.isEmpty()) {
             currentHint = String.join("\n", this.hintText);
         }
         int option = JOptionPane.showConfirmDialog(
-                new WorkSpace(),
+                null,
                 ("Current Hint(s): \n" + currentHint + "\n Change hint(s)?"),
                 "Current Hint(s)",
                 JOptionPane.YES_NO_OPTION
@@ -220,6 +288,9 @@ public abstract class Block implements Draw
         }
     }
 
+    /**
+     * Generate or update two preset hints relating to how many arrows are coming and going from the block.
+     */
     public void autoGenHints() {
         Optional<String> oldIncoming = this.hintText.stream()
                 .filter(hintString ->
@@ -250,70 +321,144 @@ public abstract class Block implements Draw
         }
     }
 
+    /**
+     * Set the list of hints assigned to the block it is called on.
+     * @param hintText list of strings that the current hint list is being replaced with.
+     */
     public void setHintText(List<String> hintText){
         this.hintText = hintText;
     }
+
+    /**
+     * Get the list of hints assigned to the block it is called on.
+     * @return list of strings containing the current hints.
+     */
     public List<String> getHintText(){
         return this.hintText;
     }
 
+    /**
+     * Get the limit of incoming arrows
+     * @return int representing the limit of incoming arrows.
+     */
     public int getArrowInLimit() {
         return arrowInLimit;
     }
 
+    /**
+     * Set the limit of incoming arrows
+     * @param arrowInLimit int representing how many arrows should be allowed pointing to this block
+     */
     public void setArrowInLimit(int arrowInLimit) {
         this.arrowInLimit = arrowInLimit;
     }
 
+    /**
+     * Get the limit of outgoing arrows
+     * @return int representing the limit of outgoing arrows.
+     */
     public int getArrowOutLimit() {
         return arrowOutLimit;
     }
 
+    /**
+     * Set the limit of outgoing arrows
+     * @param arrowOutLimit int representing how many arrows should be allowed pointing from this block
+     */
     public void setArrowOutLimit(int arrowOutLimit) {
         this.arrowOutLimit = arrowOutLimit;
     }
 
+    /**
+     * Get the number of incoming arrows
+     * @return int representing the number of arrows pointing to this block
+     */
     public int getArrowInCount() {
         return arrowInCount;
     }
 
+    /**
+     * Set the number of arrows coming into this block.
+     * @param arrowInCount int representing the number of arrows coming into this block
+     */
     public void setArrowInCount(int arrowInCount) {
         this.arrowInCount = arrowInCount;
     }
 
+    /**
+     * Get the number of outgoing arrows
+     * @return int representing the number of arrows pointing from this block
+     */
     public int getArrowOutCount() {
         return arrowOutCount;
     }
 
+    /**
+     * Set the number of arrows coming from this block.
+     * @param arrowOutCount int representing the number of arrows coming from this block
+     */
     public void setArrowOutCount(int arrowOutCount) {
         this.arrowOutCount = arrowOutCount;
     }
 
+    /**
+     * Add an arrow to the list of arrows that point to this block.
+     * @param a arrow object with the destination block being this block.
+     */
     public void addInArrow(Arrow a){
         this.inArrows.add(a);
     }
+
+    /**
+     * Add an arrow to the list of arrows that point away from this block.
+     * @param a arrow object with the source block being this block.
+     */
     public void addOutArrow(Arrow a){
         this.outArrows.add(a);
     }
 
+    /**
+     * Remove an arrow from the list of arrows that point to this block.
+     * @param a arrow object with the destination block being this block.
+     */
     public void removeInArrow(Arrow a){
         this.inArrows.remove(a);
         this.arrowInCount-=1;
     }
+
+    /**
+     * Remove an arrow to the list of arrows that point away from this block.
+     * @param a arrow object with the source block being this block.
+     */
     public void removeOutArrow(Arrow a){
         this.outArrows.remove(a);
         this.arrowOutLimit -=1;
     }
-    public ArrayList<Arrow> getOutArrows(){
+
+    /**
+     * Get the list of arrows that point from this block.
+     * @return list of arrows that point from this block.
+     */
+    public List<Arrow> getOutArrows(){
         return this.outArrows;
 
     }
-    public ArrayList<Arrow> getInArrows(){
+
+    /**
+     * Get the list of arrows that point to this block.
+     * @return list of arrows that point to this block.
+     */
+    public List<Arrow> getInArrows(){
         return this.inArrows;
     }
 
-
-
+    /**
+     * Checks that another object is equal to this block based on the class, arrowInLimit, arrowOutLimit, arrowInCount,
+     * color, and blockText.
+     * @param o object to be checked against the object this method is called on for equality.
+     * @return true if the parameter object is not null, is the same class type, and has the same arrowInLimit,
+     * arrowOutLimit, arrowInCount, color, and blockText.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
