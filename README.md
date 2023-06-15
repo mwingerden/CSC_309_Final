@@ -5,6 +5,9 @@ Authors:
        Mary Lemmer 
        Pablo Nguyen
        Juan Custodio
+       
+Slides:
+  https://docs.google.com/presentation/d/1vuTdQKd6wNOrXNiickvtx76TeGAxUW9wXL9qeIHZZJ8/edit?usp=sharing
 
 Presentation Video:
   https://youtu.be/f7YsxWJeh8M
